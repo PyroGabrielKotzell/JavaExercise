@@ -37,8 +37,7 @@ public class GestoreListe {
     }*/
 
     public void rimuoviNodo() {
-        if (getLenght() != 0) {
-            System.out.println("Rimosso nodo " + getNumNodo());
+        if (getLenght() != 1) {
             if (getNumNodo() == 0) {
                 head = head.getNext();
                 current = getPrevNodo();
@@ -49,6 +48,7 @@ public class GestoreListe {
                 getPrevNodo().setNext(current.getNext());
                 current = getPrevNodo();
             }
+            System.out.println("Rimosso nodo " + getNumNodo());
         } else System.out.println("Non posso rimuovere il nodo");
     }
 
@@ -65,7 +65,9 @@ public class GestoreListe {
 
     private int getLenght() {
         int i = 1;
-        while (current.getNext() != null) {
+        ListElement e = head;
+        while (e.getNext() != null) {
+            e = e.getNext();
             i++;
         }
         return i;
