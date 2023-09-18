@@ -18,7 +18,10 @@ public class Main {
                     sc = new Scanner(System.in);
                 }
                 case '4'-> g.rimuoviNodo();
-                case '5'-> g.creaNodo(getInt());
+                case '5'-> {
+                    g.creaNodo(getInt());
+                    sc = new Scanner(System.in);
+                }
                 case '6'->{
                     //g.salvaLista();
                     g = new GestoreListe();

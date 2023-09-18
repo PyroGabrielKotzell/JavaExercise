@@ -15,7 +15,8 @@ public class GestoreListe {
     public void avanti() {
         try {
             current = Objects.requireNonNull(current.getNext());
-        }catch (NullPointerException e){
+            System.out.println("Vado avanti");
+        } catch (NullPointerException e) {
             System.out.println("Non c'è un prossimo nodo");
         }
     }
@@ -36,19 +37,19 @@ public class GestoreListe {
     }*/
 
     public void rimuoviNodo() {
-        if (getNumNodo() == 0 && getLenght() != 0) {
+        if (getLenght() != 0) {
             System.out.println("Rimosso nodo " + getNumNodo());
-            head = head.getNext();
-            current = getPrevNodo();
-        } else if (getNumNodo() == getLenght()) {
-            System.out.println("Rimosso nodo " + getNumNodo());
-            getPrevNodo().setNext(null);
-            current = getPrevNodo();
-        } else {
-            System.out.println("Rimosso nodo " + getNumNodo());
-            getPrevNodo().setNext(current.getNext());
-            current = getPrevNodo();
-        }
+            if (getNumNodo() == 0) {
+                head = head.getNext();
+                current = getPrevNodo();
+            } else if (getNumNodo() == getLenght()) {
+                getPrevNodo().setNext(null);
+                current = getPrevNodo();
+            } else {
+                getPrevNodo().setNext(current.getNext());
+                current = getPrevNodo();
+            }
+        } else System.out.println("Non posso rimuovere il nodo");
     }
 
     public void creaNodo(int anInt) {
