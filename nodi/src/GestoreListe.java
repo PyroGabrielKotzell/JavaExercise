@@ -64,7 +64,7 @@ public class GestoreListe {
     }
 
     private int getLenght() {
-        int i = 0;
+        int i = 1;
         while (current.getNext() != null) {
             i++;
         }
