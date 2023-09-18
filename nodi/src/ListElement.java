@@ -1,10 +1,10 @@
 public class ListElement {
     private int data;
-    private ListElement next;
+    private ListElement prossimo;
 
     ListElement(int newData, ListElement newNext){
         data = newData;
-        next = newNext;
+        prossimo = newNext;
     }
 
     public int getData() {
@@ -15,11 +15,11 @@ public class ListElement {
         this.data = data;
     }
 
-    public ListElement getNext() {
-        return next;
+    public ListElement getProssimo() {
+        return prossimo;
     }
 
-    public void setNext(ListElement next) {
-        this.next = next;
+    public void setProssimo(ListElement prossimo) {
+        this.prossimo = prossimo;
     }
 }
