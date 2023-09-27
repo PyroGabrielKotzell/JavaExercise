@@ -70,7 +70,7 @@ public class GestoreListe<T extends Comparable<T>> {
     // (l'effettiva rimozione) in un metodo privato a parte
 
 
-    //
+    // aggiungo nodo
     public void add(T valore) {
         int i = 0;
         ListElement<T> cNode = testa;
