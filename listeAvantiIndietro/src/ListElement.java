@@ -1,17 +1,17 @@
 public class ListElement<T extends Comparable<T>> {
     private T data;
-    private ListElement<T> prossimo, precedente;
+    private ListElement<T> next, prev;
 
     ListElement(T newData, ListElement<T> newNext, ListElement<T> newLast){
         data = newData;
-        prossimo = newNext;
-        precedente = newLast;
+        next = newNext;
+        prev = newLast;
     }
 
     ListElement(T newData){
         data = newData;
-        prossimo = null;
-        precedente = null;
+        next = null;
+        prev = null;
     }
 
     public T getData() {
@@ -22,19 +22,19 @@ public class ListElement<T extends Comparable<T>> {
         this.data = data;
     }
 
-    public ListElement<T> getProssimo() {
-        return prossimo;
+    public ListElement<T> getNext() {
+        return next;
     }
 
-    public void setProssimo(ListElement<T> prossimo) {
-        this.prossimo = prossimo;
+    public void setNext(ListElement<T> next) {
+        this.next = next;
     }
 
-    public ListElement<T> getPrecedente() {
-        return precedente;
+    public ListElement<T> getPrev() {
+        return prev;
     }
 
-    public void setPrecedente(ListElement<T> precedente) {
-        this.precedente = precedente;
+    public void setPrev(ListElement<T> prev) {
+        this.prev = prev;
     }
 }
