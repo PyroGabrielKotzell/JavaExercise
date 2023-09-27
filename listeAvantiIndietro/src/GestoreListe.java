@@ -1,146 +1,193 @@
 public class GestoreListe<T extends Comparable<T>> {
-    private ListElement<T> testa = new ListElement<>(null);
+    private ListElement<T> head = new ListElement<>(null);
 
-    // costruttore inutile
-    GestoreListe() {
+    GestoreListe(){}
+
+    GestoreListe(T value){
+        head.setData(value);
     }
 
-    // cambio valore del nodo corrente: 'nodoCorrente'
+    /**
+     * Cambia valore del nodo a posizione {@code i}
+     *
+     * @param var Valore
+     * @param i   Numero del nodo
+     */
     public void changeVal(T var, int i) {
         try {
             getNode(i).setData(var);
-            System.out.println("--Valore cambiato a: " + var + "--");
-        }catch (NullPointerException e){
-            System.out.println("Nessun nodo a pos: " + i);
-        }
+        } catch (NullPointerException ignored) {}
     }
 
-    // cerco il nodo da rimuovere con il numero
+    /**
+     * Metodo per rimuovere un nodo da indice
+     * @param num Indice del nodo
+     */
     public void removeNum(int num) {
         int j = 0;
-        // scorro con un nodo nuovo
-        ListElement<T> cNode = new ListElement<>(null, testa, null);
-        while (j != num && cNode.getNext() != null) {
+        ListElement<T> cNode = head;
+        do {
+            if (j == num) remove(cNode);
             cNode = cNode.getNext();
             j++;
-        }
-        // controllo che l'abbia trovato
-        if (j == num) {
-            if (num == 0) {
-                testa.getNext().setPrev(null);
-                ListElement<T> tmp = testa.getNext();
-                testa.setNext(null);
-                testa = tmp;
-            } else {
-                cNode.getPrev().setNext(cNode.getNext());
-                cNode.getNext().setPrev(cNode.getPrev());
-                cNode.setPrev(null);
-                cNode.setNext(null);
-            }
-            System.out.println("--Nodo rimosso " + num + "--");
-        } else System.out.println("--Non ho trovato il nodo " + num + "--");
+        } while (cNode != null);
     }
 
-    // cerco con il valore
+    /**
+     * Metodo per rimuovere un nodo da valore
+     * @param valore Il valore del nodo
+     */
     public void removeVal(Object valore) {
         int j = 0;
-        // scorro con un nodo nuovo
-        ListElement<T> cNode = new ListElement<>(null, testa, null);
-        while (!cNode.getData().equals(valore) && cNode.getNext() != null) {
+        ListElement<T> cNode = head;
+        do{
+            if (cNode.getData().equals(valore)) remove(cNode);
             cNode = cNode.getNext();
             j++;
-        }
-        // controllo che l'abbia trovato
-        if (cNode.getData().equals(valore)) {
-            if (j == 0) {
-                testa.getNext().setPrev(null);
-                ListElement<T> tmp = testa.getNext();
-                testa.setNext(null);
-                testa = tmp;
-            } else {
-                cNode.getPrev().setNext(cNode.getNext());
-                cNode.getNext().setPrev(cNode.getPrev());
-                cNode.setPrev(null);
-                cNode.setNext(null);
-            }
-            System.out.println("--Nodo rimosso " + j + "--");
-        } else System.out.println("--Non ho trovato il nodo con data " + valore + "--");
+        }while (cNode != null);
     }
-    // ultimamente perché i metodi per la rimozione sono simili si può convergere la seconda parte
-    // (l'effettiva rimozione) in un metodo privato a parte
+
+    /**
+     * Metodo privato per rimuovere il nodo dato
+     * @param cNode Il nodo da rimuovere
+     */
+    private void remove(ListElement<T> cNode) {
+        int i = getNumNode(cNode);
+        if (i == 0) {
+            try {
+                head.getNext().setPrev(null);
+            }catch (NullPointerException ignored){}
+            ListElement<T> tmp = head.getNext();
+            head.setNext(null);
+            head = tmp;
+        } else {
+            cNode.getPrev().setNext(cNode.getNext());
+            try {
+                cNode.getNext().setPrev(cNode.getPrev());
+            }catch (NullPointerException ignored){}
+            cNode.setPrev(null);
+            cNode.setNext(null);
+        }
+    }
 
 
-    // aggiungo nodo
+    /**
+     * Aggiungo un nodo scorrendo per crearlo alla giusta
+     * posizione mantenendo ordinata la lista
+     *
+     * @param valore Valore del nodo che verrà creato
+     */
     public void add(T valore) {
         int i = 0;
-        ListElement<T> cNode = testa;
-        while (cNode.getNext() != null) {
-            if (cNode.getData().compareTo(valore) < 0) cNode = cNode.getNext();
-            else {
-                getNode(i).setNext(new ListElement<>(valore, getNode(i).getNext(), getNode(i)));
+        ListElement<T> cNode = head;
+        do {
+            if (cNode.getData().compareTo(valore) >= 0) {
+                cNode.setPrev(new ListElement<>(valore, cNode, cNode.getPrev()));
+                cNode = cNode.getPrev();
+                try {
+                    cNode.getPrev().setNext(cNode);
+                } catch (NullPointerException ignored) {}
+                if (i == 0) head = cNode;
+                break;
+            } else if (cNode.getNext() == null) {
+                cNode.setNext(new ListElement<>(valore, null, cNode));
                 break;
             }
+            cNode = cNode.getNext();
             i++;
-        }
-        System.out.println("--Nodo creato " + (i + 1) + "--");
+        } while (cNode != null);
     }
 
+    /**
+     * Ottengo il nodo tramite indice
+     *
+     * @param i indice
+     * @return {@link ListElement}. {@code Null} se non lo trova
+     */
     private ListElement<T> getNode(int i) {
         int j = 0;
-        ListElement<T> cNode = new ListElement<>(null, testa, null);
-        while (j != i && cNode.getNext() != null) {
+        ListElement<T> cNode = head;
+        do {
+            if (j == i) return cNode;
             cNode = cNode.getNext();
             j++;
-        }
-        if (j == i) return cNode;
+        } while (cNode != null);
         return null;
     }
 
-    // ottengo la lunghezza della lista
+    /**
+     * Metodo per ottenere la lunghezza della lista
+     *
+     * @return int
+     */
     public int getLenght() {
         int i = 0;
-        ListElement<T> cNode = new ListElement<>(null, testa, null);
-        while (cNode.getNext() != null) {
+        ListElement<T> cNode = head;
+        do {
             cNode = cNode.getNext();
             i++;
-        }
+        } while (cNode != null);
         return i;
     }
 
-    // prendo il numero del nodo corrente
-    public int getNumNode(ListElement<T> tmp) {
+    /**
+     * Metodo per ottenere il numero di un nodo
+     *
+     * @param tmp Il nodo in questione
+     * @return int - l'indice del nodo
+     */
+    private int getNumNode(ListElement<T> tmp) {
         int j = 0;
-        ListElement<T> cNode = new ListElement<>(null, testa, null);
-        while (!cNode.getNext().equals(tmp)) {
+        ListElement<T> cNode = head;
+        do {
+            if (cNode.equals(tmp)) return j;
             cNode = cNode.getNext();
             j++;
-        }
-        return j;
+        } while (cNode != null);
+        return -1;
     }
 
-    // cerco con il numero del nodo e ne ottengo la data
-    public void getValNode(int numero) {
+    /**
+     * Metodo per ottenere la variabile del nodo di indice {@code i}
+     *
+     * @param numero Numero del nodo
+     */
+    public T getValNode(int numero) {
         int j = 0;
-        ListElement<T> cNode = new ListElement<>(null, testa, null);
-        while (j != numero && cNode.getNext() != null) {
+        ListElement<T> cNode = head;
+        do {
+            if (j == numero) return cNode.getData();
             cNode = cNode.getNext();
             j++;
-        }
-        if (j == numero) {
-            System.out.println("--Valore del nodo numero " + numero + " = " + cNode.getData());
-        } else System.out.println("--Non ho trovato il nodo " + numero + "--");
+        } while (cNode != null);
+        return null;
     }
 
-    // cerco con il valore del nodo e ne ottengo il numero
-    public void getNumNodeVal(T valore) {
+    /**
+     * Metodo per ottenere l'indice del nodo con il valore passato
+     *
+     * @param valore Valore del nodo
+     */
+    public int getNumNodeVal(T valore) {
         int j = 0;
-        ListElement<T> cNode = new ListElement<>(null, testa, null);
-        while (!cNode.getData().equals(valore) && cNode.getNext() != null) {
+        ListElement<T> cNode = head;
+        do {
+            if (cNode.getData().equals(valore)) return j+1;
             cNode = cNode.getNext();
             j++;
-        }
-        if (cNode.getData().equals(valore)) {
-            System.out.println("--Numero del nodo con valore " + cNode.getData() + " = " + j);
-        } else System.out.println("--Non ho trovato il nodo con data " + valore + "--");
+        } while (cNode != null);
+        return -1;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder r = new StringBuilder("{");
+        ListElement<T> cNode = head;
+        do{
+            r.append(cNode.getData().toString()).append(",");
+            cNode = cNode.getNext();
+        }while (cNode != null);
+        r.append("}");
+        return r.toString();
     }
 }
