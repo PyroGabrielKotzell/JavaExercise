@@ -3,8 +3,11 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) {
         creaFiles();
+        CodaDiStampa coda = new CodaDiStampa(new File("./src/files/"));
+        coda.print();
     }
 
+    @SuppressWarnings("all")
     private static void creaFiles() {
         String[] args;
         try {
