@@ -17,7 +17,7 @@ public class CodaDiStampa {
         // ogni volta crea un nuovo file eliminando ciò che c'è dentro
         File f = new File("./src/FilteredPrintQueue.txt");
         try {
-            if(!f.exists()) f.createNewFile();
+            f.createNewFile();
             FileWriter fw = new FileWriter(f);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(hm.get(s));
@@ -44,13 +44,11 @@ public class CodaDiStampa {
                 BufferedReader br = new BufferedReader(fr);
                 String fileLine = br.readLine();
                 bw.write(fileLine);
-                bw.newLine();
                 bw.flush();
-                fr.close();
                 hm.put(fileLine, fileQueue.getName());
             }
-            // non scrive *** fine ***
-            bw.write("***** FINE *****");
+            // non scrive
+            bw.write(" ***** FINE *****");
             fw.close();
         } catch (Exception ignored) {
         }
