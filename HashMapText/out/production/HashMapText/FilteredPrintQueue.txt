@@ -1,1 +1,5 @@
+TEXT0.txt
 TEXT6.txt
+TEXT2.txt
+TEXT3.txt
+TEXT4.txt
