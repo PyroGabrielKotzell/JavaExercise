@@ -14,7 +14,6 @@ public class CodaDiStampa {
 
     @SuppressWarnings("all")
     public void printHM(String s) {
-        // ogni volta crea un nuovo file eliminando ciò che c'è dentro
         File f = new File("./src/FilteredPrintQueue.txt");
         try {
             f.createNewFile();
@@ -44,6 +43,7 @@ public class CodaDiStampa {
                 BufferedReader br = new BufferedReader(fr);
                 String fileLine = br.readLine();
                 bw.write(fileLine);
+                bw.newLine();
                 bw.flush();
                 hm.put(fileLine, fileQueue.getName());
             }

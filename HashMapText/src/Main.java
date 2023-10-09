@@ -7,12 +7,12 @@ public class Main {
         CodaDiStampa coda = new CodaDiStampa(new File("./src/files/"));
         coda.print();
         Scanner sc = new Scanner(System.in);
-        /*while(true){
+        while (true) {
             System.out.print("Dammi una chiave:\n>");
             String s = sc.nextLine();
             if (s.equalsIgnoreCase("esci")) break;
             else coda.printHM(s);
-        }*/
+        }
     }
 
     @SuppressWarnings("all")
@@ -29,7 +29,7 @@ public class Main {
             args = tmp.split(" ");
             int i = 0;
             File path = new File("./src/files/");
-            for(File d: path.listFiles()) d.delete();
+            for (File d : path.listFiles()) d.delete();
             for (String s : args) {
                 File text = new File("./src/files/TEXT" + i + ".txt");
                 FileWriter fw = new FileWriter(text);
@@ -38,6 +38,7 @@ public class Main {
                 fw.close();
                 i++;
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 }
