@@ -19,10 +19,12 @@ public class CodaDiStampa {
             f.createNewFile();
             FileWriter fw = new FileWriter(f);
             BufferedWriter bw = new BufferedWriter(fw);
-            for (String nome : s) {
-                bw.write(hm.get(nome));
-                bw.newLine();
-                bw.flush();
+            for (String key : s) {
+                for (int i = 0; i < queue.size(); i++) {
+                    bw.write(hm.get(key+queue.getValue(i).getName()));
+                    bw.newLine();
+                    bw.flush();
+                }
             }
             fw.close();
         } catch (Exception ignored) {
@@ -47,10 +49,10 @@ public class CodaDiStampa {
                 bw.write(fileLine);
                 bw.newLine();
                 bw.flush();
-                hm.put(fileLine, fileQueue.getName());
+                hm.put(fileLine+fileQueue.getName(), fileQueue.getName());
             }
             // non scrive
-            bw.write(" ***** FINE *****");
+            bw.write("***** FINE *****");
             fw.close();
         } catch (Exception ignored) {
         }
