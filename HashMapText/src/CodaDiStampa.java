@@ -1,8 +1,10 @@
 import java.io.*;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class CodaDiStampa {
     private final List<File> queue = new List<>();
+    private HashMap<String, String> hm = new HashMap<>();
 
     CodaDiStampa(File path) {
         for (File f : Objects.requireNonNull(path.listFiles())) {
@@ -10,18 +12,24 @@ public class CodaDiStampa {
         }
     }
 
-    public void print(String path) {
-        File text = new File(path + "/print.txt");
-        printFile(text);
-    }
-
-    public void print() {
-        File text = new File("./src/print.txt");
-        printFile(text);
+    @SuppressWarnings("all")
+    public void printHM(String s) {
+        File f = new File("./src/FilteredPrintQueue.txt");
+        try {
+            if(!f.exists()) f.createNewFile();
+            FileWriter fw = new FileWriter(f);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(hm.get(s));
+            bw.newLine();
+            bw.flush();
+            fw.close();
+        } catch (Exception ignored) {
+        }
     }
 
     @SuppressWarnings("all")
-    private void printFile(File f) {
+    public void print() {
+        File f = new File("./src/print.txt");
         try {
             f.createNewFile();
             FileWriter fw = new FileWriter(f);
@@ -30,12 +38,15 @@ public class CodaDiStampa {
             bw.newLine();
             bw.flush();
             for (int i = 0; i < queue.size(); i++) {
-                FileReader fr = new FileReader(queue.getValue(i));
+                File fileQueue = queue.getValue(i);
+                FileReader fr = new FileReader(fileQueue);
                 BufferedReader br = new BufferedReader(fr);
-                bw.write(br.readLine());
+                String fileLine = br.readLine();
+                bw.write(fileLine);
                 bw.newLine();
                 bw.flush();
                 fr.close();
+                hm.put(fileLine, fileQueue.getName());
             }
             bw.write("***** FINE *****");
             fw.close();

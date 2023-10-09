@@ -1,10 +1,18 @@
 import java.io.*;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         creaFiles();
         CodaDiStampa coda = new CodaDiStampa(new File("./src/files/"));
         coda.print();
+        Scanner sc = new Scanner(System.in);
+        while(true){
+            System.out.print("Dammi una chiave:\n>");
+            String s = sc.nextLine();
+            if (s.equalsIgnoreCase("esci")) break;
+            else coda.printHM(s);
+        }
     }
 
     @SuppressWarnings("all")
