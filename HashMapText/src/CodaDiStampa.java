@@ -13,15 +13,17 @@ public class CodaDiStampa {
     }
 
     @SuppressWarnings("all")
-    public void printHM(String s) {
+    public void printHM(String[] s) {
         File f = new File("./src/FilteredPrintQueue.txt");
         try {
             f.createNewFile();
             FileWriter fw = new FileWriter(f);
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(hm.get(s));
-            bw.newLine();
-            bw.flush();
+            for (String nome : s) {
+                bw.write(hm.get(nome));
+                bw.newLine();
+                bw.flush();
+            }
             fw.close();
         } catch (Exception ignored) {
         }

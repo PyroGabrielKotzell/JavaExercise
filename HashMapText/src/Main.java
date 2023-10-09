@@ -7,12 +7,9 @@ public class Main {
         CodaDiStampa coda = new CodaDiStampa(new File("./src/files/"));
         coda.print();
         Scanner sc = new Scanner(System.in);
-        while (true) {
-            System.out.print("Dammi una chiave:\n>");
-            String s = sc.nextLine();
-            if (s.equalsIgnoreCase("esci")) break;
-            else coda.printHM(s);
-        }
+        System.out.print("Dammi una o più chiavi:\n>");
+        String s = sc.nextLine();
+        coda.printHM(s.split(" "));
     }
 
     @SuppressWarnings("all")
