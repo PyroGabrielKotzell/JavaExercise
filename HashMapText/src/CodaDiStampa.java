@@ -1,10 +1,11 @@
 import java.io.*;
+import java.util.Objects;
 
 public class CodaDiStampa {
     private final List<File> queue = new List<>();
 
     CodaDiStampa(File path) {
-        for (File f : path.listFiles()) {
+        for (File f : Objects.requireNonNull(path.listFiles())) {
             queue.add(f);
         }
     }
@@ -37,7 +38,6 @@ public class CodaDiStampa {
                 fr.close();
             }
             bw.write("***** FINE *****");
-            bw.flush();
             fw.close();
         } catch (Exception ignored) {
         }
