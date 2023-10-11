@@ -13,7 +13,7 @@ class List<T> {
     }
 
     public int size(){
-        int i = 1;
+        int i = 0;
         Node<T> c = head;
         do{
             c = c.getNext();

@@ -43,7 +43,7 @@ public class CodaDiStampa {
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write("*****INIZIO*****\n");
             bw.flush();
-            for (int i = 0; i < queue.size(); i++) {
+            for (int i = 0; i < queue.size()-1; i++) {
                 File fileQueue = queue.getValue(i);
                 FileReader fr = new FileReader(fileQueue);
                 BufferedReader br = new BufferedReader(fr);
@@ -55,8 +55,9 @@ public class CodaDiStampa {
             }
             // non scrive
             bw.write("***** FINE *****\n");
+            bw.flush();
             fw.close();
-        } catch (Exception ignored) {
+        } catch (Exception e) { e.printStackTrace();
         }
     }
 }
