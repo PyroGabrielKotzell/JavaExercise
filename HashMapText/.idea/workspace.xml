@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="739e8327-7493-4f47-b8b1-a3df4784dc93" name="Changes" comment="" />
+    <list default="true" id="739e8327-7493-4f47-b8b1-a3df4784dc93" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/CodaDiStampa.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CodaDiStampa.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TF-IDF/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TF-IDF/src/Main.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,6 +27,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2WCTR8oi5RmwXsKXOPQnKqHCuYx" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />

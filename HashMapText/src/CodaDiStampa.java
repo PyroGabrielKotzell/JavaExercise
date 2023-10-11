@@ -53,11 +53,10 @@ public class CodaDiStampa {
                 bw.flush();
                 hm.put(fileLine + fileQueue.getName(), fileQueue.getName());
             }
-            // non scrive
             bw.write("***** FINE *****\n");
             bw.flush();
             fw.close();
-        } catch (Exception e) { e.printStackTrace();
+        } catch (Exception ignored) {
         }
     }
 }
