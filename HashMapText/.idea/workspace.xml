@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="739e8327-7493-4f47-b8b1-a3df4784dc93" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/CodaDiStampa.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CodaDiStampa.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TF-IDF/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TF-IDF/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../listeAvantiIndietro/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../listeAvantiIndietro/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,12 +33,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/Gabriele Urban/Desktop/Files/esercizi/JavaExercise/HashMapText"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
