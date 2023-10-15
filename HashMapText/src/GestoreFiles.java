@@ -11,6 +11,21 @@ public class GestoreFiles {
         this.file = new File(file);
     }
 
+    public void createFile() {
+        try {
+            file.createNewFile();
+        } catch (Exception ignored) {
+        }
+    }
+
+    public boolean readerReady(){
+        try {
+            return br.ready();
+        }catch (Exception ignored){
+        }
+        return false;
+    }
+
     public void open() {
         try {
             fr = new FileReader(file);
@@ -37,5 +52,9 @@ public class GestoreFiles {
 
     public void write(String string) throws IOException {
         bw.write(string);
+    }
+
+    public File getFile() {
+        return file;
     }
 }
