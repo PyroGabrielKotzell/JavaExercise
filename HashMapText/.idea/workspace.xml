@@ -4,41 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="739e8327-7493-4f47-b8b1-a3df4784dc93" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HashMapText/CodaDiStampa.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HashMapText/CodaDiStampa.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HashMapText/FilteredPrintQueue.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HashMapText/FilteredPrintQueue.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT0.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT10.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT10.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT11.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT11.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT2.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT3.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT4.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT4.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT5.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT5.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT6.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT6.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT7.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT7.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT8.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT8.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT9.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HashMapText/files/TEXT9.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/HashMapText/print.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/HashMapText/print.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CodaDiStampa.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CodaDiStampa.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FilteredPrintQueue.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/FilteredPrintQueue.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GestoreFiles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GestoreFiles.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/files/TEXT0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/files/TEXT0.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/files/TEXT1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/files/TEXT1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/files/TEXT10.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/files/TEXT10.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/files/TEXT11.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/files/TEXT11.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/files/TEXT2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/files/TEXT2.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/files/TEXT3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/files/TEXT3.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/files/TEXT4.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/files/TEXT4.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/files/TEXT5.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/files/TEXT5.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/files/TEXT6.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/files/TEXT6.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/files/TEXT7.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/files/TEXT7.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/files/TEXT8.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/files/TEXT8.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/files/TEXT9.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/files/TEXT9.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/print.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/print.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TF-IDF/src/GestoreFiles.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TF-IDF/src/GestoreFiles.java" afterDir="false" />
-    </list>
+    <list default="true" id="739e8327-7493-4f47-b8b1-a3df4784dc93" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
