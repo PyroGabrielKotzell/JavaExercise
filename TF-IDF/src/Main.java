@@ -4,9 +4,10 @@ public class Main {
 
     public static void main(String[] args) {
         File[] files = new File("./src/files/").listFiles();
+
+        assert files != null;
         for (File f : files) {
             GestoreFiles g = new GestoreFiles(f);
-
             System.out.println(tfIdf());
         }
     }
