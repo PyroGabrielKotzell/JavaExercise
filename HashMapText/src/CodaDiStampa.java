@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class CodaDiStampa {
     private final List<File> queue = new List<>();
@@ -34,28 +35,24 @@ public class CodaDiStampa {
         }
     }
 
-    @SuppressWarnings("all")
     public void print() {
-        File f = new File("./src/print.txt");
+        GestoreFiles g = new GestoreFiles("./src/print.txt");
         try {
-            f.createNewFile();
-            FileWriter fw = new FileWriter(f);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write("*****INIZIO*****\n");
-            bw.flush();
+            g.createFile();
+            g.open();
             for (int i = 0; i < queue.size()-1; i++) {
-                File fileQueue = queue.getValue(i);
-                FileReader fr = new FileReader(fileQueue);
-                BufferedReader br = new BufferedReader(fr);
-                String fileLine = br.readLine();
-                bw.write(fileLine);
-                bw.newLine();
-                bw.flush();
-                hm.put(fileLine + fileQueue.getName(), fileQueue.getName());
+                GestoreFiles fq = new GestoreFiles(queue.getValue(i));
+                fq.open();
+                System.out.println(fq.readln());
+                g.write("*****INIZIO*****\n");
+                while(fq.readerReady()){
+                    Pattern p = Pattern.compile("[a-zA-Z0-9]");
+                    String[] s = fq.readln().replaceAll(p.pattern(), " ").split(" ");
+                    System.out.println(p.pattern());
+                }
+                g.write("***** FINE *****\n");
+                //hm.put(fileLine + fileQueue.getName(), fileQueue.getName());
             }
-            bw.write("***** FINE *****\n");
-            bw.flush();
-            fw.close();
         } catch (Exception ignored) {
         }
     }

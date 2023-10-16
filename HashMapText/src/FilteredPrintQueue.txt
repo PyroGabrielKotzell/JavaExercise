@@ -1,2 +1,0 @@
-TEXT1.txt
-TEXT6.txt

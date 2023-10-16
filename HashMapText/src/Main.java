@@ -8,8 +8,7 @@ public class Main {
         coda.print();
         Scanner sc = new Scanner(System.in);
         System.out.print("Dammi una o più chiavi:\n>");
-        String s = sc.nextLine();
-        coda.printHM(s.split(" "));
+        coda.printHM(sc.nextLine().split(" "));
     }
 
     @SuppressWarnings("all")
