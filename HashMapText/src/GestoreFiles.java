@@ -16,6 +16,7 @@ public class GestoreFiles {
     }
 
     public void createFile() {
+        if (file.exists()) file.delete();
         try {
             file.createNewFile();
         } catch (Exception ignored) {
@@ -34,7 +35,7 @@ public class GestoreFiles {
         try {
             fr = new FileReader(file);
             br = new BufferedReader(fr);
-            fw = new FileWriter(file);
+            fw = new FileWriter(file, true);
             bw = new BufferedWriter(fw);
         } catch (Exception ignored) {
         }
