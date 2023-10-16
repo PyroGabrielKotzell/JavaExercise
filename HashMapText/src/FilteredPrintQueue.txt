@@ -1,2 +1,3 @@
+TEXT0.txt
 TEXT1.txt
 TEXT6.txt

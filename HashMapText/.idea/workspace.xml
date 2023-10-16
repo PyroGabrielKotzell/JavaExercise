@@ -34,8 +34,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Gabriele Urban/Desktop/Files/esercizi/JavaExercise/HashMapText&quot;
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RunManager">
@@ -62,7 +61,7 @@
   <component name="XDebuggerManager">
     <watches-manager>
       <configuration name="Application">
-        <watch expression="queue.head.next.next.next.next.next.next.next.next" />
+        <watch expression="queue.head.next.next.next.next.next.next.next.next" language="JAVA" />
       </configuration>
     </watches-manager>
   </component>

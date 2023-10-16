@@ -3,16 +3,24 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) {
-        // prendo il testo dei file //
-        // gestore files
-        String[] files = new File("./src/files").list();
-        for (String nome: files) {
-            System.out.println(tfIdf(new File(""), gestore));
+        File[] files = new File("./src/files/").listFiles();
+
+        assert files != null;
+        for (File f : files) {
+            GestoreFiles g = new GestoreFiles(f);
+            System.out.println(tfIdf());
         }
     }
 
-    private static int tfIdf(File doc, String ter) {
+    private static int tfIdf(File doc, String termine) {
+        float tf = calcTf();
+        float idf = calcIdf();
+        return (int) (Math.log10(idf) * tf);
+    }
 
-        return (int)(Math.log10(idf)*tf);
+    private static float calcIdf() {
+    }
+
+    private static float calcTf() {
     }
 }
