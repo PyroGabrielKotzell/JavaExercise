@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="739e8327-7493-4f47-b8b1-a3df4784dc93" name="Changes" comment="" />
+    <list default="true" id="739e8327-7493-4f47-b8b1-a3df4784dc93" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CodaDiStampa.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CodaDiStampa.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GestoreFiles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GestoreFiles.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TF-IDF/src/GestoreFiles.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TF-IDF/src/GestoreFiles.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TF-IDF/src/GestoreHashMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TF-IDF/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../TF-IDF/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TF-IDF/src/files/file1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../TF-IDF/src/files/file1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TF-IDF/src/files/file2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../TF-IDF/src/files/file2.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

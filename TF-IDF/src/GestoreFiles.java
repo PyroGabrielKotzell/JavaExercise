@@ -51,13 +51,18 @@ public class GestoreFiles {
         }
     }
 
-    public String readln() throws IOException {
-        return br.readLine();
+    public String readln() {
+        try {
+            return br.readLine();
+        }catch (Exception ignored){}
+        return null;
     }
 
-    public void write(String string) throws IOException {
-        bw.write(string);
-        bw.flush();
+    public void write(String string) {
+        try {
+            bw.write(string);
+            bw.flush();
+        }catch (Exception ignored){}
     }
 
     public File getFile() {
