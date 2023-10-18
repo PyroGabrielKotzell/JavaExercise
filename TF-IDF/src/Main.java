@@ -16,7 +16,6 @@ public class Main {
                 if (s.contains(f.getName())){
                     System.out.println(tfIdf(f, s.substring(0, s.indexOf(f.getName()))));
                     break;
-                    // controlla perché ritorna infinito.
                 }
             }
         }
@@ -50,6 +49,7 @@ public class Main {
     private static float calcTf(File doc, String termine) {
         float tf = hm.get(termine + doc.getName());
         GestoreFiles g = new GestoreFiles(doc);
+        g.open();
         int paroleFile = 0;
         while (g.readerReady()) {
             paroleFile = paroleFile + g.readln().replaceAll("[^A-Za-z0-9]", " ").split(" ").length;
