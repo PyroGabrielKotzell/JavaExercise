@@ -16,6 +16,7 @@ public class Main {
                 if (s.contains(f.getName())){
                     System.out.println(tfIdf(f, s.substring(0, s.indexOf(f.getName()))));
                     break;
+                    // controlla perché ritorna infinito.
                 }
             }
         }
@@ -26,6 +27,7 @@ public class Main {
             GestoreFiles g = new GestoreFiles(f);
             g.open();
             while (g.readerReady()) {
+                // controlla perché non cancella caratteri speciali
                 String[] termini = g.readln().replaceAll("[^A-Za-z0-9]", " ").split(" ");
                 for (String termine : termini) {
                     if (hm.containsKey(termine + f.getName()))
