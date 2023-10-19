@@ -52,6 +52,7 @@ public class Main {
         g.open();
         int paroleFile = 0;
         while (g.readerReady()) {
+														// conta anche le doppie#da cambiare
             paroleFile = paroleFile + g.readln().replaceAll("[^A-Za-z0-9]", " ").split(" ").length;
         }
         return tf / paroleFile;
