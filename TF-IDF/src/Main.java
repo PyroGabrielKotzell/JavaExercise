@@ -6,22 +6,24 @@ public class Main {
     private static final HashMap<String, Integer> hm = new HashMap<>();
     private static final ArrayList<String> chiavi = new ArrayList<>();
     private static final File[] files = new File("./src/files/").listFiles();
-    /*private static int[] paroleF;
-
-    static {
-        assert files != null;
-        paroleF = new int[files.length];
-    }*/
+    private static int paroleF = 0;
 
     public static void main(String[] args) {
         assert files != null;
         prendiTermini(files);
 
-        for (String s : chiavi) {
+        for (int i = 0; i < chiavi.size(); i++) {
+            String s = chiavi.get(i);
             for (File f: files) {
                 if (s.contains(f.getName())){
                     String term = s.substring(0, s.indexOf(f.getName()));
                     System.out.println(term + " " + f.getName() + ": " + tfIdf(f, term));
+                    try {
+                        if (!chiavi.get(i+1).contains(f.getName())){
+                            System.out.println("--------------");
+                            paroleF = 0;
+                        }
+                    }catch (Exception ignored){}
                     break;
                 }
             }
@@ -55,14 +57,16 @@ public class Main {
 
     private static float calcTf(File doc, String termine) {
         float tf = hm.get(termine + doc.getName());
-        int paroleFile = 0;
-        for (String key: chiavi) {
-            if(key.contains(doc.getName())) paroleFile++;
+        if (paroleF == 0) {
+            for (String key : chiavi) {
+                if (key.contains(doc.getName())) paroleF++;
+            }
         }
-        return tf / paroleFile;
+        return tf / paroleF;
     }
 
     private static float calcIdf(String termine) {
+        assert files != null;
         float idf = files.length;
         int fConT = 0;
         for (File f : files) {
