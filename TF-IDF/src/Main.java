@@ -6,6 +6,12 @@ public class Main {
     private static final HashMap<String, Integer> hm = new HashMap<>();
     private static final ArrayList<String> chiavi = new ArrayList<>();
     private static final File[] files = new File("./src/files/").listFiles();
+    /*private static int[] paroleF;
+
+    static {
+        assert files != null;
+        paroleF = new int[files.length];
+    }*/
 
     public static void main(String[] args) {
         assert files != null;
@@ -14,7 +20,8 @@ public class Main {
         for (String s : chiavi) {
             for (File f: files) {
                 if (s.contains(f.getName())){
-                    System.out.println(tfIdf(f, s.substring(0, s.indexOf(f.getName()))));
+                    String term = s.substring(0, s.indexOf(f.getName()));
+                    System.out.println(term + " " + f.getName() + ": " + tfIdf(f, term));
                     break;
                 }
             }
@@ -48,12 +55,9 @@ public class Main {
 
     private static float calcTf(File doc, String termine) {
         float tf = hm.get(termine + doc.getName());
-        GestoreFiles g = new GestoreFiles(doc);
-        g.open();
         int paroleFile = 0;
-        while (g.readerReady()) {
-														// conta anche le doppie#da cambiare
-            paroleFile = paroleFile + g.readln().replaceAll("[^A-Za-z0-9]", " ").split(" ").length;
+        for (String key: chiavi) {
+            if(key.contains(doc.getName())) paroleFile++;
         }
         return tf / paroleFile;
     }
