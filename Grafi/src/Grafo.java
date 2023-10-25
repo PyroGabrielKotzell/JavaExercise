@@ -32,7 +32,7 @@ public class Grafo<T> {
     }
 
     public boolean isFullyConnected() {
-        return numArch() == (keyset().length * (keyset().length - 1));
+        return numArch() >= (keyset().length * (keyset().length - 1));
     }
 
     public boolean isConnected() {

@@ -2,8 +2,8 @@ public class Main {
     public static void main(String[] args) {
         Grafo<Integer> g = new Grafo<>();
         g.add(1, 2, true);
-        g.add(1, 5, true);
         g.add(1, 4, true);
+        g.add(1, 5, true);
         g.add(2, 4, true);
         g.add(2, 5, true);
         g.add(4, 5, true);
