@@ -18,24 +18,39 @@ public class Grafo<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public boolean isFullyConnected() {
-        T[] keyset = (T[]) hm.keySet().toArray();
+    private T[] keyset() {
+        return (T[]) hm.keySet().toArray();
+    }
+
+    public int numArch() {
+        T[] keyset = keyset();
+        int arch = 0;
         for (int i = 0; i < hm.size(); i++) {
-            if (hm.get(keyset[i]).isEmpty()) return false;
+            arch = arch + hm.get(keyset[i]).size();
+        }
+        return arch;
+    }
+
+    public boolean isFullyConnected() {
+        return numArch() == (keyset().length * (keyset().length - 1));
+    }
+
+    public boolean isConnected() {
+        for (int i = 0; i < hm.size(); i++) {
+            boolean connected = false;
+            for (int j = 0; j < keyset().length - 1; j++) {
+                //if (hm.get(keyset[i])) return false;
+            }
         }
         return true;
     }
 
-    @SuppressWarnings("unchecked")
-    public boolean isConnected() {
-        T[] keyset = (T[]) hm.keySet().toArray();
-        for (int i = 0; i < hm.size(); i++) {
-            boolean connected = false;
-            for (int j = 0; j < keyset.length-1; j++) {
-                if (hm.get(keyset[i])) return false;
-            }
-        }
-        return true;
+    public T maxOrder() {
+        return null;
+    }
+
+    public T minOrder() {
+        return null;
     }
 
     public String toString() {
