@@ -36,16 +36,15 @@ public class Grafo<T> {
     }
 
     public boolean isConnected() {
-        for (int i = 0; i < hm.size(); i++) {
-            boolean connected = false;
-            for (int j = 0; j < keyset().length - 1; j++) {
-                //if (hm.get(keyset[i])) return false;
-            }
-        }
-        return true;
+		HashMap<T, T> tmp = new HashMap<>();
+		for(T key : keyset()){
+			for(int i = 0; i < hm.get(key).size(); i++) tmp.put(hm.get(key).get(i),1);
+		}
+        return tmp.size() >= hm.size();
     }
 
     public T maxOrder() {
+		Integer max = hm.get(keyset()[0]).size();
         return null;
     }
 
