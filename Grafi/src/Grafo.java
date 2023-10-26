@@ -36,19 +36,23 @@ public class Grafo<T> {
     }
 
     public boolean isConnected() {
-		HashMap<T, T> tmp = new HashMap<>();
-		for(T key : keyset()){
-			for(int i = 0; i < hm.get(key).size(); i++) tmp.put(hm.get(key).get(i),1);
-		}
+        HashMap<T, T> tmp = new HashMap<>();
+        for (T key : keyset()) {
+            for (int i = 0; i < hm.get(key).size(); i++) {
+                tmp.put(hm.get(key).get(i), null);
+                tmp.put(key, null);
+            }
+        }
         return tmp.size() >= hm.size();
     }
 
     public T maxOrder() {
-		Integer max = hm.get(keyset()[0]).size();
+        int max = hm.get(keyset()[0]).size();
         return null;
     }
 
     public T minOrder() {
+        int min = hm.get(keyset()[0]).size();
         return null;
     }
 
