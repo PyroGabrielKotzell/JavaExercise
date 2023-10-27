@@ -54,15 +54,17 @@ public class Grafo<T> {
         return search(false);
     }
 
+    @SuppressWarnings("unchecked")
     private T[] search(boolean sw) {
         int n = hm.get(keyset()[0]).size();
-        /*T[] tmp = ;
+        ArrayList<T> nodes = new ArrayList<>();
         for (T key : keyset()) {
-            if(sw) if (hm.get(key).size() > n) ;
-            else if (hm.get(key).size() < n)  ;
+            if (sw) {
+                if (hm.get(key).size() > n) n = hm.get(key).size();
+            } else if (hm.get(key).size() < n) n = hm.get(key).size();
         }
-        return tmp;*/
-        return null;
+        for (T key : keyset()) if (hm.get(key).size() == n) nodes.add(key);
+        return (T[]) nodes.toArray();
     }
 
     public String toString() {
