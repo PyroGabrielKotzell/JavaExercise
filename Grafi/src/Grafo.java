@@ -46,13 +46,22 @@ public class Grafo<T> {
         return tmp.size() >= hm.size();
     }
 
-    public T maxOrder() {
-        int max = hm.get(keyset()[0]).size();
-        return null;
+    public T[] maxOrder() {
+        return search(true);
     }
 
-    public T minOrder() {
-        int min = hm.get(keyset()[0]).size();
+    public T[] minOrder() {
+        return search(false);
+    }
+
+    private T[] search(boolean sw) {
+        int n = hm.get(keyset()[0]).size();
+        /*T[] tmp = ;
+        for (T key : keyset()) {
+            if(sw) if (hm.get(key).size() > n) ;
+            else if (hm.get(key).size() < n)  ;
+        }
+        return tmp;*/
         return null;
     }
 
