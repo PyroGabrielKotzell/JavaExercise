@@ -17,6 +17,13 @@ public class Grafo<T> {
         if (bidirectional) hm.get(e).add(t);
     }
 
+    public void removeVertex(T t) {
+        hm.remove(t);
+        for (T key : keyset()) {
+            hm.get(key).remove(t);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     private T[] keyset() {
         return (T[]) hm.keySet().toArray();
@@ -47,15 +54,16 @@ public class Grafo<T> {
     }
 
     public Grafo<T>[] searchCliques(){
-        return recursiveCliqueSearch();
+        return recursiveCliqueSearch(keyset(), new ArrayList<>());
     }
 
-    private Grafo<T>[] recursiveCliqueSearch(){
-        
-    }
-
-    private boolean isCliqueConnected(Grafo<T> clique) {
-        return clique.isConnected();
+    @SuppressWarnings("unchecked")
+    private Grafo<T>[] recursiveCliqueSearch(T[] keyset, ArrayList<Grafo<T>> cliques){
+        for (T key : keyset) {
+            if (cliques.getLast().isConnected())
+            cliques.add(recursiveCliqueSearch(cliques.getFirst().keyset(), cliques)[0]);
+        }
+        return (Grafo<T>[]) cliques.toArray();
     }
 
     public T[] maxOrder() {
