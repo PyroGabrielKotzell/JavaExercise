@@ -46,6 +46,18 @@ public class Grafo<T> {
         return tmp.size() >= hm.size();
     }
 
+    public Grafo<T>[] searchCliques(){
+        return recursiveCliqueSearch();
+    }
+
+    private Grafo<T>[] recursiveCliqueSearch(){
+        
+    }
+
+    private boolean isCliqueConnected(Grafo<T> clique) {
+        return clique.isConnected();
+    }
+
     public T[] maxOrder() {
         return search(true);
     }
