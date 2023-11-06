@@ -76,17 +76,23 @@ public class Graph<T> {
      * Checks if every vertex is connected
      * @return boolean - if connected
      */
+    @SuppressWarnings("all")
     public boolean isConnected() {
         HashMap<T, T> tmp = new HashMap<>();
+        tmp.put(keyset()[0], null);
         for (T key : keyset()) {
             if (!tmp.containsKey(key)){
-                for (int i = 0; i < hm.get(key).size(); i++) {
-                    
+                for (int i = 0; i < tmp.size(); i++) {
+                    if (hm.get(key).contains(tmp.keySet().toArray()[i])){
+                        tmp.put(hm.get(key).get(i), null);
+                        tmp.put(key, null);
+                    }
                 }
-            }
-            tmp.put(key, null);
-            for (int i = 0; i < hm.get(key).size(); i++) {
-                tmp.put(hm.get(key).get(i), null);
+            }else {
+                tmp.put(key, null);
+                for (int i = 0; i < hm.get(key).size(); i++) {
+                    tmp.put(hm.get(key).get(i), null);
+                }
             }
         }
         return tmp.size() >= hm.size();
