@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        Grafo<Integer> g = new Grafo<>();
+        Graph<Integer> g = new Graph<>();
         g.add(1, 2, true);
         g.add(1, 4, true);
         g.add(1, 5, true);
@@ -15,7 +15,7 @@ public class Main {
         System.out.println("max order: " + Arrays.toString(g.maxOrder()));
         System.out.println("min order: " + Arrays.toString(g.minOrder()));
         System.out.println("is connected: " + g.isConnected());
-        for (Grafo<Integer> clique:g.searchCliques()) {
+        for (Graph<Integer> clique:g.searchCliques()) {
             System.out.println(clique);
         }
     }
