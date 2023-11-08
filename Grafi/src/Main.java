@@ -15,8 +15,9 @@ public class Main {
         System.out.println("max order: " + Arrays.toString(g.maxOrder()));
         System.out.println("min order: " + Arrays.toString(g.minOrder()));
         System.out.println("is connected: " + g.isConnected());
-        /*for (Graph<Integer> clique:g.searchCliques()) {
+        //System.out.println("is connected: " + g.findPath(1,5));
+        for (Graph<Integer> clique:g.getCliques()) {
             System.out.println(clique);
-        }*/
+        }
     }
 }
