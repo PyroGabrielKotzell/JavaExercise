@@ -16,7 +16,8 @@ public class Main {
         System.out.println("min order: " + Arrays.toString(g.minOrder()));
         System.out.println("is connected: " + g.isConnected());
         //System.out.println("is connected: " + g.findPath(1,5));
-        for (Graph<Integer> clique:g.getCliques()) {
+        int n = g.vertexes().length-1;
+        for (Graph<Integer> clique:g.getCliques(n)) {
             System.out.println(clique);
         }
     }

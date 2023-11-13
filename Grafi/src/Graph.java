@@ -41,7 +41,7 @@ public class Graph<T> {
      */
     public void removeVertex(T t) {
         hm.remove(t);
-        for (T key : vertexes()) {
+        for (T key : keyset()) {
             vertexEdges(key).remove(t);
         }
     }
@@ -52,8 +52,17 @@ public class Graph<T> {
      * @return T[] - the keyset
      */
     @SuppressWarnings("unchecked")
-    private T[] vertexes() {
+    private T[] keyset() {
         return (T[]) hm.keySet().toArray();
+    }
+
+    /**
+     * Vertexes of the Graph
+     *
+     * @return Object[] - as the type parameter is lost at runtime
+     */
+    public Object[] vertexes() {
+        return hm.keySet().toArray();
     }
 
     /**
@@ -62,7 +71,7 @@ public class Graph<T> {
      * @return int - number of edges
      */
     public int numEdges() {
-        T[] keyset = vertexes();
+        T[] keyset = keyset();
         int arch = 0;
         for (int i = 0; i < hm.size(); i++) {
             arch = arch + vertexEdges(keyset[i]).size();
@@ -76,7 +85,7 @@ public class Graph<T> {
      * @return boolean - if fully connected
      */
     public boolean isFullyConnected() {
-        int l = vertexes().length;
+        int l = keyset().length;
         return numEdges() >= (l * (l - 1));
     }
 
@@ -88,9 +97,9 @@ public class Graph<T> {
     @SuppressWarnings("all")
     public boolean isConnected() {
         HashMap<T, T> tmp = new HashMap<>();
-        if (vertexes().length != 0) {
-            tmp.put(vertexes()[0], null);
-            for (T key : vertexes()) {
+        if (keyset().length != 0) {
+            tmp.put(keyset()[0], null);
+            for (T key : keyset()) {
                 if (!tmp.containsKey(key)) {
                     for (int i = 0; i < tmp.size(); i++) {
                         if (vertexEdges(key).contains(tmp.keySet().toArray()[i])) {
@@ -133,14 +142,14 @@ public class Graph<T> {
      */
     @SuppressWarnings("unchecked")
     private T[] search(boolean sw) {
-        int n = vertexEdges(vertexes()[0]).size();
+        int n = vertexEdges(keyset()[0]).size();
         ArrayList<T> nodes = new ArrayList<>();
-        for (T key : vertexes()) {
+        for (T key : keyset()) {
             if (sw) {
                 if (vertexEdges(key).size() > n) n = vertexEdges(key).size();
             } else if (vertexEdges(key).size() < n) n = vertexEdges(key).size();
         }
-        for (T key : vertexes()) if (vertexEdges(key).size() == n) nodes.add(key);
+        for (T key : keyset()) if (vertexEdges(key).size() == n) nodes.add(key);
         return (T[]) nodes.toArray();
     }
 
@@ -161,7 +170,7 @@ public class Graph<T> {
     @SuppressWarnings("super")
     public Graph<T> clone() {
         Graph<T> newGraph = new Graph<>();
-        for (T key : vertexes()) {
+        for (T key : keyset()) {
             for (int i = 0; i < vertexEdges(key).size(); i++) {
                 newGraph.add(key, vertexEdges(key).get(i), false);
             }
@@ -171,12 +180,13 @@ public class Graph<T> {
 
     /**
      * Initiative method for the search for cliques
+     * @param  minLenght the minimum lenght of the cliques
      * @return Graph[] - the array of cliques
      */
-    public Graph<T>[] getCliques() {
+    public Graph<T>[] getCliques(int minLenght) {
         ArrayList<Graph<T>> tmp = new ArrayList<>();
         tmp.add(this);
-        return cliquesSearch(vertexes(), tmp, this);
+        return cliquesSearch(keyset(), tmp, this, minLenght);
     }
 
     /**
@@ -186,8 +196,8 @@ public class Graph<T> {
      * @return Graph[] - the array of cliques
      */
     @SuppressWarnings("unchecked")
-    private Graph<T>[] cliquesSearch(T[] keyset, ArrayList<Graph<T>> cliques, Graph<T> currentClique) {
-        if (currentClique.vertexes().length == 2 && currentClique.isConnected()) {
+    private Graph<T>[] cliquesSearch(T[] keyset, ArrayList<Graph<T>> cliques, Graph<T> currentClique, int min) {
+        if (currentClique.keyset().length == min && currentClique.isConnected()) {
             Graph<T>[] g = new Graph[1];
             g[0] = currentClique;
             return g;
@@ -196,7 +206,7 @@ public class Graph<T> {
             Graph<T> gClone = currentClique.clone();
             gClone.removeVertex(key);
             if (gClone.isConnected() && !cliques.contains(gClone)) cliques.add(gClone);
-            cliquesSearch(gClone.vertexes(), cliques, gClone);
+            cliquesSearch(gClone.keyset(), cliques, gClone, min);
         }
         Graph<T>[] g = new Graph[cliques.toArray().length - 1];
         for (int i = 1; i < cliques.toArray().length; i++) {
@@ -204,6 +214,10 @@ public class Graph<T> {
         }
         return g;
     }
+
+    public void calculateWeight(){}
+
+    public void calculateWeight(T v1, T v2){}
 
     /**
      * Check if graph equals another graph
@@ -213,11 +227,11 @@ public class Graph<T> {
     @Override
     @SuppressWarnings("unchecked")
     public boolean equals(Object o) {
-        if (o.getClass().equals(getClass()) && ((Graph<?>) o).vertexes().getClass().equals(vertexes().getClass())){
+        if (o.getClass().equals(getClass()) && ((Graph<?>) o).keyset().getClass().equals(keyset().getClass())){
             Graph<T> oCasted = ((Graph<T>) o);
             boolean equals = true;
-            for (T key : vertexes()) {
-                equals = Arrays.stream(oCasted.vertexes()).toList().contains(key);
+            for (T key : keyset()) {
+                equals = Arrays.stream(oCasted.keyset()).toList().contains(key);
                 if (equals){
                     equals = vertexEdges(key).equals(oCasted.vertexEdges(key));
                 }else break;
