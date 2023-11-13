@@ -265,6 +265,7 @@ public class Graph<T> {
         dist.put(t, (float) 0);
         T v = t;
         while (cloned.keyset().length != 0) {
+            System.out.println("cycle");
             v = nodoMin(cloned, v);
             List<T> neighbours = cloned.vertexEdges(v);
             cloned.removeVertex(v);
@@ -292,9 +293,9 @@ public class Graph<T> {
         return min;
     }
 
-    /*public Float getWeight(T t, T e) {
-        return edgesWeight.get();
-    }*/
+    public Float getWeight(T t, T e) {
+        return edgesWeight.get(t.toString() + e);
+    }
 
     public T getPrevious(T t) {
         return previouses.get(t);
