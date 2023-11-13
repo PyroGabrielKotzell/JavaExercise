@@ -7,6 +7,8 @@ import java.util.*;
  */
 public class Graph<T> {
     private final HashMap<T, List<T>> hm = new HashMap<>();
+    private final HashMap<String, Float> edgesWeight = new HashMap<>();
+    private final HashMap<T, T> previouses = new HashMap<>();
 
     /**
      * Adds one vertex without edges
@@ -32,6 +34,36 @@ public class Graph<T> {
         }
         if (!hm.containsKey(e)) hm.put(e, new LinkedList<>());
         if (bidirectional) vertexEdges(e).add(t);
+    }
+
+    /**
+     * Adds weight to the vertexes connection
+     *
+     * @param t             the first vertex
+     * @param e             the second vertex
+     * @param weight        the weight value
+     * @param bidirectional if the weight is equal both ways
+     * @return boolean - if the weight got added or not
+     */
+    public boolean addWeight(T t, T e, float weight, boolean bidirectional) {
+        if (hm.containsKey(t) && hm.containsKey(e)) {
+            edgesWeight.put(t.toString() + e, weight);
+            if (bidirectional) edgesWeight.put(e.toString() + t, weight);
+            return true;
+        } else return false;
+    }
+
+    /**
+     * Adds the vertexes and edges with the weight to the graph
+     *
+     * @param t             the first vertex
+     * @param e             the second vertex
+     * @param weight        the weight value
+     * @param bidirectional if the weight and edge is equal both ways
+     */
+    public void addWithWeight(T t, T e, float weight, boolean bidirectional) {
+        add(t, e, bidirectional);
+        addWeight(t, e, weight, bidirectional);
     }
 
     /**
@@ -121,6 +153,7 @@ public class Graph<T> {
 
     /**
      * Gets the maximums of the vertexes
+     *
      * @return T[] - the vertexes
      */
     public T[] maxOrder() {
@@ -129,6 +162,7 @@ public class Graph<T> {
 
     /**
      * Gets the minimums of the vertexes
+     *
      * @return T[] - the vertexes
      */
     public T[] minOrder() {
@@ -137,6 +171,7 @@ public class Graph<T> {
 
     /**
      * Private search for the minimums or maximums of the vertexes
+     *
      * @param sw switch for searching the min or max of the vertexes
      * @return T[] - an array of the vertexes
      */
@@ -155,6 +190,7 @@ public class Graph<T> {
 
     /**
      * Gets the edges of the vertex specified
+     *
      * @param vertex the vertex
      * @return List - a list of the edges
      */
@@ -164,6 +200,7 @@ public class Graph<T> {
 
     /**
      * Clones given graph by creating another one and adding all vertexes and edges
+     *
      * @return Graph - the clone graph
      */
     @Override
@@ -180,7 +217,8 @@ public class Graph<T> {
 
     /**
      * Initiative method for the search for cliques
-     * @param  minLenght the minimum lenght of the cliques
+     *
+     * @param minLenght the minimum lenght of the cliques
      * @return Graph[] - the array of cliques
      */
     public Graph<T>[] getCliques(int minLenght) {
@@ -191,6 +229,7 @@ public class Graph<T> {
 
     /**
      * Recursive search for cliques
+     *
      * @param keyset  the keyset of the current clique
      * @param cliques the list of cliques
      * @return Graph[] - the array of cliques
@@ -215,34 +254,78 @@ public class Graph<T> {
         return g;
     }
 
-    public void calculateWeight(){}
+    public void calculateWeight(T t) {
+        System.out.println("[Debug]: Using Dijkstra");
+        Graph<T> cloned = this.clone();
+        HashMap<T, Float> dist = new HashMap<>();
+        for (T v : cloned.keyset()) {
+            dist.put(v, Float.POSITIVE_INFINITY);
+            previouses.put(v, null);
+        }
+        dist.put(t, (float) 0);
+        T v = t;
+        while (cloned.keyset().length != 0) {
+            v = nodoMin(cloned, v);
+            List<T> neighbours = cloned.vertexEdges(v);
+            cloned.removeVertex(v);
+            if (neighbours != null && v != null) {
+                for (T n : neighbours) {
+                    float weight = dist.get(v) + edgesWeight.get(v.toString() + n);
+                    System.out.println(v + " " + n + ": " + weight);
+                    if (weight < dist.get(n)) {
+                        dist.put(n, weight);
+                        edgesWeight.put(v.toString() + n, weight);
+                        previouses.put(n, v);
+                    }
+                }
+            }
+        }
+    }
 
-    public void calculateWeight(T v1, T v2){}
+    private T nodoMin(Graph<T> cloned, T v) {
+        if (cloned.vertexEdges(v) == null) return null;
+        T min = cloned.vertexEdges(v).get(0);
+        for (T k : cloned.vertexEdges(v)) {
+            Float w = edgesWeight.get(v.toString() + k);
+            if (w != null && w < edgesWeight.get(v.toString() + min)) min = k;
+        }
+        return min;
+    }
+
+    /*public Float getWeight(T t, T e) {
+        return edgesWeight.get();
+    }*/
+
+    public T getPrevious(T t) {
+        return previouses.get(t);
+    }
 
     /**
      * Check if graph equals another graph
+     *
      * @param o the graph object
      * @return boolean - if the graphs have the same vertexes and edges
      */
     @Override
     @SuppressWarnings("unchecked")
     public boolean equals(Object o) {
-        if (o.getClass().equals(getClass()) && ((Graph<?>) o).keyset().getClass().equals(keyset().getClass())){
+        if (o.getClass().equals(getClass()) && ((Graph<?>) o).keyset().getClass().equals(keyset().getClass())) {
             Graph<T> oCasted = ((Graph<T>) o);
             boolean equals = true;
             for (T key : keyset()) {
                 equals = Arrays.stream(oCasted.keyset()).toList().contains(key);
-                if (equals){
+                if (equals) {
                     equals = vertexEdges(key).equals(oCasted.vertexEdges(key));
-                }else break;
+                } else break;
                 if (!equals) break;
             }
             return equals;
-        }else return false;
+        } else return false;
     }
 
     /**
      * Calls toString of HashMap
+     *
      * @return String - the Strign visualization of the Graph
      */
     public String toString() {
@@ -251,14 +334,11 @@ public class Graph<T> {
 
     /**
      * Checks if vertex exist
+     *
      * @param t the vertex
      * @return boolean - if the vertex exists
      */
     public boolean exists(T t) {
         return hm.containsKey(t);
     }
-/*
-    public T findPath(T i, T i1) {
-    }
-*/
 }
