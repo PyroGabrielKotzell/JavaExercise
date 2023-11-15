@@ -8,7 +8,6 @@ import java.util.*;
 public class Graph<T> {
     private final HashMap<T, List<T>> hm = new HashMap<>();
     private final HashMap<String, Float> edgesWeight = new HashMap<>();
-    private final HashMap<T, T> previouses = new HashMap<>();
 
     /**
      * Adds one vertex without edges
@@ -254,51 +253,48 @@ public class Graph<T> {
         return g;
     }
 
-    public void calculateWeight(T t) {
-        System.out.println("[Debug]: Using Dijkstra");
-        Graph<T> cloned = this.clone();
+    public HashMap[] calcDist(T t) {
         HashMap<T, Float> dist = new HashMap<>();
-        for (T v : cloned.keyset()) {
+        HashMap<T, T> previouses = new HashMap<>();
+        ArrayList<T> Q = new ArrayList<>(List.of(keyset().clone()));
+        for (T v : Q) {
             dist.put(v, Float.POSITIVE_INFINITY);
             previouses.put(v, null);
         }
         dist.put(t, (float) 0);
-        T v = t;
-        while (cloned.keyset().length != 0) {
-            System.out.println("cycle");
-            v = nodoMin(cloned, v);
-            List<T> neighbours = cloned.vertexEdges(v);
-            cloned.removeVertex(v);
-            if (neighbours != null && v != null) {
+        while (!Q.isEmpty()) {
+            T v = nodoMin(Q, dist);
+            List<T> neighbours= vertexEdges(v);
+            Q.remove(v);
+            if (v != null) {
                 for (T n : neighbours) {
-                    float weight = dist.get(v) + edgesWeight.get(v.toString() + n);
-                    System.out.println(v + " " + n + ": " + weight);
-                    if (weight < dist.get(n)) {
-                        dist.put(n, weight);
-                        edgesWeight.put(v.toString() + n, weight);
-                        previouses.put(n, v);
+                    if (Q.contains(n)) {
+                        float weight = dist.get(v) + edgesWeight.get(v.toString() + n);
+                        if (weight < dist.get(n)) {
+                            dist.put(n, weight);
+                            previouses.put(n, v);
+                        }
                     }
                 }
             }
         }
+        return new HashMap[]{dist, previouses};
     }
 
-    private T nodoMin(Graph<T> cloned, T v) {
-        if (cloned.vertexEdges(v) == null) return null;
-        T min = cloned.vertexEdges(v).get(0);
-        for (T k : cloned.vertexEdges(v)) {
-            Float w = edgesWeight.get(v.toString() + k);
-            if (w != null && w < edgesWeight.get(v.toString() + min)) min = k;
+    private T nodoMin(ArrayList<T> Q, HashMap<T, Float> dist) {
+        T min = Q.get(0);
+        for (T k : Q) {
+            Float w = dist.get(k);
+            if (w != null && w < dist.get(min)) {
+                min = k;
+                break;
+            }
         }
         return min;
     }
 
     public Float getWeight(T t, T e) {
         return edgesWeight.get(t.toString() + e);
-    }
-
-    public T getPrevious(T t) {
-        return previouses.get(t);
     }
 
     /**
