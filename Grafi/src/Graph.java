@@ -264,16 +264,14 @@ public class Graph<T> {
         dist.put(t, (float) 0);
         while (!Q.isEmpty()) {
             T v = nodoMin(Q, dist);
-            List<T> neighbours= vertexEdges(v);
+            List<T> neighbours = vertexEdges(v);
             Q.remove(v);
-            if (v != null) {
-                for (T n : neighbours) {
-                    if (Q.contains(n)) {
-                        float weight = dist.get(v) + edgesWeight.get(v.toString() + n);
-                        if (weight < dist.get(n)) {
-                            dist.put(n, weight);
-                            previouses.put(n, v);
-                        }
+            for (T n : neighbours) {
+                if (Q.contains(n)) {
+                    float weight = dist.get(v) + edgesWeight.get(v.toString() + n);
+                    if (weight < dist.get(n)) {
+                        dist.put(n, weight);
+                        previouses.put(n, v);
                     }
                 }
             }
