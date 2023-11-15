@@ -10,7 +10,7 @@ public class Graph<T> {
     private final HashMap<String, Float> edgesWeight = new HashMap<>();
 
     /**
-     * Adds one vertex without edges
+     * Adds one vertex without links
      *
      * @param t the vertex
      */
@@ -19,7 +19,7 @@ public class Graph<T> {
     }
 
     /**
-     * Adds the vertexes and a connection from the first to the second and vice-versa if bidirectional
+     * Adds the nodes and a connection from the first to the second and vice-versa if bidirectional
      *
      * @param t             the first vertex
      * @param e             the second vertex
@@ -36,7 +36,7 @@ public class Graph<T> {
     }
 
     /**
-     * Adds weight to the vertexes connection
+     * Adds weight to the nodes connection
      *
      * @param t             the first vertex
      * @param e             the second vertex
@@ -53,7 +53,7 @@ public class Graph<T> {
     }
 
     /**
-     * Adds the vertexes and edges with the weight to the graph
+     * Adds the nodes and links with the weight to the graph
      *
      * @param t             the first vertex
      * @param e             the second vertex
@@ -66,7 +66,7 @@ public class Graph<T> {
     }
 
     /**
-     * Removes the vertex and the edges pointing to it
+     * Removes the vertex and the links pointing to it
      *
      * @param t the vertex to remove
      */
@@ -97,9 +97,9 @@ public class Graph<T> {
     }
 
     /**
-     * Number of edges, counts bidirectional as two
+     * Number of links, counts bidirectional as two
      *
-     * @return int - number of edges
+     * @return int - number of links
      */
     public int numEdges() {
         T[] keyset = keyset();
@@ -151,28 +151,28 @@ public class Graph<T> {
     }
 
     /**
-     * Gets the maximums of the vertexes
+     * Gets the maximums of the nodes
      *
-     * @return T[] - the vertexes
+     * @return T[] - the nodes
      */
     public T[] maxOrder() {
         return search(true);
     }
 
     /**
-     * Gets the minimums of the vertexes
+     * Gets the minimums of the nodes
      *
-     * @return T[] - the vertexes
+     * @return T[] - the nodes
      */
     public T[] minOrder() {
         return search(false);
     }
 
     /**
-     * Private search for the minimums or maximums of the vertexes
+     * Private search for the minimums or maximums of the nodes
      *
-     * @param sw switch for searching the min or max of the vertexes
-     * @return T[] - an array of the vertexes
+     * @param sw switch for searching the min or max of the nodes
+     * @return T[] - an array of the nodes
      */
     @SuppressWarnings("unchecked")
     private T[] search(boolean sw) {
@@ -188,17 +188,17 @@ public class Graph<T> {
     }
 
     /**
-     * Gets the edges of the vertex specified
+     * Gets the links of the vertex specified
      *
      * @param vertex the vertex
-     * @return List - a list of the edges
+     * @return List - a list of the links
      */
     public List<T> vertexEdges(T vertex) {
         return hm.get(vertex);
     }
 
     /**
-     * Clones given graph by creating another one and adding all vertexes and edges
+     * Clones given graph by creating another one and adding all nodes and links
      *
      * @return Graph - the clone graph
      */
@@ -253,6 +253,11 @@ public class Graph<T> {
         return g;
     }
 
+    /**
+     * Using Dijkstra method, calculate the vertexes distance to a vertex source given
+     * @param t the vertex source
+     * @return HashMap[] - the two hashmaps of distance (index 0) and previouses (index 1)
+     */
     public HashMap[] calcDist(T t) {
         HashMap<T, Float> dist = new HashMap<>();
         HashMap<T, T> previouses = new HashMap<>();
@@ -268,7 +273,8 @@ public class Graph<T> {
             Q.remove(v);
             for (T n : neighbours) {
                 if (Q.contains(n)) {
-                    float weight = dist.get(v) + edgesWeight.get(v.toString() + n);
+                    Float w = edgesWeight.get(v.toString() + n);
+                    float weight = w == null ? 1.0f : dist.get(v) + w;
                     if (weight < dist.get(n)) {
                         dist.put(n, weight);
                         previouses.put(n, v);
@@ -279,6 +285,12 @@ public class Graph<T> {
         return new HashMap[]{dist, previouses};
     }
 
+    /**
+     * Private method to get the minimum vertex out of the ones given
+     * @param Q the ArrayList of vertexes (given by calcDist())
+     * @param dist the HashMap of distances (given by calcDist())
+     * @return T - the vertex with minimum distance
+     */
     private T nodoMin(ArrayList<T> Q, HashMap<T, Float> dist) {
         T min = Q.get(0);
         for (T k : Q) {
@@ -291,15 +303,22 @@ public class Graph<T> {
         return min;
     }
 
+    /**
+     * Get the weight of the edge from vertex t to vertex e
+     * @param t the first vertex
+     * @param e the second vertex
+     * @return Float - the value of the weight, 1 if there isn't weight or if the weight is 1
+     */
     public Float getWeight(T t, T e) {
-        return edgesWeight.get(t.toString() + e);
+        Float w = edgesWeight.get(t.toString() + e);
+        return w == null ? 1.0f : w;
     }
 
     /**
      * Check if graph equals another graph
      *
      * @param o the graph object
-     * @return boolean - if the graphs have the same vertexes and edges
+     * @return boolean - if the graphs have the same nodes and links
      */
     @Override
     @SuppressWarnings("unchecked")
@@ -309,9 +328,8 @@ public class Graph<T> {
             boolean equals = true;
             for (T key : keyset()) {
                 equals = Arrays.stream(oCasted.keyset()).toList().contains(key);
-                if (equals) {
-                    equals = vertexEdges(key).equals(oCasted.vertexEdges(key));
-                } else break;
+                if (!equals) break;
+                equals = vertexEdges(key).equals(oCasted.vertexEdges(key));
                 if (!equals) break;
             }
             return equals;
