@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.List;
 
 public class JsonGraph<T> {
@@ -16,8 +17,11 @@ public class JsonGraph<T> {
     private void createVertexes(Graph<T> graph) {
         int f = 0;
         T[] ver = (T[]) graph.vertexes();
+        HashMap dist = graph.BellmanFord(ver[0])[0];
+        int group = 1;
         for (T v : ver) {
-            nodes[f] = new vertex<T>(v, graph.vertexEdges(v).size());
+            if (dist.get(v).equals(Float.NEGATIVE_INFINITY)) nodes[f] = new vertex<>(v, 2);
+            else nodes[f] = new vertex<>(v, 1);
             f++;
         }
     }

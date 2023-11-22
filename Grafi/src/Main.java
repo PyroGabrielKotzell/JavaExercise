@@ -9,10 +9,10 @@ public class Main {
 
         // add with weight
         graph.addWithWeight(1, 2, 1, true);
-        graph.addWithWeight(1, 4, 4, true);
+        graph.addWithWeight(1, 4, 4, false);
         graph.addWithWeight(1, 5, 2, true);
-        graph.addWithWeight(2, 4, 2, true);
-        graph.addWithWeight(2, 5, 5, true);
+        graph.addWithWeight(2, 4, 2, false);
+        graph.addWithWeight(2, 5, 5, false);
         graph.addWithWeight(4, 5, 6, true);
         graph.addWithWeight(5, 7, 2, false);
         graph.addWithWeight(7, 8, 2, false);

@@ -235,7 +235,7 @@ public class Graph<T> {
      */
     @SuppressWarnings("unchecked")
     private Graph<T>[] cliquesSearch(T[] keyset, ArrayList<Graph<T>> cliques, Graph<T> currentClique, int min) {
-        if (currentClique.keyset().length == min && currentClique.isConnected()) {
+        if (currentClique.keyset().length == min) {
             Graph<T>[] g = new Graph[1];
             g[0] = currentClique;
             return g;
