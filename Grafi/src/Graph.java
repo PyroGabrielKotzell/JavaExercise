@@ -255,10 +255,11 @@ public class Graph<T> {
 
     /**
      * Using Dijkstra method, calculate the vertexes distance to a vertex source given
+     *
      * @param t the vertex source
      * @return HashMap[] - the two hashmaps of distance (index 0) and previouses (index 1)
      */
-    public HashMap[] calcDist(T t) {
+    public HashMap[] Dijkstra(T t) {
         HashMap<T, Float> dist = new HashMap<>();
         HashMap<T, T> previouses = new HashMap<>();
         ArrayList<T> Q = new ArrayList<>(List.of(keyset().clone()));
@@ -266,7 +267,7 @@ public class Graph<T> {
             dist.put(v, Float.POSITIVE_INFINITY);
             previouses.put(v, null);
         }
-        dist.put(t, (float) 0);
+        dist.put(t, 0f);
         while (!Q.isEmpty()) {
             T v = nodoMin(Q, dist);
             List<T> neighbours = vertexEdges(v);
@@ -286,8 +287,46 @@ public class Graph<T> {
     }
 
     /**
+     * Using Bellman Ford method, calculate the vertexes distance to a vertex source given
+     *
+     * @param t the vertex source
+     * @return HashMap[] - the two hashmaps of distance (index 0) and previouses (index 1)
+     */
+    public HashMap[] BellmanFord(T t) {
+        HashMap<T, Float> dist = new HashMap<>();
+        HashMap<T, T> previouses = new HashMap<>();
+        ArrayList<T> Q = new ArrayList<>(List.of(keyset().clone()));
+        for (T v : Q) {
+            dist.put(v, Float.POSITIVE_INFINITY);
+            previouses.put(v, null);
+        }
+        dist.put(t, 0f);
+        for (int f = 0; f < keyset().length-1; f++) {
+            for (T i : keyset()) {
+                for (T j : vertexEdges(i)) {
+                    if (dist.get(j) > dist.get(i) + getWeight(i, j)) {
+                        dist.put(j, dist.get(i) + getWeight(i, j));
+                        previouses.put(j, i);
+                    }
+                }
+            }
+        }
+
+        for (T i : keyset()) {
+            for (T j : vertexEdges(i)) {
+                if (dist.get(j) > dist.get(i) + getWeight(i, j)) {
+                    dist.put(j, Float.NEGATIVE_INFINITY);
+                    previouses.put(j, null);
+                }
+            }
+        }
+        return new HashMap[]{dist, previouses};
+    }
+
+    /**
      * Private method to get the minimum vertex out of the ones given
-     * @param Q the ArrayList of vertexes (given by calcDist())
+     *
+     * @param Q    the ArrayList of vertexes (given by calcDist())
      * @param dist the HashMap of distances (given by calcDist())
      * @return T - the vertex with minimum distance
      */
@@ -305,6 +344,7 @@ public class Graph<T> {
 
     /**
      * Get the weight of the edge from vertex t to vertex e
+     *
      * @param t the first vertex
      * @param e the second vertex
      * @return Float - the value of the weight, 1 if there isn't weight or if the weight is 1

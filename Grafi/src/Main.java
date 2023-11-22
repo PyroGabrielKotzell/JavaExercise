@@ -14,6 +14,9 @@ public class Main {
         graph.addWithWeight(2, 4, 2, true);
         graph.addWithWeight(2, 5, 5, true);
         graph.addWithWeight(4, 5, 6, true);
+        graph.addWithWeight(5, 7, 2, false);
+        graph.addWithWeight(7, 8, 2, false);
+        graph.addWithWeight(8, 7, -3, false);
 
         //graph.addVertex(8);
 
@@ -44,7 +47,7 @@ public class Main {
         }
 
         // hashmaps with distance and previouses of the vertexes by a vertex of source
-        HashMap[] h = graph.calcDist(1);
+        HashMap[] h = graph.BellmanFord(1);
         HashMap dist = h[0];
         HashMap prev = h[1];
 
