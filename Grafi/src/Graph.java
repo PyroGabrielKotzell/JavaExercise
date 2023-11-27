@@ -134,12 +134,14 @@ public class Graph<T> {
                 if (!tmp.containsKey(key)) {
                     for (int i = 0; i < tmp.size(); i++) {
                         if (vertexEdges(key).contains(tmp.keySet().toArray()[i])) {
-                            tmp.put(vertexEdges(key).get(i), null);
                             tmp.put(key, null);
+                            for (int j = 0; j < vertexEdges(key).size(); j++) {
+                                tmp.put(vertexEdges(key).get(j), null);
+                            }
+                            break;
                         }
                     }
                 } else {
-                    tmp.put(key, null);
                     for (int i = 0; i < vertexEdges(key).size(); i++) {
                         tmp.put(vertexEdges(key).get(i), null);
                     }
@@ -259,7 +261,7 @@ public class Graph<T> {
      * @param t the vertex source
      * @return HashMap[] - the two hashmaps of distance (index 0) and previouses (index 1)
      */
-    public HashMap[] Dijkstra(T t) {
+    public HashMap[] dijkstra(T t) {
         HashMap<T, Float> dist = new HashMap<>();
         HashMap<T, T> previouses = new HashMap<>();
         ArrayList<T> Q = new ArrayList<>(List.of(keyset().clone()));
@@ -269,7 +271,7 @@ public class Graph<T> {
         }
         dist.put(t, 0f);
         while (!Q.isEmpty()) {
-            T v = nodoMin(Q, dist);
+            T v = minDist(Q, dist);
             List<T> neighbours = vertexEdges(v);
             Q.remove(v);
             for (T n : neighbours) {
@@ -292,7 +294,7 @@ public class Graph<T> {
      * @param t the vertex source
      * @return HashMap[] - the two hashmaps of distance (index 0) and previouses (index 1)
      */
-    public HashMap[] BellmanFord(T t) {
+    public HashMap[] bellmanFord(T t) {
         HashMap<T, Float> dist = new HashMap<>();
         HashMap<T, T> previouses = new HashMap<>();
         ArrayList<T> Q = new ArrayList<>(List.of(keyset().clone()));
@@ -301,7 +303,7 @@ public class Graph<T> {
             previouses.put(v, null);
         }
         dist.put(t, 0f);
-        for (int f = 0; f < keyset().length-1; f++) {
+        for (int f = 0; f < keyset().length - 1; f++) {
             for (T i : keyset()) {
                 for (T j : vertexEdges(i)) {
                     if (dist.get(j) > dist.get(i) + getWeight(i, j)) {
@@ -324,13 +326,56 @@ public class Graph<T> {
     }
 
     /**
-     * Private method to get the minimum vertex out of the ones given
+     * Using Kruskal, gives a new graph, it being the minimum spanning tree of this graph
+     *
+     * @return Graph - the graph representing the minimum spanning tree of this graph
+     */
+    public Graph<T> kruskal() {
+        Graph<T> graph = new Graph<>();
+        Float[] tmp = new Float[edgesWeight.size()];
+        edgesWeight.values().toArray(tmp);
+        Arrays.sort(tmp);
+
+        LinkedList<T[]> edges = sortEdges(tmp);
+
+        for (T key : keyset()) {
+            graph.addVertex(key);
+        }
+
+        for (T[] i : edges) {
+            boolean b = false;
+            if (!graph.vertexEdges(i[0]).contains(i[1])) {
+                graph.add(i[0], i[1], true);
+            }
+        }
+        return graph;
+    }
+
+    @SuppressWarnings("unchecked")
+    private LinkedList<T[]> sortEdges(Float[] tmp) {
+        LinkedList<T[]> edges = new LinkedList<>();
+        int f = 0;
+        while (edges.size() != tmp.length) {
+            for (T i : keyset()) {
+                for (T j : vertexEdges(i)) {
+                    if (edgesWeight.get(i.toString() + j).equals(tmp[f])) {
+                        edges.add((T[]) new Object[]{i, j});
+                        f++;
+                    }
+                }
+            }
+        }
+        return edges;
+    }
+
+    /**
+     * Private method to get the vertex with minimum distance out of the ones given
      *
      * @param Q    the ArrayList of vertexes (given by calcDist())
      * @param dist the HashMap of distances (given by calcDist())
      * @return T - the vertex with minimum distance
      */
-    private T nodoMin(ArrayList<T> Q, HashMap<T, Float> dist) {
+    private T minDist(ArrayList<T> Q, HashMap<T, Float> dist) {
         T min = Q.get(0);
         for (T k : Q) {
             Float w = dist.get(k);

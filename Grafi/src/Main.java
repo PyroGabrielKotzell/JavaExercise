@@ -7,16 +7,13 @@ public class Main {
         // new graph
         Graph<Integer> graph = new Graph<>();
 
-        // add with weight
-        graph.addWithWeight(1, 2, 1, true);
-        graph.addWithWeight(1, 4, 4, false);
-        graph.addWithWeight(1, 5, 2, true);
-        graph.addWithWeight(2, 4, 2, false);
-        graph.addWithWeight(2, 5, 5, false);
-        graph.addWithWeight(4, 5, 6, true);
-        graph.addWithWeight(5, 7, 2, false);
-        graph.addWithWeight(7, 8, 2, false);
-        graph.addWithWeight(8, 7, -3, false);
+        // add vertexes automatically
+        int exponent = 11;
+        for (int i = 0; i < exponent*3; i++) {
+            int w = (int) (Math.random()*2) < 1 ? -1 : 1;
+            w = 1;
+            graph.addWithWeight((int) (Math.random()*exponent), (int) (Math.random()*exponent), (int) (Math.random()*exponent)*w, false);
+        }
 
         //graph.addVertex(8);
 
@@ -39,15 +36,15 @@ public class Main {
         System.out.println("is connected: " + graph.isConnected());
 
         // minimum length the clique needs to have to be returned
-        int n = graph.vertexes().length - 1;
+        int cliqMinLen = graph.vertexes().length - 1;
 
         // out of the cliques
-        for (Graph<Integer> clique : graph.getCliques(n)) {
+        /*for (Graph<Integer> clique : graph.getCliques(cliqMinLen)) {
             System.out.println("clique: " + clique);
-        }
+        }*/
 
         // hashmaps with distance and previouses of the vertexes by a vertex of source
-        HashMap[] h = graph.BellmanFord(1);
+        HashMap[] h = graph.bellmanFord((Integer) graph.vertexes()[0]);
         HashMap dist = h[0];
         HashMap prev = h[1];
 
@@ -61,6 +58,8 @@ public class Main {
 
         // class to translate a graph to a json graph
         JsonGraph<Integer> jsonGraph = new JsonGraph<>(graph);
+
+        graph.kruskal();
 
         // out of the json graph using the gson toJson method
         GestoreFiles g = new GestoreFiles("./graph.json");
