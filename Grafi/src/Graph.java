@@ -351,6 +351,11 @@ public class Graph<T> {
         return graph;
     }
 
+    /**
+     * Sorts edges based on their weight
+     * @param tmp the weight of the edges sorted
+     * @return LinkedList - a list of the edges
+     */
     @SuppressWarnings("unchecked")
     private LinkedList<T[]> sortEdges(Float[] tmp) {
         LinkedList<T[]> edges = new LinkedList<>();
