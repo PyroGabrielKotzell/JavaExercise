@@ -7,16 +7,16 @@ public class JsonGraph<T> {
 
     @SuppressWarnings("unchecked")
     JsonGraph(Graph<T> graph) {
-        nodes = new vertex[graph.vertexes().length];
+        nodes = new vertex[graph.getVertexes().length];
         createVertexes(graph);
-        links = new edge[graph.numEdges()];
+        links = new edge[graph.getNumEdges()];
         createEdges(graph);
     }
 
     @SuppressWarnings("unchecked")
     private void createVertexes(Graph<T> graph) {
         int f = 0;
-        T[] ver = (T[]) graph.vertexes();
+        T[] ver = (T[]) graph.getVertexes();
         HashMap dist = graph.bellmanFord(ver[0])[0];
         int group = 1;
         for (T v : ver) {
@@ -30,7 +30,7 @@ public class JsonGraph<T> {
         int f = 0;
         for (vertex<T> V : nodes) {
             T v = V.getId();
-            List<T> l = graph.vertexEdges(v);
+            List<T> l = graph.getEdges(v);
             for (T t : l) {
                 links[f] = new edge<>(v, t, graph.getWeight(v, t));
                 f++;

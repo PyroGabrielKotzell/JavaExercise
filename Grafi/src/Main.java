@@ -15,13 +15,15 @@ public class Main {
             graph.addWithWeight((int) (Math.random()*exponent), (int) (Math.random()*exponent), (int) (Math.random()*exponent)*w, false);
         }
 
+        System.out.println(graph.areConnected(1, 2));
+
         //graph.addVertex(8);
 
         // out of the graph
         System.out.println(graph);
 
         // the nnumber of edges
-        System.out.println("links number: " + graph.numEdges());
+        System.out.println("links number: " + graph.getNumEdges());
 
         // is fully connected
         System.out.println("is fully connected: " + graph.isFullyConnected());
@@ -36,7 +38,7 @@ public class Main {
         System.out.println("is connected: " + graph.isConnected());
 
         // minimum length the clique needs to have to be returned
-        int cliqMinLen = graph.vertexes().length - 1;
+        int cliqMinLen = graph.getVertexes().length - 1;
 
         // out of the cliques
         /*for (Graph<Integer> clique : graph.getCliques(cliqMinLen)) {
@@ -44,12 +46,12 @@ public class Main {
         }*/
 
         // hashmaps with distance and previouses of the vertexes by a vertex of source
-        HashMap[] h = graph.bellmanFord((Integer) graph.vertexes()[0]);
+        HashMap[] h = graph.bellmanFord((Integer) graph.getVertexes()[0]);
         HashMap dist = h[0];
         HashMap prev = h[1];
 
         // out of the distance and previouses
-        for (Object t : graph.vertexes()) {
+        for (Object t : graph.getVertexes()) {
             System.out.println("n=" + t + " d=" + dist.get(t) + " p=" + prev.get(t));
         }
 

@@ -19,6 +19,18 @@ public class Graph<T> {
     }
 
     /**
+     * Removes the vertex and the links pointing to it
+     *
+     * @param t the vertex to remove
+     */
+    public void removeVertex(T t) {
+        hm.remove(t);
+        for (T key : keyset()) {
+            getEdges(key).remove(t);
+        }
+    }
+
+    /**
      * Adds the nodes and a connection from the first to the second and vice-versa if bidirectional
      *
      * @param t             the first vertex
@@ -26,13 +38,13 @@ public class Graph<T> {
      * @param bidirectional if the edge is both ways
      */
     public void add(T t, T e, boolean bidirectional) {
-        if (hm.containsKey(t)) vertexEdges(t).add(e);
+        if (hm.containsKey(t)) getEdges(t).add(e);
         else {
             hm.put(t, new LinkedList<>());
-            vertexEdges(t).add(e);
+            getEdges(t).add(e);
         }
         if (!hm.containsKey(e)) hm.put(e, new LinkedList<>());
-        if (bidirectional) vertexEdges(e).add(t);
+        if (bidirectional) getEdges(e).add(t);
     }
 
     /**
@@ -66,19 +78,7 @@ public class Graph<T> {
     }
 
     /**
-     * Removes the vertex and the links pointing to it
-     *
-     * @param t the vertex to remove
-     */
-    public void removeVertex(T t) {
-        hm.remove(t);
-        for (T key : keyset()) {
-            vertexEdges(key).remove(t);
-        }
-    }
-
-    /**
-     * Keyset of the HashMap
+     * Returns the keyset of the HashMap
      *
      * @return T[] - the keyset
      */
@@ -88,11 +88,11 @@ public class Graph<T> {
     }
 
     /**
-     * Vertexes of the Graph
+     * Returns the vertexes of the Graph
      *
      * @return Object[] - as the type parameter is lost at runtime
      */
-    public Object[] vertexes() {
+    public Object[] getVertexes() {
         return hm.keySet().toArray();
     }
 
@@ -101,11 +101,11 @@ public class Graph<T> {
      *
      * @return int - number of links
      */
-    public int numEdges() {
+    public int getNumEdges() {
         T[] keyset = keyset();
         int arch = 0;
         for (int i = 0; i < hm.size(); i++) {
-            arch = arch + vertexEdges(keyset[i]).size();
+            arch = arch + getEdges(keyset[i]).size();
         }
         return arch;
     }
@@ -117,7 +117,7 @@ public class Graph<T> {
      */
     public boolean isFullyConnected() {
         int l = keyset().length;
-        return numEdges() >= (l * (l - 1));
+        return getNumEdges() >= (l * (l - 1));
     }
 
     /**
@@ -133,17 +133,17 @@ public class Graph<T> {
             for (T key : keyset()) {
                 if (!tmp.containsKey(key)) {
                     for (int i = 0; i < tmp.size(); i++) {
-                        if (vertexEdges(key).contains(tmp.keySet().toArray()[i])) {
+                        if (getEdges(key).contains(tmp.keySet().toArray()[i])) {
                             tmp.put(key, null);
-                            for (int j = 0; j < vertexEdges(key).size(); j++) {
-                                tmp.put(vertexEdges(key).get(j), null);
+                            for (int j = 0; j < getEdges(key).size(); j++) {
+                                tmp.put(getEdges(key).get(j), null);
                             }
                             break;
                         }
                     }
                 } else {
-                    for (int i = 0; i < vertexEdges(key).size(); i++) {
-                        tmp.put(vertexEdges(key).get(i), null);
+                    for (int i = 0; i < getEdges(key).size(); i++) {
+                        tmp.put(getEdges(key).get(i), null);
                     }
                 }
             }
@@ -178,42 +178,15 @@ public class Graph<T> {
      */
     @SuppressWarnings("unchecked")
     private T[] search(boolean sw) {
-        int n = vertexEdges(keyset()[0]).size();
+        int n = getEdges(keyset()[0]).size();
         ArrayList<T> nodes = new ArrayList<>();
         for (T key : keyset()) {
             if (sw) {
-                if (vertexEdges(key).size() > n) n = vertexEdges(key).size();
-            } else if (vertexEdges(key).size() < n) n = vertexEdges(key).size();
+                if (getEdges(key).size() > n) n = getEdges(key).size();
+            } else if (getEdges(key).size() < n) n = getEdges(key).size();
         }
-        for (T key : keyset()) if (vertexEdges(key).size() == n) nodes.add(key);
+        for (T key : keyset()) if (getEdges(key).size() == n) nodes.add(key);
         return (T[]) nodes.toArray();
-    }
-
-    /**
-     * Gets the links of the vertex specified
-     *
-     * @param vertex the vertex
-     * @return List - a list of the links
-     */
-    public List<T> vertexEdges(T vertex) {
-        return hm.get(vertex);
-    }
-
-    /**
-     * Clones given graph by creating another one and adding all nodes and links
-     *
-     * @return Graph - the clone graph
-     */
-    @Override
-    @SuppressWarnings("super")
-    public Graph<T> clone() {
-        Graph<T> newGraph = new Graph<>();
-        for (T key : keyset()) {
-            for (int i = 0; i < vertexEdges(key).size(); i++) {
-                newGraph.add(key, vertexEdges(key).get(i), false);
-            }
-        }
-        return newGraph;
     }
 
     /**
@@ -272,7 +245,7 @@ public class Graph<T> {
         dist.put(t, 0f);
         while (!Q.isEmpty()) {
             T v = minDist(Q, dist);
-            List<T> neighbours = vertexEdges(v);
+            List<T> neighbours = getEdges(v);
             Q.remove(v);
             for (T n : neighbours) {
                 if (Q.contains(n)) {
@@ -286,6 +259,25 @@ public class Graph<T> {
             }
         }
         return new HashMap[]{dist, previouses};
+    }
+
+    /**
+     * Private method to get the vertex with minimum distance out of the ones given
+     *
+     * @param Q    the ArrayList of vertexes (given by calcDist())
+     * @param dist the HashMap of distances (given by calcDist())
+     * @return T - the vertex with minimum distance
+     */
+    private T minDist(ArrayList<T> Q, HashMap<T, Float> dist) {
+        T min = Q.get(0);
+        for (T k : Q) {
+            Float w = dist.get(k);
+            if (w != null && w < dist.get(min)) {
+                min = k;
+                break;
+            }
+        }
+        return min;
     }
 
     /**
@@ -305,7 +297,7 @@ public class Graph<T> {
         dist.put(t, 0f);
         for (int f = 0; f < keyset().length - 1; f++) {
             for (T i : keyset()) {
-                for (T j : vertexEdges(i)) {
+                for (T j : getEdges(i)) {
                     if (dist.get(j) > dist.get(i) + getWeight(i, j)) {
                         dist.put(j, dist.get(i) + getWeight(i, j));
                         previouses.put(j, i);
@@ -315,7 +307,7 @@ public class Graph<T> {
         }
 
         for (T i : keyset()) {
-            for (T j : vertexEdges(i)) {
+            for (T j : getEdges(i)) {
                 if (dist.get(j) > dist.get(i) + getWeight(i, j)) {
                     dist.put(j, Float.NEGATIVE_INFINITY);
                     previouses.put(j, null);
@@ -344,7 +336,7 @@ public class Graph<T> {
 
         for (T[] i : edges) {
             boolean b = false;
-            if (!graph.vertexEdges(i[0]).contains(i[1])) {
+            if (!graph.areConnected(i[0], i[1])) {
                 graph.add(i[0], i[1], true);
             }
         }
@@ -353,6 +345,7 @@ public class Graph<T> {
 
     /**
      * Sorts edges based on their weight
+     *
      * @param tmp the weight of the edges sorted
      * @return LinkedList - a list of the edges
      */
@@ -362,7 +355,7 @@ public class Graph<T> {
         int f = 0;
         while (edges.size() != tmp.length) {
             for (T i : keyset()) {
-                for (T j : vertexEdges(i)) {
+                for (T j : getEdges(i)) {
                     if (edgesWeight.get(i.toString() + j).equals(tmp[f])) {
                         edges.add((T[]) new Object[]{i, j});
                         f++;
@@ -373,23 +366,36 @@ public class Graph<T> {
         return edges;
     }
 
-    /**
-     * Private method to get the vertex with minimum distance out of the ones given
-     *
-     * @param Q    the ArrayList of vertexes (given by calcDist())
-     * @param dist the HashMap of distances (given by calcDist())
-     * @return T - the vertex with minimum distance
-     */
-    private T minDist(ArrayList<T> Q, HashMap<T, Float> dist) {
-        T min = Q.get(0);
-        for (T k : Q) {
-            Float w = dist.get(k);
-            if (w != null && w < dist.get(min)) {
-                min = k;
-                break;
+    public boolean areConnected(T t, T e) {
+        if (getEdges(t).isEmpty() && getEdges(e).isEmpty()) return false;
+        if (getEdges(t).contains(e) || getEdges(e).contains(t)) return true;
+        if (!getEdges(t).isEmpty()) {
+            for (T k : getEdges(t)) {
+                //if (!k.equals(t))
+                    //return areConnected(k, e);
             }
-        }
-        return min;
+        } else return true;
+        return false;
+    }
+
+    /**
+     * Checks if vertex exist
+     *
+     * @param t the vertex
+     * @return boolean - if the vertex exists
+     */
+    public boolean exists(T t) {
+        return hm.containsKey(t);
+    }
+
+    /**
+     * Gets the links of the vertex specified
+     *
+     * @param vertex the vertex
+     * @return List - a list of the links
+     */
+    public List<T> getEdges(T vertex) {
+        return hm.get(vertex);
     }
 
     /**
@@ -419,11 +425,28 @@ public class Graph<T> {
             for (T key : keyset()) {
                 equals = Arrays.stream(oCasted.keyset()).toList().contains(key);
                 if (!equals) break;
-                equals = vertexEdges(key).equals(oCasted.vertexEdges(key));
+                equals = getEdges(key).equals(oCasted.getEdges(key));
                 if (!equals) break;
             }
             return equals;
         } else return false;
+    }
+
+    /**
+     * Clones given graph by creating another one and adding all nodes and links
+     *
+     * @return Graph - the clone graph
+     */
+    @Override
+    @SuppressWarnings("super")
+    public Graph<T> clone() {
+        Graph<T> newGraph = new Graph<>();
+        for (T key : keyset()) {
+            for (int i = 0; i < getEdges(key).size(); i++) {
+                newGraph.add(key, getEdges(key).get(i), false);
+            }
+        }
+        return newGraph;
     }
 
     /**
@@ -433,15 +456,5 @@ public class Graph<T> {
      */
     public String toString() {
         return hm.toString();
-    }
-
-    /**
-     * Checks if vertex exist
-     *
-     * @param t the vertex
-     * @return boolean - if the vertex exists
-     */
-    public boolean exists(T t) {
-        return hm.containsKey(t);
     }
 }
