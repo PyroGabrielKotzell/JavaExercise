@@ -327,13 +327,11 @@ public class Graph<T> {
     public Graph<T> kruskal() {
         Graph<T> graph = new Graph<>();
         List<String> edges = new ArrayList<>(edgesWeight.keySet().stream().toList());
-
         edges.sort(Comparator.comparing(edgesWeight::get));
 
         for (T key : keyset()) {
             graph.addVertex(key);
         }
-
         for (String s : edges) {
             T[] i = (T[])s.split(" ");
             if (!graph.areConnected(i[0], i[1])) {
