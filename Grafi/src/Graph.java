@@ -331,7 +331,7 @@ public class Graph<T> {
             graph.addVertex(key);
         }
         for (String s : edges) {
-            keyset()
+            Arrays.stream(keyset()).toList().forEach(e -> e.toString() == s.split(" ")[0]);
 
             if (!graph.areConnected(i[0], i[1])) {
                 graph.add(i[0], i[1], true);
