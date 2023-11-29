@@ -1,6 +1,4 @@
-import javax.swing.*;
 import java.util.*;
-import java.util.function.Consumer;
 
 /**
  * Graph class for creating and using graphs using HashMaps and Lists as data structures
@@ -333,7 +331,8 @@ public class Graph<T> {
             graph.addVertex(key);
         }
         for (String s : edges) {
-            T[] i = (T[])s.split(" ");
+            keyset()
+
             if (!graph.areConnected(i[0], i[1])) {
                 graph.add(i[0], i[1], true);
             }
