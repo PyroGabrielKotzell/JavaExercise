@@ -1,4 +1,6 @@
+import javax.swing.*;
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * Graph class for creating and using graphs using HashMaps and Lists as data structures
@@ -158,7 +160,7 @@ public class Graph<T> {
      * @return T[] - the nodes
      */
     public T[] maxOrder() {
-        return search(true);
+        return searchOrder(true);
     }
 
     /**
@@ -167,7 +169,7 @@ public class Graph<T> {
      * @return T[] - the nodes
      */
     public T[] minOrder() {
-        return search(false);
+        return searchOrder(false);
     }
 
     /**
@@ -177,7 +179,7 @@ public class Graph<T> {
      * @return T[] - an array of the nodes
      */
     @SuppressWarnings("unchecked")
-    private T[] search(boolean sw) {
+    private T[] searchOrder(boolean sw) {
         int n = getEdges(keyset()[0]).size();
         ArrayList<T> nodes = new ArrayList<>();
         for (T key : keyset()) {
@@ -327,7 +329,6 @@ public class Graph<T> {
         Float[] tmp = new Float[edgesWeight.size()];
         edgesWeight.values().toArray(tmp);
         Arrays.sort(tmp);
-
         LinkedList<T[]> edges = sortEdges(tmp);
 
         for (T key : keyset()) {
@@ -335,7 +336,6 @@ public class Graph<T> {
         }
 
         for (T[] i : edges) {
-            boolean b = false;
             if (!graph.areConnected(i[0], i[1])) {
                 graph.add(i[0], i[1], true);
             }
@@ -352,13 +352,16 @@ public class Graph<T> {
     @SuppressWarnings("unchecked")
     private LinkedList<T[]> sortEdges(Float[] tmp) {
         LinkedList<T[]> edges = new LinkedList<>();
-        int f = 0;
+        edges.sort(Comparator.comparingDouble(tmp::indexOf));
         while (edges.size() != tmp.length) {
             for (T i : keyset()) {
                 for (T j : getEdges(i)) {
-                    if (edgesWeight.get(i.toString() + j).equals(tmp[f])) {
-                        edges.add((T[]) new Object[]{i, j});
-                        f++;
+                    final boolean[] tmp2 = {false};
+                    edges.forEach(ts -> tmp2[0] = tmp2[0] || Arrays.equals(ts, new Object[]{i, j}));
+                    if (!tmp2[0]) {
+                        if (edgesWeight.get(i.toString() + j).equals(tmp[edges.size()])) {
+                            edges.add((T[]) new Object[]{i, j});
+                        }
                     }
                 }
             }
@@ -368,13 +371,27 @@ public class Graph<T> {
 
     public boolean areConnected(T t, T e) {
         if (getEdges(t).isEmpty() && getEdges(e).isEmpty()) return false;
-        if (getEdges(t).contains(e) || getEdges(e).contains(t)) return true;
-        if (!getEdges(t).isEmpty()) {
-            for (T k : getEdges(t)) {
-                //if (!k.equals(t))
-                    //return areConnected(k, e);
+        ArrayList<T> tmp = new ArrayList<>();
+        tmp.add(t);
+        tmp.add(e);
+        T f = t;
+        T prev = null;
+        while (tmp.size() < getNumEdges()) {
+            if (!getEdges(f).isEmpty()) {
+                prev = f;
+                if (getEdges(f).contains(e)) return true;
+                for (T k : getEdges(f)) {
+                    if (!tmp.contains(k)) {
+                        tmp.add(k);
+                        f = k;
+                        break;
+                    }
+                }
+            } else {
+                f = prev == null ? e : prev;
+                prev = null;
             }
-        } else return true;
+        }
         return false;
     }
 

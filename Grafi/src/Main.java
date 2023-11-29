@@ -12,10 +12,8 @@ public class Main {
         for (int i = 0; i < exponent*3; i++) {
             int w = (int) (Math.random()*2) < 1 ? -1 : 1;
             w = 1;
-            graph.addWithWeight((int) (Math.random()*exponent), (int) (Math.random()*exponent), (int) (Math.random()*exponent)*w, false);
+            graph.addWithWeight((int) (Math.random()*exponent), (int) (Math.random()*exponent),  (int)(Math.random()*exponent)*w, false);
         }
-
-        System.out.println(graph.areConnected(1, 2));
 
         //graph.addVertex(8);
 
@@ -61,7 +59,7 @@ public class Main {
         // class to translate a graph to a json graph
         JsonGraph<Integer> jsonGraph = new JsonGraph<>(graph);
 
-        graph.kruskal();
+        System.out.println(graph.kruskal());
 
         // out of the json graph using the gson toJson method
         GestoreFiles g = new GestoreFiles("./graph.json");
