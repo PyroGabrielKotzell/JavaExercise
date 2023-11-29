@@ -60,8 +60,8 @@ public class Graph<T> {
      */
     public boolean addWeight(T t, T e, float weight, boolean bidirectional) {
         if (hm.containsKey(t) && hm.containsKey(e)) {
-            edgesWeight.put(t.toString() + e, weight);
-            if (bidirectional) edgesWeight.put(e.toString() + t, weight);
+            edgesWeight.put(t + " " + e, weight);
+            if (bidirectional) edgesWeight.put(e + " " + t, weight);
             return true;
         } else return false;
     }
@@ -251,7 +251,7 @@ public class Graph<T> {
             Q.remove(v);
             for (T n : neighbours) {
                 if (Q.contains(n)) {
-                    Float w = edgesWeight.get(v.toString() + n);
+                    Float w = edgesWeight.get(v + " " + n);
                     float weight = w == null ? 1.0f : dist.get(v) + w;
                     if (weight < dist.get(n)) {
                         dist.put(n, weight);
@@ -326,47 +326,21 @@ public class Graph<T> {
      */
     public Graph<T> kruskal() {
         Graph<T> graph = new Graph<>();
-        Float[] tmp = new Float[edgesWeight.size()];
-        edgesWeight.values().toArray(tmp);
-        Arrays.sort(tmp);
-        LinkedList<T[]> edges = sortEdges(tmp);
+        List<String> edges = new ArrayList<>(edgesWeight.keySet().stream().toList());
+
+        edges.sort(Comparator.comparing(edgesWeight::get));
 
         for (T key : keyset()) {
             graph.addVertex(key);
         }
 
-        for (T[] i : edges) {
+        for (String s : edges) {
+            T[] i = (T[])s.split(" ");
             if (!graph.areConnected(i[0], i[1])) {
                 graph.add(i[0], i[1], true);
             }
         }
         return graph;
-    }
-
-    /**
-     * Sorts edges based on their weight
-     *
-     * @param tmp the weight of the edges sorted
-     * @return LinkedList - a list of the edges
-     */
-    @SuppressWarnings("unchecked")
-    private LinkedList<T[]> sortEdges(Float[] tmp) {
-        LinkedList<T[]> edges = new LinkedList<>();
-        edges.sort(Comparator.comparingDouble(tmp::indexOf));
-        while (edges.size() != tmp.length) {
-            for (T i : keyset()) {
-                for (T j : getEdges(i)) {
-                    final boolean[] tmp2 = {false};
-                    edges.forEach(ts -> tmp2[0] = tmp2[0] || Arrays.equals(ts, new Object[]{i, j}));
-                    if (!tmp2[0]) {
-                        if (edgesWeight.get(i.toString() + j).equals(tmp[edges.size()])) {
-                            edges.add((T[]) new Object[]{i, j});
-                        }
-                    }
-                }
-            }
-        }
-        return edges;
     }
 
     public boolean areConnected(T t, T e) {
@@ -423,7 +397,7 @@ public class Graph<T> {
      * @return Float - the value of the weight, 1 if there isn't weight or if the weight is 1
      */
     public Float getWeight(T t, T e) {
-        Float w = edgesWeight.get(t.toString() + e);
+        Float w = edgesWeight.get(t + " " + e);
         return w == null ? 1.0f : w;
     }
 
