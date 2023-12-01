@@ -59,15 +59,17 @@ public class Main {
         // class to translate a graph to a json graph
         JsonGraph<Integer> jsonGraph = new JsonGraph<>(graph);
 
-        graph.kruskal();
-
         // out of the json graph using the gson toJson method
         GestoreFiles g = new GestoreFiles("./graph.json");
         g.createFile();
         g.open();
-        String s = gson.toJson(jsonGraph).replaceAll("},", "},\n").replaceAll("],", "],\n");
-        s = s.replaceAll("\\[", "[\n");
-        g.write(s);
+        g.write(gson.toJson(jsonGraph));
+        g.close();
+        jsonGraph = new JsonGraph<>(graph.kruskal());
+        g = new GestoreFiles("./graphK.json");
+        g.createFile();
+        g.open();
+        g.write(gson.toJson(jsonGraph));
         g.close();
     }
 }
