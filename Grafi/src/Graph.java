@@ -331,36 +331,37 @@ public class Graph<T> {
             graph.addVertex(key);
         }
         for (String s : edges) {
-            Arrays.stream(keyset()).toList().forEach(e -> e.toString() == s.split(" ")[0]);
-
-            if (!graph.areConnected(i[0], i[1])) {
-                graph.add(i[0], i[1], true);
+            T i1 = Arrays.stream(keyset()).filter(e ->
+                    e.toString().equals(s.split(" ")[0])).findFirst().get();
+            T i2 = Arrays.stream(keyset()).filter(e ->
+                    e.toString().equals(s.split(" ")[1])).findFirst().get();
+            if (!graph.areConnected(i1, i2) && !graph.areConnected(i2, i1)) {
+                graph.add(i1, i2, true);
             }
         }
         return graph;
     }
 
     public boolean areConnected(T t, T e) {
-        if (getEdges(t).isEmpty() && getEdges(e).isEmpty()) return false;
+        if (getEdges(t).isEmpty()) return false;
         ArrayList<T> tmp = new ArrayList<>();
         tmp.add(t);
-        tmp.add(e);
         T f = t;
-        T prev = null;
-        while (tmp.size() < getNumEdges()) {
-            if (!getEdges(f).isEmpty()) {
-                prev = f;
+        int numE = getEdges(t).size();
+        while (tmp.size() < numE) {
+            if (!getEdges(f).isEmpty() && !tmp.containsAll(getEdges(f))) {
                 if (getEdges(f).contains(e)) return true;
                 for (T k : getEdges(f)) {
                     if (!tmp.contains(k)) {
                         tmp.add(k);
+                        numE += getEdges(k).size();
                         f = k;
                         break;
                     }
                 }
             } else {
-                f = prev == null ? e : prev;
-                prev = null;
+                if (tmp.indexOf(f)-1 == -1) return false;
+                f = tmp.get(tmp.indexOf(f)-1);
             }
         }
         return false;

@@ -59,7 +59,7 @@ public class Main {
         // class to translate a graph to a json graph
         JsonGraph<Integer> jsonGraph = new JsonGraph<>(graph);
 
-        System.out.println(graph.kruskal());
+        graph.kruskal();
 
         // out of the json graph using the gson toJson method
         GestoreFiles g = new GestoreFiles("./graph.json");
