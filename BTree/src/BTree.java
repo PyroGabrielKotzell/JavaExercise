@@ -6,7 +6,9 @@ public class BTree<T extends Comparable<T>> {
 
     public int add(int index, T value) {
         if (nodi.contains(value)) return -1;
-        if (nodi.get(index / 2 - 1) != null) return -2;
+        try {
+             if (nodi.get(index == 1 ? 0 : (index / 2 - 1)) == null) return -2;
+        }catch (IndexOutOfBoundsException ignored){}
         nodi.add(index, value);
         return 0;
     }
@@ -57,7 +59,7 @@ public class BTree<T extends Comparable<T>> {
         Stack<T> s = new Stack<>();
         s.push(f);
         while (!s.isEmpty()) {
-            arr.add(s.peek());
+            arr.add(f = s.peek());
             s.pop();
             try {
                 T tmp = nodi.get(nodi.indexOf(f) * 2 + 2);
