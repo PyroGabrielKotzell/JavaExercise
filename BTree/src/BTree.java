@@ -53,16 +53,17 @@ public class BTree<T extends Comparable<T>> {
         T f = nodi.get(0);
         arr.add(f);
         while(true){
+            T t1 = null;
+            T t2 = null;
             arr.add(f);
             try {
-                T t1 = nodi.get(nodi.indexOf(f) * 2 + 1);
-                f = arr.contains(t1) ? null : t1;
-                T t2 = nodi.get(nodi.indexOf(f) * 2 + 2);
-                f = arr.contains(t2) && f != null ? t1 : t2;
+                t1 = nodi.get(nodi.indexOf(f) * 2 + 1);
+                t2 = nodi.get(nodi.indexOf(f) * 2 + 2);
             }catch (IndexOutOfBoundsException e) {
                 if (arr.indexOf(f)-1 == -1) break;
                 f = arr.get(arr.indexOf(f)-1);
             }
+            if (arr.contains(t1)){}
         }
         return arr;
     }
