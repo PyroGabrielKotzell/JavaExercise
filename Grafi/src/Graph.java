@@ -127,23 +127,23 @@ public class Graph<T> {
      */
     @SuppressWarnings("all")
     public boolean isConnected() {
-        HashMap<T, T> tmp = new HashMap<>();
+        ArrayList<T> tmp = new ArrayList<>();
         if (keyset().length != 0) {
-            tmp.put(keyset()[0], null);
+            tmp.add(keyset()[0]);
             for (T key : keyset()) {
-                if (!tmp.containsKey(key)) {
+                if (!tmp.contains(key)) {
                     for (int i = 0; i < tmp.size(); i++) {
-                        if (getEdges(key).contains(tmp.keySet().toArray()[i])) {
-                            tmp.put(key, null);
+                        if (getEdges(key).contains(tmp.get(i))) {
+                            tmp.add(key);
                             for (int j = 0; j < getEdges(key).size(); j++) {
-                                tmp.put(getEdges(key).get(j), null);
+                                tmp.add(getEdges(key).get(j));
                             }
                             break;
                         }
                     }
                 } else {
                     for (int i = 0; i < getEdges(key).size(); i++) {
-                        tmp.put(getEdges(key).get(i), null);
+                        tmp.add(getEdges(key).get(i));
                     }
                 }
             }
@@ -305,7 +305,6 @@ public class Graph<T> {
                 }
             }
         }
-
         for (T i : keyset()) {
             for (T j : getEdges(i)) {
                 if (dist.get(j) > dist.get(i) + getWeight(i, j)) {
@@ -326,7 +325,6 @@ public class Graph<T> {
         Graph<T> graph = new Graph<>();
         List<String> edges = new ArrayList<>(edgesWeight.keySet().stream().toList());
         edges.sort(Comparator.comparing(edgesWeight::get));
-
         for (T key : keyset()) {
             graph.addVertex(key);
         }
@@ -342,29 +340,28 @@ public class Graph<T> {
         return graph;
     }
 
+    /**
+     * Checks if vertex t has a path to vertex e and therefore is connected to it.
+     * Doesn't work the other way around
+     *
+     * @param t the first vertex
+     * @param e the second vertex
+     * @return boolean if vertex t has a path to vertex e
+     */
     public boolean areConnected(T t, T e) {
-        if (getEdges(t).isEmpty()) return false;
         ArrayList<T> tmp = new ArrayList<>();
         tmp.add(t);
         T f = t;
-        int numE = getEdges(t).size();
-        while (tmp.size() < numE) {
-            if (!getEdges(f).isEmpty() && !tmp.containsAll(getEdges(f))) {
-                if (getEdges(f).contains(e)) return true;
-                for (T k : getEdges(f)) {
-                    if (!tmp.contains(k)) {
-                        tmp.add(k);
-                        numE += getEdges(k).size();
-                        f = k;
-                        break;
-                    }
-                }
+        while (true) {
+            if (getEdges(f).isEmpty() || tmp.containsAll(getEdges(f))) {
+                if (tmp.indexOf(f) - 1 == -1) return false;
+                f = tmp.get(tmp.indexOf(f) - 1);
             } else {
-                if (tmp.indexOf(f)-1 == -1) return false;
-                f = tmp.get(tmp.indexOf(f)-1);
+                if (getEdges(f).contains(e)) return true;
+                f = getEdges(f).stream().filter(k -> !tmp.contains(k)).findFirst().get();
+                tmp.add(f);
             }
         }
-        return false;
     }
 
     /**

@@ -65,7 +65,9 @@ public class Main {
         g.open();
         g.write(gson.toJson(jsonGraph));
         g.close();
-        jsonGraph = new JsonGraph<>(graph.kruskal());
+        Graph<Integer> kr = graph.kruskal();
+        System.out.println(kr);
+        jsonGraph = new JsonGraph<>(kr);
         g = new GestoreFiles("./graphK.json");
         g.createFile();
         g.open();
