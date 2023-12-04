@@ -47,7 +47,24 @@ public class BTree<T extends Comparable<T>> {
     }
 
     public ArrayList<T> preOrder(){
-        if()
+        if (nodi.isEmpty()) return null;
+        if (nodi.get(0) == null) return null;
+        ArrayList<T> arr = new ArrayList<>();
+        T f = nodi.get(0);
+        arr.add(f);
+        while(true){
+            arr.add(f);
+            try {
+                T t1 = nodi.get(nodi.indexOf(f) * 2 + 1);
+                f = arr.contains(t1) ? null : t1;
+                T t2 = nodi.get(nodi.indexOf(f) * 2 + 2);
+                f = arr.contains(t2) && f != null ? t1 : t2;
+            }catch (IndexOutOfBoundsException e) {
+                if (arr.indexOf(f)-1 == -1) break;
+                f = arr.get(arr.indexOf(f)-1);
+            }
+        }
+        return arr;
     }
 
     public T get(int index) {
