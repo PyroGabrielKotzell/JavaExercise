@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class BTree<T extends Comparable<T>> {
     private final ArrayList<T> nodi = new ArrayList<>();
@@ -34,36 +35,38 @@ public class BTree<T extends Comparable<T>> {
         }
     }
 
-    public ArrayList<T> preOrderR(int index){
+    public ArrayList<T> preOrderR(int index) {
         ArrayList<T> arr = new ArrayList<>();
         try {
-            if (nodi.get(index) != null){
+            if (nodi.get(index) != null) {
                 arr.add(nodi.get(index));
-                arr.addAll(preOrderR(2*index + 1));
-                arr.addAll(preOrderR(2*index + 2));
+                arr.addAll(preOrderR(2 * index + 1));
+                arr.addAll(preOrderR(2 * index + 2));
             }
-        }catch (IndexOutOfBoundsException e) {return null;}
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
         return arr;
     }
 
-    public ArrayList<T> preOrder(){
+    public ArrayList<T> preOrder() {
         if (nodi.isEmpty()) return null;
         if (nodi.get(0) == null) return null;
-        ArrayList<T> arr = new ArrayList<>();
         T f = nodi.get(0);
-        arr.add(f);
-        while(true){
-            T t1 = null;
-            T t2 = null;
-            arr.add(f);
+        ArrayList<T> arr = new ArrayList<>();
+        Stack<T> s = new Stack<>();
+        s.push(f);
+        while (!s.isEmpty()) {
+            arr.add(s.peek());
+            s.pop();
             try {
-                t1 = nodi.get(nodi.indexOf(f) * 2 + 1);
-                t2 = nodi.get(nodi.indexOf(f) * 2 + 2);
-            }catch (IndexOutOfBoundsException e) {
-                if (arr.indexOf(f)-1 == -1) break;
-                f = arr.get(arr.indexOf(f)-1);
-            }
-            if (arr.contains(t1)){}
+                T tmp = nodi.get(nodi.indexOf(f) * 2 + 2);
+                if (tmp != null) s.push(tmp);
+            } catch (IndexOutOfBoundsException ignored) {}
+            try {
+                T tmp = nodi.get(nodi.indexOf(f) * 2 + 1);
+                if (tmp != null) s.push(tmp);
+            } catch (IndexOutOfBoundsException ignored) {}
         }
         return arr;
     }
