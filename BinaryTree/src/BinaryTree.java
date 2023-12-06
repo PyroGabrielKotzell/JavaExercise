@@ -20,7 +20,7 @@ public class BinaryTree<T extends Comparable<T>> {
         }
     }
 
-    private Node<T> getNode(T value){
+    private Node<T> getNode(T value) {
         if (root != null) {
             Stack<Node<T>> s = new Stack<>();
             Node<T> c = root;
@@ -38,7 +38,7 @@ public class BinaryTree<T extends Comparable<T>> {
         return null;
     }
 
-    public String print(){
+    public String print() {
         if (root != null) {
             String str = "[";
             Stack<Node<T>> s = new Stack<>();
@@ -52,9 +52,8 @@ public class BinaryTree<T extends Comparable<T>> {
                 s.pop();
                 tmp = c.getLeft();
                 if (tmp != null) s.push(tmp);
-
             }
-            return str.substring(0, str.length()-1) + "]";
+            return str.substring(0, str.length() - 1) + "]";
         }
         return "";
     }
