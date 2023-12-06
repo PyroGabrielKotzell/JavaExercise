@@ -15,5 +15,6 @@ public class Main {
         System.out.println("\nleft child: " + b.leftChild(1));
         System.out.println("\nright child: " + b.rightChild(1));
         System.out.println("\npreorder: " + b.preOrder());
+        System.out.println("\npreorderR: " + b.preOrderR(0));
     }
 }
