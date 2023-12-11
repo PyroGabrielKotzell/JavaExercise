@@ -39,17 +39,7 @@ public class BinaryTree<T extends Comparable<T>> {
     public boolean cerca(T value) {
         return getNode(value) != null;
     }
-
-    /*
-    while (!s.isempty){
-        while (c != null){
-            s.push(c);
-            c = c.getLeft();
-        }
-        c = s.pop();
-        c = c.getRight();
-    }
-    */
+    
     public String print() {
         if (root != null) {
             String str = "(", tmp = "";
