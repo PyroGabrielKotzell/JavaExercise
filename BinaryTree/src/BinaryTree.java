@@ -72,7 +72,6 @@ public class BinaryTree<T extends Comparable<T>> {
                     c = s.peek();
                 }else {
                     str += ")" + tmp;
-                    tmp = "";
                 }
             }
             return str + ")";

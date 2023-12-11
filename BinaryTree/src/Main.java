@@ -8,6 +8,7 @@ public class Main {
         b.add(60, 40, false);
         b.add(70, 60, false);
         System.out.println(b.print());
+        System.out.println(b.cerca(70));
         System.out.println(b.contaFoglie());
     }
 }
