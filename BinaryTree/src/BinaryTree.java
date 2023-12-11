@@ -26,55 +26,76 @@ public class BinaryTree<T extends Comparable<T>> {
             Node<T> c = root;
             s.add(c);
             while (!s.isEmpty()) {
-                Node<T> tmp = c.getRight();
-                if (tmp != null) s.push(tmp);
-                tmp = c.getLeft();
-                if (tmp != null) s.push(tmp);
-                if (c.getValue().equals(value)) return c;
                 c = s.peek();
                 s.pop();
+                if (c.getValue().equals(value)) return c;
+                if (c.getLeft() != null) s.push(c.getLeft());
+                if (c.getRight() != null) s.push(c.getRight());
             }
         }
         return null;
     }
 
+    public boolean cerca(T value) {
+        return getNode(value) != null;
+    }
+
+    /*
+    while (!s.isempty){
+        while (c != null){
+            s.push(c);
+            c = c.getLeft();
+        }
+        c = s.pop();
+        c = c.getRight();
+    }
+    */
     public String print() {
         if (root != null) {
-            String str = "[";
+            String str = "(", tmp = "";
             Stack<Node<T>> s = new Stack<>();
             Node<T> c = root;
             s.add(c);
             while (!s.isEmpty()) {
-                Node<T> tmp = c.getRight();
-                if (tmp != null) s.push(tmp);
-                c = s.peek();
-                str += str.contains(c.getValue().toString()) ? "" : c.getValue().toString() + ",";
-                s.pop();
-                tmp = c.getLeft();
-                if (tmp != null) s.push(tmp);
+                while (c.getLeft() != null && !str.contains(c.getValue().toString())){
+                    str += "(";
+                    tmp = "";
+                    s.push(c.getLeft());
+                    c = s.peek();
+                }
+                c = s.pop();
+                str += c.getValue().toString();
+                if (c.getRight() != null) {
+                    str += "(";
+                    tmp += ")";
+                    s.push(c.getRight());
+                    c = s.peek();
+                }else {
+                    str += ")" + tmp;
+                    tmp = "";
+                }
             }
-            return str.substring(0, str.length() - 1) + "]";
+            return str + ")";
         }
         return "";
     }
 
-    public void clear() {
-        if (root != null) {
-            Stack<Node<T>> s = new Stack<>();
-            Node<T> c = root;
-            s.add(c);
-            while (!s.isEmpty()) {
-                Node<T> tmp = c.getRight();
-                if (tmp != null) s.push(tmp);
-                tmp = c.getLeft();
-                if (tmp != null) s.push(tmp);
-                if (c.getLeft() != null) c.setLeft(null);
-                if (c.getRight() != null) c.setRight(null);
-                c = s.peek();
-                s.pop();
-            }
-            root = new Node<>(null, null, null);
+    public int contaFoglie(){
+        if (root == null) return 0;
+        int n = 0;
+        Stack<Node<T>> s = new Stack<>();
+        Node<T> c = root;
+        s.add(c);
+        while (!s.isEmpty()) {
+            boolean f = false;
+            c = s.peek();
+            s.pop();
+            if (c.getLeft() != null) s.push(c.getLeft());
+            else f = true;
+            if (c.getRight() != null) s.push(c.getRight());
+            else if (f) n++;
         }
+        return n;
     }
 
     public Node<T> getRoot() {
@@ -82,7 +103,6 @@ public class BinaryTree<T extends Comparable<T>> {
     }
 
     public void setRoot(Node<T> root) {
-        clear();
         this.root = root;
     }
 }
