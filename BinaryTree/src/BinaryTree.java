@@ -11,11 +11,40 @@ public class BinaryTree<T extends Comparable<T>> {
     }
 
     public void add(T value, T node, boolean left) {
+        if (left && value.compareTo(node) > 0 || value.equals(node)) return;
+        if (!left && value.compareTo(node) < 0) return;
         if (getNode(value) == null) {
             Node<T> tmp = getNode(node);
             if (tmp != null) {
                 if (left) tmp.setLeft(new Node<>(value, null, null));
                 else tmp.setRight(new Node<>(value, null, null));
+            }
+        }
+    }
+
+    public void remove(T value) {
+        if (root != null) {
+            if (value.equals(root.getValue())) {
+                root = null;
+                return;
+            }
+            Stack<Node<T>> s = new Stack<>();
+            Node<T> c = root;
+            s.add(c);
+            while (!s.isEmpty()) {
+                c = s.peek();
+                s.pop();
+                if (value.compareTo(c.getValue()) < 0) {
+                    if (c.getLeft() != null) {
+                        if (c.getLeft().getValue().equals(value)) c.setLeft(null);
+                        else s.push(c.getLeft());
+                    }
+                } else if (value.compareTo(c.getValue()) > 0) {
+                    if (c.getRight() != null) {
+                        if (c.getRight().getValue().equals(value)) c.setRight(null);
+                        else s.push(c.getRight());
+                    }
+                }
             }
         }
     }
@@ -29,8 +58,9 @@ public class BinaryTree<T extends Comparable<T>> {
                 c = s.peek();
                 s.pop();
                 if (c.getValue().equals(value)) return c;
-                if (c.getLeft() != null) s.push(c.getLeft());
-                if (c.getRight() != null) s.push(c.getRight());
+                if (value.compareTo(c.getValue()) < 0) {
+                    if (c.getLeft() != null) s.push(c.getLeft());
+                } else if (c.getRight() != null) s.push(c.getRight());
             }
         }
         return null;
@@ -39,37 +69,38 @@ public class BinaryTree<T extends Comparable<T>> {
     public boolean cerca(T value) {
         return getNode(value) != null;
     }
-    
+
     public String print() {
         if (root != null) {
             String str = "(", tmp = "";
             Stack<Node<T>> s = new Stack<>();
             Node<T> c = root;
-            s.add(c);
-            while (!s.isEmpty()) {
-                while (c.getLeft() != null && !str.contains(c.getValue().toString())){
-                    str += "(";
-                    tmp = "";
-                    s.push(c.getLeft());
-                    c = s.peek();
+            while (c != null || !s.isEmpty()) {
+                while (c != null) {
+                    s.push(c);
+                    c = c.getLeft();
+                    if (c != null) {
+                        str += "(";
+                        tmp += ")";
+                    }
                 }
                 c = s.pop();
                 str += c.getValue().toString();
-                if (c.getRight() != null) {
+                c = c.getRight();
+                if (c != null) {
                     str += "(";
                     tmp += ")";
-                    s.push(c.getRight());
-                    c = s.peek();
-                }else {
-                    str += ")" + tmp;
+                } else {
+                    str += tmp.charAt(0);
+                    tmp = tmp.substring(1);
                 }
             }
-            return str + ")";
+            return str + tmp + ")";
         }
         return "";
     }
 
-    public int contaFoglie(){
+    public int contaFoglie() {
         if (root == null) return 0;
         int n = 0;
         Stack<Node<T>> s = new Stack<>();
