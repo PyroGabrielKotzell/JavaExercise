@@ -34,12 +34,15 @@ public class BinaryTree<T extends Comparable<T>> {
             while (!s.isEmpty()) {
                 c = s.peek();
                 s.pop();
+                // check attachments
                 if (value.compareTo(c.getValue()) < 0) {
+                    // check left
                     if (c.getLeft() != null) {
                         if (c.getLeft().getValue().equals(value)) c.setLeft(null);
                         else s.push(c.getLeft());
                     }
                 } else if (value.compareTo(c.getValue()) > 0) {
+                    // check right
                     if (c.getRight() != null) {
                         if (c.getRight().getValue().equals(value)) c.setRight(null);
                         else s.push(c.getRight());
