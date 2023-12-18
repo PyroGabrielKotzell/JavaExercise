@@ -7,11 +7,12 @@ public class Main {
         b.add(30, 40, true);
         b.add(60, 40, false);
         b.add(70, 60, false);
-        b.remove(70);
         System.out.println(b.print());
         System.out.println(b.cerca(70));
         System.out.println(b.contaFoglie());
         System.out.println(b.cercaMax(b.getRoot().getValue()).getValue());
         System.out.println(b.cercaMin(b.getRoot().getValue()).getValue());
+        b.remove(9);
+        System.out.println(b.print());
     }
 }

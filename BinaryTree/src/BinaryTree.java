@@ -24,7 +24,7 @@ public class BinaryTree<T extends Comparable<T>> {
 
     public void remove(T value) {
         if (root == null) return;
-        if (value.equals(root.getValue())) {
+        if (root.getValue().equals(value)) {
             root = null;
             return;
         }
@@ -33,11 +33,19 @@ public class BinaryTree<T extends Comparable<T>> {
         if (value.compareTo(root.getValue()) < 0) {
             //right
             if (n.getLeft() != null) {
-                Node<T> tmp = cercaMax(n.getLeft().getValue());
-                p.setLeft(tmp);
-            }else p.setLeft(n.getRight());
+                Node<T> tmp1 = cercaMax(n.getLeft().getValue()), tmp2 = cercaMax(tmp1.getValue());
+                tmp2.setRight(getParent(tmp1.getValue()));
+                getParent(tmp1.getValue()).setLeft(null);
+                p.setLeft(tmp1);
+            } else p.setLeft(n.getRight());
         } else {
             //left
+            if (n.getRight() != null) {
+                Node<T> tmp1 = cercaMin(n.getLeft().getValue()), tmp2 = cercaMin(tmp1.getValue());
+                tmp2.setLeft(getParent(tmp1.getValue()));
+                getParent(tmp1.getValue()).setRight(null);
+                p.setRight(tmp1);
+            } else p.setRight(n.getLeft());
         }
     }
 
