@@ -11,5 +11,7 @@ public class Main {
         System.out.println(b.print());
         System.out.println(b.cerca(70));
         System.out.println(b.contaFoglie());
+        System.out.println(b.cercaMax(b.getRoot().getValue()).getValue());
+        System.out.println(b.cercaMin(b.getRoot().getValue()).getValue());
     }
 }
