@@ -34,7 +34,9 @@ public class BinaryTree<T extends Comparable<T>> {
             //right
             if (n.getLeft() != null) {
                 Node<T> tmp1 = cercaMax(n.getLeft().getValue()), tmp2 = cercaMax(tmp1.getValue());
-                tmp2.setRight(getParent(tmp1.getValue()));
+                if (!getParent(tmp1.getValue()).getValue().equals(value))
+                    tmp2.setRight(getParent(tmp1.getValue()));
+                else tmp2.setRight(getParent(tmp1.getValue()).getRight());
                 getParent(tmp1.getValue()).setLeft(null);
                 p.setLeft(tmp1);
             } else p.setLeft(n.getRight());
@@ -42,7 +44,9 @@ public class BinaryTree<T extends Comparable<T>> {
             //left
             if (n.getRight() != null) {
                 Node<T> tmp1 = cercaMin(n.getLeft().getValue()), tmp2 = cercaMin(tmp1.getValue());
-                tmp2.setLeft(getParent(tmp1.getValue()));
+                if (!getParent(tmp1.getValue()).getValue().equals(value))
+                    tmp2.setLeft(getParent(tmp1.getValue()));
+                else tmp2.setLeft(getParent(tmp1.getValue()).getLeft());
                 getParent(tmp1.getValue()).setRight(null);
                 p.setRight(tmp1);
             } else p.setRight(n.getLeft());
