@@ -31,23 +31,19 @@ public class BinaryTree<T extends Comparable<T>> {
         Node<T> p = getParent(value);
         Node<T> n = getNode(value);
         if (value.compareTo(root.getValue()) < 0) {
-            //right
+            //left
             if (n.getLeft() != null) {
-                Node<T> tmp1 = cercaMax(n.getLeft().getValue()), tmp2 = cercaMax(tmp1.getValue());
-                if (!getParent(tmp1.getValue()).getValue().equals(value))
-                    tmp2.setRight(getParent(tmp1.getValue()));
-                else tmp2.setRight(getParent(tmp1.getValue()).getRight());
+                Node<T> tmp1 = cercaMin(n.getValue()), tmp2 = cercaMin(tmp1.getValue());
+                tmp2.setLeft(n.getLeft());
                 getParent(tmp1.getValue()).setLeft(null);
                 p.setLeft(tmp1);
             } else p.setLeft(n.getRight());
         } else {
-            //left
+            //right
             if (n.getRight() != null) {
-                Node<T> tmp1 = cercaMin(n.getLeft().getValue()), tmp2 = cercaMin(tmp1.getValue());
-                if (!getParent(tmp1.getValue()).getValue().equals(value))
-                    tmp2.setLeft(getParent(tmp1.getValue()));
-                else tmp2.setLeft(getParent(tmp1.getValue()).getLeft());
-                getParent(tmp1.getValue()).setRight(null);
+                Node<T> tmp1 = cercaMin(n.getValue()), tmp2 = cercaMax(tmp1.getValue());
+                tmp2.setRight(n.getRight());
+                getParent(tmp1.getValue()).setLeft(null);
                 p.setRight(tmp1);
             } else p.setRight(n.getLeft());
         }
@@ -120,31 +116,7 @@ public class BinaryTree<T extends Comparable<T>> {
     }
 
     public String print() {
-        if (root == null) return "";
-        String str = "(", tmp = "";
-        Stack<Node<T>> s = new Stack<>();
-        Node<T> c = root;
-        while (c != null || !s.isEmpty()) {
-            while (c != null) {
-                s.push(c);
-                c = c.getLeft();
-                if (c != null) {
-                    str += "(";
-                    tmp += ")";
-                }
-            }
-            c = s.pop();
-            str += c.getValue().toString();
-            c = c.getRight();
-            if (c != null) {
-                str += "(";
-                tmp += ")";
-            } else {
-                str += tmp.charAt(0);
-                tmp = tmp.substring(1);
-            }
-        }
-        return str + tmp + ")";
+        return "suka";
     }
 
     public int contaFoglie() {
