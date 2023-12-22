@@ -12,8 +12,8 @@ public class BinaryTree<T extends Comparable<T>> {
 
     public void add(T value, T node, boolean left) {
         // check where you're putting it
-        if (left && value.compareTo(node) >= 0) return;
-        if (!left && value.compareTo(node) < 0) return;
+	int vToN = value.compareTo(node);
+        if (left && vToN >= 0 || !left && vToN < 0) return;
 
         // check parent is appropriate
         Node<T> tmp = getParent(node);
