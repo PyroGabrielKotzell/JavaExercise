@@ -12,7 +12,7 @@ public class BinaryTree<T extends Comparable<T>> {
 
     public void add(T value, T node, boolean left) {
         // check where you're putting it
-	int vToN = value.compareTo(node);
+        int vToN = value.compareTo(node);
         if (left && vToN >= 0 || !left && vToN < 0) return;
 
         // check parent is appropriate
@@ -41,8 +41,9 @@ public class BinaryTree<T extends Comparable<T>> {
         }
 
         // get parent & node
-        Node<T> p = getParent(value);
-        Node<T> n = getNode(value);
+        Node<T> p = getParent(value), n = getNode(value), pnext = null;
+        // false:right true:left
+        boolean rl = value.compareTo(p.getValue()) < 0;
 
         // 3 nodi:
         // quello da cancellare
@@ -53,22 +54,28 @@ public class BinaryTree<T extends Comparable<T>> {
         // attaccare il figlio più dx o sx a i figli del nodo cancellato (parte difficile)
 
         if (value.compareTo(root.getValue()) < 0) {
-            //left
+            //left//sinistra
             if (n.getLeft() != null) {
-                Node<T> tmp1 = cercaMin(n.getValue()), tmp2 = cercaMin(tmp1.getValue());
-                tmp2.setLeft(n.getLeft());
-                getParent(tmp1.getValue()).setLeft(null);
-                p.setLeft(tmp1);
-            } else p.setLeft(n.getRight());
+                pnext = n.getLeft();
+                Node<T> tmp1 = cercaMax(pnext.getValue());
+                tmp1.setRight(n.getRight());
+            } else {
+                pnext = n.getRight();
+            }
         } else {
-            //right
+            //right//destra
             if (n.getRight() != null) {
-                Node<T> tmp1 = cercaMin(n.getValue()), tmp2 = cercaMax(tmp1.getValue());
-                tmp2.setRight(n.getRight());
-                getParent(tmp1.getValue()).setLeft(null);
-                p.setRight(tmp1);
-            } else p.setRight(n.getLeft());
+                pnext = n.getRight();
+                Node<T> tmp1 = cercaMin(pnext.getValue());
+                tmp1.setLeft(n.getLeft());
+            } else {
+                pnext = n.getLeft();
+            }
         }
+        n.setLeft(null);
+        n.setRight(null);
+        if (rl) p.setLeft(pnext);
+        else p.setRight(pnext);
     }
 
     public Node<T> getNode(T value) {
