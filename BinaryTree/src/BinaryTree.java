@@ -41,17 +41,7 @@ public class BinaryTree<T extends Comparable<T>> {
         }
 
         // get parent & node
-        Node<T> p = getParent(value), n = getNode(value), pnext = null;
-        // false:right true:left
-        boolean rl = value.compareTo(p.getValue()) < 0;
-
-        // 3 nodi:
-        // quello da cancellare
-        // il suo successore
-        // e il figlio più a destra o a sinistra del successore
-
-        // attaccare il successore al posto di quello da cancellare (utilizzare parent *p)
-        // attaccare il figlio più dx o sx a i figli del nodo cancellato (parte difficile)
+        Node<T> p = getParent(value), n = getNode(value), pnext;
 
         if (value.compareTo(root.getValue()) < 0) {
             //left//sinistra
@@ -74,7 +64,7 @@ public class BinaryTree<T extends Comparable<T>> {
         }
         n.setLeft(null);
         n.setRight(null);
-        if (rl) p.setLeft(pnext);
+        if (value.compareTo(p.getValue()) < 0) p.setLeft(pnext);
         else p.setRight(pnext);
     }
 
