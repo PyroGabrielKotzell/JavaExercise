@@ -26,8 +26,8 @@ public class Client {
         try {
             return br.readLine();
         } catch (Exception e) {
-            e.printStackTrace();
-            init();
+            //e.printStackTrace();
+            //init();
             return "";
         }
     }
