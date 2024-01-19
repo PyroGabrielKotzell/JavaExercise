@@ -5,49 +5,56 @@ import java.net.Socket;
 
 public class Client {
     private Socket s;
-    private InputStreamReader isr;
-    private BufferedReader br;
 
-    public void write(String sa) {
+    public void write(String string) {
         OutputStreamWriter osw = null;
+        BufferedWriter bw = null;
+        PrintWriter pw = null;
         try {
             osw = new OutputStreamWriter(s.getOutputStream());
-        }catch (Exception e){e.printStackTrace();}
-        if (osw == null) {
-            return;
+            bw = new BufferedWriter(osw);
+            pw = new PrintWriter(bw, true);
+            pw.write(string);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (pw != null) pw.close();
+            try {
+                if (bw != null) bw.close();
+                if (osw != null) osw.close();
+            } catch (Exception ignored) {
+            }
         }
-        BufferedWriter bw = new BufferedWriter(osw);
-        PrintWriter pw = new PrintWriter(bw, true);
-        System.out.println(sa);
-        pw.write(sa);
     }
 
     public String read() {
+        InputStreamReader isr = null;
+        BufferedReader br = null;
         try {
+            isr = new InputStreamReader(s.getInputStream());
+            br = new BufferedReader(isr);
             return br.readLine();
         } catch (Exception e) {
-            //e.printStackTrace();
-            //init();
+            e.printStackTrace();
             return "";
+        }finally {
+            try {
+                if (isr != null) isr.close();
+                if (br != null) br.close();
+            } catch (Exception ignored) {}
         }
     }
 
-    public boolean init() {
+    public void init() {
         try {
             s = new Socket("192.168.8.27", 1069);
-            isr = new InputStreamReader(s.getInputStream());
-            br = new BufferedReader(isr);
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
     }
 
     public void close() {
         try {
-            br.close();
-            isr.close();
             s.close();
         } catch (Exception e) {
             e.printStackTrace();
