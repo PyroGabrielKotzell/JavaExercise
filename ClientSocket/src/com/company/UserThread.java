@@ -6,8 +6,10 @@ import java.util.Scanner;
 public class UserThread extends Thread{
     public String userIn = "";
     private boolean isEx = false;
+    //super();
 
     UserThread() {
+        start();
     }
 
     public void run() {
