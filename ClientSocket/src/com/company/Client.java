@@ -1,43 +1,45 @@
 package com.company;
 
 import java.net.Socket;
+import java.net.SocketException;
 
 public class Client {
     private Socket s;
-    private boolean n1 = false, n2 = false;
 
     public void write(String string) {
         try {
-            SocketIO.pw.write(string);
+            SocketIO.pw.write(string + '\n');
         } catch (Exception e) {
-            if (!n2) {
-                e.printStackTrace();
-                n2 = true;
-            }
+            e.printStackTrace();
         }
     }
 
     public String read() {
         try {
-            return SocketIO.br.readLine();
+            String s = SocketIO.br.readLine();
+            System.out.println(s);
+            return (s == null ? "" : s);
         } catch (Exception e) {
-            if (!n2) {
-                e.printStackTrace();
-                n2 = true;
-            }
+            e.printStackTrace();
             return "";
         }
+    }
+
+    public void setTimeOut(int n) throws SocketException {
+        s.setSoTimeout(n);
+    }
+
+    public boolean isConnected() {
+        return s.isConnected();
     }
 
     public void init() {
         try {
             s = new Socket("192.168.8.27", 1069);
+            if (s.isConnected()) System.out.println("Socket connected");
             SocketIO.init(s);
         } catch (Exception e) {
-            if (!n1) {
-                e.printStackTrace();
-                n1 = true;
-            }
+            e.printStackTrace();
         }
     }
 
@@ -46,10 +48,7 @@ public class Client {
             s.close();
             SocketIO.close();
         } catch (Exception e) {
-            if (!n1) {
-                e.printStackTrace();
-                n1 = true;
-            }
+            e.printStackTrace();
         }
     }
 }

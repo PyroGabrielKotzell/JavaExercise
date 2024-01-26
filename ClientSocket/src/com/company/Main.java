@@ -1,20 +1,68 @@
 package com.company;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.net.SocketException;
+import java.util.HashMap;
+import java.util.concurrent.TimeoutException;
+
 public class Main {
+    private static Client c;
+    private static HashMap<String, Data> hm;
+
     public static void main(String[] args) {
-        /*UserThread t = new UserThread();
+        String pr = "";
+        hm = new HashMap<>();
+        getUsersData();
+        //UserThread t = new UserThread();
+        c = new Client();
+        c.init();
+        // thread IO to do
+        /*
         while (!t.userIn.equals("break")) {
             if (!t.isExecuting()) t.run();
-            if (!t.userIn.equals("")) System.out.println(t.userIn);
+            if (!pr.equals(t.userIn)){
+                pr = t.userIn;
+                if (pr.indexOf("write") == 0) c.write(pr.substring(5));
+                else if (pr.indexOf("read") == 0) System.out.println(c.read());
+                else if (pr.indexOf("request") == 0) {
+                    System.out.println("request");
+                    request();
+                }
+                t.userIn = "";
+                pr = "";
+            }
         }
-        t.terminate();*/
-        Client c = new Client();
-        c.init();
-        String s = "";
-        while (!s.equals("break")) {
-            s = c.read();
-            if(!s.equals("")) System.out.println(s);
-        }
+        */
+        request();
+        //t.terminate();
         c.close();
+    }
+
+    private static void getUsersData() {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(new File("src/com/company/DatiClient.csv")));
+            while (br.ready()){
+                String[] s = br.readLine().split(";");
+                hm.put(s[0], new Data(s[0], s[1], s[2]));
+            }
+        }catch (Exception ignored){}
+    }
+
+    private static void request() {
+        try {
+            c.setTimeOut(30000);
+            hm.values().forEach(e -> {
+                c.write(e.getId());
+                String s = "";
+                while (s.equals("")){
+                    s = c.read();
+                }
+                e.setNumber(s);
+            });
+        }catch (Exception e) {
+            System.out.println("Server closed, breaking");
+        }
     }
 }

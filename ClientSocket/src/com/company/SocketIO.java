@@ -19,10 +19,10 @@ public abstract class SocketIO {
     }
 
     public static void close() throws IOException {
-        isr.close();
         br.close();
-        osw.close();
-        bw.close();
+        isr.close();
         pw.close();
+        bw.close();
+        osw.close();
     }
 }
