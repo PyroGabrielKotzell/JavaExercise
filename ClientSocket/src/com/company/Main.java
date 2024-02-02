@@ -1,19 +1,15 @@
 package com.company;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
-import java.net.SocketException;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.concurrent.TimeoutException;
 
 public class Main {
     private static Client c;
     private static HashMap<String, Data> hm;
 
     public static void main(String[] args) {
-        String pr = "";
+        //String pr = "";
         hm = new HashMap<>();
         getUsersData();
         //UserThread t = new UserThread();
