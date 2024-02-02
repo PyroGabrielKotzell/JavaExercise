@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.net.SocketException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.TimeoutException;
 
@@ -36,32 +37,32 @@ public class Main {
         }
         */
         request();
+        for (Data d: hm.values()) System.out.println(d);
         //t.terminate();
         c.close();
     }
 
     private static void getUsersData() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(new File("src/com/company/DatiClient.csv")));
-            while (br.ready()){
+            BufferedReader br = new BufferedReader(new FileReader("src/com/company/DatiClient.csv"));
+            while (br.ready()) {
                 String[] s = br.readLine().split(";");
                 hm.put(s[0], new Data(s[0], s[1], s[2]));
             }
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
     }
 
     private static void request() {
         try {
             c.setTimeOut(30000);
-            hm.values().forEach(e -> {
+            for (Data e : hm.values()) {
+                if (!c.isConnected() && !c.inputCheck() && !c.outputCheck()) break;
                 c.write(e.getId());
-                String s = "";
-                while (s.equals("")){
-                    s = c.read();
-                }
+                String s = c.listen();
                 e.setNumber(s);
-            });
-        }catch (Exception e) {
+            }
+        } catch (Exception e) {
             System.out.println("Server closed, breaking");
         }
     }

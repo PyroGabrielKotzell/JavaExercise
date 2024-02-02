@@ -7,17 +7,27 @@ public class Client {
     private Socket s;
 
     public void write(String string) {
+        if (!outputCheck()) return;
         try {
             SocketIO.pw.write(string + '\n');
+            SocketIO.pw.flush();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public String listen(){
+        String s = "";
+        while (s.equals("")) {
+            s = read();
+        }
+        return s;
+    }
+
     public String read() {
+        if (!inputCheck()) return "Null";
         try {
             String s = SocketIO.br.readLine();
-            System.out.println(s);
             return (s == null ? "" : s);
         } catch (Exception e) {
             e.printStackTrace();
@@ -30,7 +40,15 @@ public class Client {
     }
 
     public boolean isConnected() {
-        return s.isConnected();
+        return s.isConnected() && !s.isClosed();
+    }
+
+    public boolean inputCheck() {
+        return isConnected() && !s.isInputShutdown();
+    }
+
+    public boolean outputCheck() {
+        return isConnected() && !s.isOutputShutdown();
     }
 
     public void init() {

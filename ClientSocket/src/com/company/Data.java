@@ -24,4 +24,8 @@ public class Data {
     public void setNumber(String number) {
         this.number = number;
     }
+
+    public String toString() {
+        return id + ", " + name + ", " + surname + ", " + number;
+    }
 }
