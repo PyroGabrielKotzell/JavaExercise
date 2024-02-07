@@ -6,8 +6,6 @@ public class UserThread extends Thread {
     }
 
     public void run() {
-        for (int i = 0; i < 4; i++) {
-            Datas.setResult(i, Datas.getV1(i) + Datas.getV2(i));
-        }
+        Datas.setResult(Datas.index, Datas.getV1(Datas.index) + Datas.getV2(Datas.index));
     }
 }
