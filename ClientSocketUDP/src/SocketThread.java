@@ -8,6 +8,7 @@ public class SocketThread extends Thread{
         CSocket cSocket = new CSocket();
         cSocket.init(new int[]{192, 168, 8, 27}, 1069);
         cSocket.write("babaab");
+        System.out.println(cSocket.listen());
         cSocket.close();
     }
 }

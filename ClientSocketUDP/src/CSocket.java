@@ -18,14 +18,16 @@ public class CSocket {
         }
     }
 
-    public void listen() {
+    public String listen() {
         try {
-            byte[] buffer2 = new byte[65536];
-            DatagramPacket packet2 = new DatagramPacket(buffer2, buffer2.length);
-            s.receive(packet2);
+            byte[] buff = new byte[65536];
+            DatagramPacket msg = new DatagramPacket(buff, buff.length);
+            s.receive(msg);
+            return new String(msg.getData(), 0, msg.getLength());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public void setTimeOut(int n) throws SocketException {
