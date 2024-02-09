@@ -26,6 +26,6 @@ public class Data {
     }
 
     public String toString() {
-        return id + ", " + name + ", " + surname + ", " + number;
+        return id + ";" + name + ";" + surname + ";" + number;
     }
 }

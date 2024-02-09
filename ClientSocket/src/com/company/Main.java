@@ -1,7 +1,6 @@
 package com.company;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.util.HashMap;
 
 public class Main {
@@ -33,7 +32,13 @@ public class Main {
         }
         */
         request();
-        for (Data d: hm.values()) System.out.println(d);
+        try {
+            File f = new File("DatiClientCompleti.csv");
+            f.createNewFile();
+            BufferedWriter bw = new BufferedWriter(new FileWriter("DatiClientCompleti.csv"));
+            for (Data d : hm.values()) bw.write(d.toString() + "\n");
+        } catch (Exception ignored) {
+        }
         //t.terminate();
         c.close();
     }
