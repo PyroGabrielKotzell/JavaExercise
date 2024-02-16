@@ -1,29 +1,24 @@
 public class Data {
-    private String id, name, surname, number;
+    private String nazione, capitale;
 
-    public Data(String id, String name, String surname) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
+    public Data(String nazione, String capitale) {
+        this.nazione = nazione;
+        this.capitale = capitale;
     }
 
-    public String getId() {
-        return id;
+    public String getNazione() {
+        return nazione;
     }
 
-    public String getName() {
-        return name;
+    public void setCapitale(String capitale) {
+        this.capitale = capitale;
     }
 
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
+    public String getCapitale() {
+        return capitale;
     }
 
     public String toString() {
-        return id + ";" + name + ";" + surname + ";" + number;
+        return nazione + ";" + capitale;
     }
 }
