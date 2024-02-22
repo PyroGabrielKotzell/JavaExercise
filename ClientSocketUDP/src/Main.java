@@ -1,15 +1,12 @@
 import java.util.Scanner;
 
 public class Main {
-    public static String s = "";
-    public static boolean isWriting = false;
+    private CSocket cSocket;
 
     public static void main(String[] args) {
-        // apro il thread
-        SocketThread socket = new SocketThread();
-        // lo starto
-        socket.start();
-        while (socket.isAlive()) {
+        String s = "";
+        
+        while (!s.equals("break")) {
             Scanner sc = new Scanner(System.in);
             System.out.print(
                     """
@@ -18,18 +15,31 @@ public class Main {
                     Try [nation name]
                     break
                     >\s""");
-            // prendo n
-            String n = sc.nextLine();
-            // butto fuori n
-            System.out.println("n:: " + n);
-            // 's' è una copia memorizzata in un posto diverso di n
-            if(!socket.isReading) {
-                isWriting = true;
-                s = n.substring(0);
-                isWriting = false;
+                    
+            String s = sc.nextLine();
+            s = s.toLowerCase();
+            
+            cSocket = new CSocket();
+            cSocket.init(new int[]{192, 168, 8, 27}, 1069);
+            
+            if (s.indexOf("write ") == 0) {
+                System.out.println("Writing: " + s);
+                cSocket.write(s.substring(6));
             }
-            // butto fuori s
-            System.out.println("s:: " + s);
+            if (s.indexOf("try ") == 0) {
+                System.out.println("Trying: " + s);
+                cSocket.write(s.substring(4));
+                String n = "";
+                try {
+                    cSocket.setTimeOut(3000);
+                    n = cSocket.listen();
+                }catch (SocketException ignored){
+                    System.out.println("Server didn't respond");
+                }
+                if (n.equals("null")) System.out.println("Can't find nation's capital");
+                else System.out.println("Nation's capital is: " + n);
+            }
+            cSocket.close();
         }
     }
 }
