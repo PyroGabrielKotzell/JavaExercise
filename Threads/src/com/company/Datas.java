@@ -1,15 +1,16 @@
 package com.company;
 
+// per la scrittura a schermo
 import java.util.Arrays;
+// per l'inizializzazione degli array
 import java.util.Random;
 
 public abstract class Datas {
     private static int[] V1;
     private static int[] V2;
     private static int[] V3;
-    public static int index = 0;
 
-    public static void init(int len){
+    public static void init(int len) {
         V1 = new int[len];
         V2 = new int[len];
         V3 = new int[len];
@@ -18,6 +19,8 @@ public abstract class Datas {
             V1[i] = r.nextInt(11);
             V2[i] = r.nextInt(11);
         }
+        System.out.println(Arrays.toString(V1));
+        System.out.println(Arrays.toString(V2));
     }
 
     public static int length() {

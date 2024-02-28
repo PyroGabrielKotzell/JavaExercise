@@ -1,11 +1,14 @@
 package com.company;
 
 public class UserThread extends Thread {
-    UserThread(String nome) {
+    private final int i;
+
+    UserThread(String nome, int i) {
         super(nome);
+        this.i = i;
     }
 
     public void run() {
-        Datas.setResult(Datas.index, Datas.getV1(Datas.index) + Datas.getV2(Datas.index));
+        Datas.setResult(i, Datas.getV1(i) + Datas.getV2(i));
     }
 }
