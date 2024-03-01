@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main {
+/*public class Main {
     public static String s = "";
     public static boolean isWriting = false;
 
@@ -32,4 +32,4 @@ public class Main {
             System.out.println("s:: " + s);
         }
     }
-}
+}*/

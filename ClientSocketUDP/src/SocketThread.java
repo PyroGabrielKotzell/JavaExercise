@@ -1,6 +1,6 @@
 import java.net.SocketException;
 
-public class SocketThread extends Thread{
+/*public class SocketThread extends Thread{
     private final CSocket cSocket = new CSocket();
     public boolean isReading = false;
 
@@ -51,4 +51,4 @@ public class SocketThread extends Thread{
         }while(!s.equals("break"));
         cSocket.close();
     }
-}
+}*/
