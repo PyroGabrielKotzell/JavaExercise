@@ -1,8 +1,6 @@
 package com.company;
 
-// per la scrittura a schermo
 import java.util.Arrays;
-// per l'inizializzazione degli array
 import java.util.Random;
 
 public abstract class Datas {
@@ -18,7 +16,7 @@ public abstract class Datas {
         for (int i = 0; i < len; i++) {
             V[i] = r.nextInt(11);
         }
-        System.out.println(Arrays.toString(V));
+        //System.out.println(Arrays.toString(V));
     }
 
     public static int length() {
@@ -38,6 +36,6 @@ public abstract class Datas {
     }
 
     public static void print() {
-        System.out.println(result);
+        System.out.println(result + "\n");
     }
 }
