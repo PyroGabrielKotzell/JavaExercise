@@ -5,9 +5,10 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) {
-        Datas.init(10);
+        Datas.init(1000000);
         
         // fase 1
+
         for (int i = 0; i < Datas.length(); i++) {
             Datas.add(Datas.get(i));
         }
@@ -19,11 +20,12 @@ public class Main {
         // fase 2
         ArrayList<Worker> threads = new ArrayList<>();
 
-        int var = 2;
+        int n = 10;
+        int var = Datas.length()/n;
         int limit = var;
         int starting_i = 0;
 
-        for (int i = 0; i < Datas.length(); i++) {
+        for (int i = 0; i < n + 1; i++) {
             threads.add(new Worker(starting_i, limit));
             threads.get(i).start();
             starting_i = limit;
@@ -42,7 +44,7 @@ public class Main {
         Datas.reset();
 
         // fase 3
-        RecursiveWorker rw = new RecursiveWorker(0, Datas.length(), 2);
+        RecursiveWorker rw = new RecursiveWorker(0, Datas.length(), var);
         rw.start();
 
         try{
