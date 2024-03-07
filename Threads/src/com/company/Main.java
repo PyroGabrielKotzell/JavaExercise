@@ -13,7 +13,7 @@ public class Main {
         long s = System.currentTimeMillis(), e;
 
         if (calc) {
-            Datas.init(10000000);
+            Datas.init(100000000);
 
             // fase 1
             s = System.currentTimeMillis();
@@ -59,7 +59,7 @@ public class Main {
 
             // fase 3
             s = System.currentTimeMillis();
-            RecursiveWorker rw = new RecursiveWorker(0, Datas.length(), 5000000);
+            RecursiveWorker rw = new RecursiveWorker(0, Datas.length(), var);
             rw.start();
 
             try {

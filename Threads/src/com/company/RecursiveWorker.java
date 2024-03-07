@@ -18,15 +18,15 @@ public class RecursiveWorker extends Thread {
     public void run() {
         if (space > sections) {
 
-            int section = space/sections + 1;
-            int end = starting_i + section;
+            int section = space/sections;
+            int end = starting_i + sections;
             int start = starting_i;
 
-            for (int i = 0; i < ; i++) {
+            for (int i = 0; i < section + 1; i++) {
                 children.add(new RecursiveWorker(start, (Math.min(end, limit)), sections));
                 children.get(i).start();
                 start = end;
-                end += section;
+                end += sections;
             }
 
             return;
