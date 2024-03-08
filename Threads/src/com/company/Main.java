@@ -30,7 +30,7 @@ public class Main {
             // fase 2
             ArrayList<Worker> workers = new ArrayList<>();
 
-            int n = 2;
+            int n = 3;
             int var = Datas.length() / n;
             int limit = var;
             int starting_i = 0;
