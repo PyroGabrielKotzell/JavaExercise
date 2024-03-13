@@ -11,9 +11,7 @@ public class Productor extends Thread{
 
     @Override
     public void run() {
-        for (int i = 0; i < max; i++) {
-            counter++;
-        }
+        for (int i = 0; i < max; i++) counter++;
     }
 
     public int get() {
