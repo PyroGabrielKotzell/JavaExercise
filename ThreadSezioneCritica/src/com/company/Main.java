@@ -5,29 +5,27 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) {
-        int n = 100000;
-        Productor p = new Productor("Productor", n);
+        ArrayList<ThreadC> threads = new ArrayList<>();
+        Counter.instance();
 
-        ArrayList<ThreadS> ts = new ArrayList<>();
-        for (int j = 0; j < n; j++) {
-            ts.add(new ThreadS("Mario " + (j + 1), p));
+        for (int i = 30; i > -1; i--) {
+            threads.add(new ThreadC("Marco " + i, i));
         }
 
-        p.start();
-        for (ThreadS t : ts) {
+        System.out.println("{Threads: " + threads.toString());
+
+        for (ThreadC t : threads) {
             t.start();
         }
 
-        int sum = 0;
-        try {
-            for (ThreadS t : ts) {
+        for (ThreadC t : threads) {
+            try {
                 t.join();
-                sum += t.n;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }catch (Exception e){
-            e.printStackTrace();
         }
 
-        System.out.println(sum);
+        System.out.println(Counter.instance().getCounter());
     }
 }
