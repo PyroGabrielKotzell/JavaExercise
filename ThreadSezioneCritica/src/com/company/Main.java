@@ -1,18 +1,19 @@
 package com.company;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main {
 
     public static void main(String[] args) {
-        ArrayList<ThreadC> threads = new ArrayList<>();
-        Counter.instance();
+        Person[] people = createPeople();
+        ThreadC[] threads = new ThreadC[people.length];
+        Lister.instance();
 
-        for (int i = 30; i > -1; i--) {
-            threads.add(new ThreadC("Marco " + i, i));
+        for (int i = 0; i < threads.length; i++) {
+            threads[i] = new ThreadC(people[i].getInfo()[0], people[i]);
         }
 
-        System.out.println("{Threads: " + threads.toString());
+        System.out.println("{Threads: " + Arrays.toString(threads));
 
         for (ThreadC t : threads) {
             t.start();
@@ -26,6 +27,25 @@ public class Main {
             }
         }
 
-        System.out.println(Counter.instance().getCounter());
+        System.out.println();
+        for (Person p: Lister.instance().getServed()) {
+            System.out.println(Arrays.toString(p.getInfo()));
+            System.out.println();
+        }
+    }
+
+    public static Person[] createPeople(){
+        Person[] people = new Person[5];
+        // quarto
+        people[0] = new Person("Marco", "Maniero", "COOWO4U284YU", 3);
+        // quinto
+        people[1] = new Person("Torli", "Christian", "PKJIWLJRNCMN", 4);
+        // primo
+        people[2] = new Person("Funko", "POP", "8R3HOHOHORHO", 0);
+        // secondo
+        people[3] = new Person("Mario", "Mario", "MARIOMARIOMA", 1);
+        // terzo
+        people[4] = new Person("Luigi", "Mario", "UOMOVERDEBAF", 2);
+        return people;
     }
 }

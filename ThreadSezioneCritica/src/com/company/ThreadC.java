@@ -1,15 +1,15 @@
 package com.company;
 
 public class ThreadC extends Thread {
-    private final int priority;
+    private final Person person;
 
-    ThreadC(String nome, int priority) {
-        super(nome);
-        this.priority = priority;
+    ThreadC(String name, Person person) {
+        super(name);
+        this.person = person;
     }
 
     @Override
     public void run() {
-        Counter.instance().add(priority, getName());
+        Lister.instance().add(person, getName());
     }
 }
