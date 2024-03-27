@@ -1,51 +1,36 @@
 package com.company;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class Main {
+    // public static Productor p;
 
     public static void main(String[] args) {
-        Person[] people = createPeople();
-        ThreadC[] threads = new ThreadC[people.length];
-        Lister.instance();
+        int len = 30;
+        Consumer[] threads = new Consumer[len];
+        Buffer.instance();
 
+        Productor p = new Productor("Pino", len);
         for (int i = 0; i < threads.length; i++) {
-            threads[i] = new ThreadC(people[i].getInfo()[0], people[i]);
+            threads[i] = new Consumer("Mariozzo " + (i + 1));
         }
 
-        System.out.println("{Threads: " + Arrays.toString(threads));
-
-        for (ThreadC t : threads) {
-            t.start();
+        p.start();
+        for (Consumer c : threads) {
+            c.start();
         }
-
-        for (ThreadC t : threads) {
-            try {
-                t.join();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            p.join();
+            for (Consumer t : threads) t.join();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         System.out.println();
-        for (Person p: Lister.instance().getServed()) {
-            System.out.println(Arrays.toString(p.getInfo()));
-            System.out.println();
+        System.out.println("data left: " + Buffer.instance().getDatas());
+        for (int i = 0; i < threads.length; i++) {
+            System.out.print(threads[i].getName() + "=" + threads[i].getData() + (i != 29 ? ", " : ""));
+            if (i%10 == 9) System.out.println();
         }
-    }
-
-    public static Person[] createPeople(){
-        Person[] people = new Person[5];
-        // quarto
-        people[0] = new Person("Marco", "Maniero", "COOWO4U284YU", 3);
-        // quinto
-        people[1] = new Person("Torli", "Christian", "PKJIWLJRNCMN", 4);
-        // primo
-        people[2] = new Person("Funko", "POP", "8R3HOHOHORHO", 0);
-        // secondo
-        people[3] = new Person("Mario", "Mario", "MARIOMARIOMA", 1);
-        // terzo
-        people[4] = new Person("Luigi", "Mario", "UOMOVERDEBAF", 2);
-        return people;
     }
 }
