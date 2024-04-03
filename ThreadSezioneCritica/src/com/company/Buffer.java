@@ -1,23 +1,32 @@
 package com.company;
 
-import java.util.Stack;
+import java.util.ArrayList;
 
 public class Buffer {
-    private final Stack<Integer> datas;
+    // stack con i dati all'interno
+    private final ArrayList<Integer> datas;
+
+    // istanza del buffer per non farne creare altri
     private static Buffer instance;
 
+    // grandezza massima del buffer
+    private int maxSize = 10;
+
     private Buffer() {
-        datas = new Stack<>();
+        datas = new ArrayList<>();
     }
 
+    // get dell'istanza del buffer
     public static Buffer instance() {
         if (instance == null) instance = new Buffer();
         return instance;
     }
 
+    // aggiunta di dati dal thread produttore
     public void add(String name, int data) {
         synchronized (this) {
-            while (datas.size() >= 10) {
+            // nel mentre è pieno mi fermo dall'aggiungere
+            while (datas.size() >= maxSize) {
                 try {
                     wait();
                 } catch (Exception e) {
@@ -25,31 +34,41 @@ public class Buffer {
                 }
             }
 
+            // aggiunta e notify
             datas.add(data);
             System.out.println("-Thread " + name + " made integer: " + data);
             notifyAll();
         }
     }
 
+    // set della grandezza massima del buffer
+    public void setMaxSize(int maxSize) {
+        this.maxSize = maxSize;
+    }
+
+    // get chiamato dai thread consumatori
     public int get(String name) {
         synchronized (this) {
-            while (datas.empty()) {
+            // nel mentre il buffer è vuoto mi fermo
+            while (datas.isEmpty()) {
                 try {
                     wait();
-                    //if () return 0;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
-            int i = datas.pop();
+            // rimozione del dato aggiunto ultimamente (pop) e notify
+            int i = datas.get(0);
+            datas.remove(0);
             System.out.println("-Thread " + name + " got the integer: " + i);
             notifyAll();
             return i;
         }
     }
 
-    public Stack<Integer> getDatas() {
+    // get dei dati nello stack del buffer
+    public ArrayList<Integer> getDatas() {
         return datas;
     }
 }

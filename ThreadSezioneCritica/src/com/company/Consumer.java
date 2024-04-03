@@ -9,6 +9,7 @@ public class Consumer extends Thread {
 
     @Override
     public void run() {
+        // get di un dato dal buffer
         data = Buffer.instance().get(getName());
     }
 

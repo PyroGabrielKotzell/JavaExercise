@@ -3,18 +3,20 @@ package com.company;
 import java.util.Random;
 
 public class Productor extends Thread {
-    private final int length;
+    // rispettivamente: quantità dei dati e massimo valore di un dato (per il random)
+    private final int length, max;
 
-    Productor(String name, int length) {
+    Productor(String name, int length, int max) {
         super(name);
         this.length = length;
+        this.max = max;
     }
 
     @Override
     public void run() {
         Random r = new Random();
-        for (int i = 0; i < length; i++) {
-            Buffer.instance().add(getName(), r.nextInt(31));
-        }
+        // aggiungo un valore random al buffer
+        for (int i = 0; i < length; i++)
+            Buffer.instance().add(getName(), r.nextInt(max));
     }
 }
