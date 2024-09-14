@@ -1,0 +1,14 @@
+I dati del file "dati.dat" hanno la seguente struttura:
+
+codice(5)  cognome(10) nome(10) telefono (8) indirizzo (25)  città (15) 
+
+- tra parentesi è indicata la lunghezza in bytes di ogni singolo dato
+
+- tutii i dati sono di tipo stringa (anche i  dati numerici)
+
+-  per visualizzare la lunghezza dei dati  è stato aggiunto un asterisco come ultimo carattere della città
+
+- notate che nel file al temine di ogni riga va a capo,
+  ATTENTI vuol dire che ci sono i due caratteri  carriage return+ newline (2)  
+
+IL TOTALE DEI  BYTES É 75
