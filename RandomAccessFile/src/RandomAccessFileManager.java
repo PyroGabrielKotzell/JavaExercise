@@ -72,6 +72,18 @@ public class RandomAccessFileManager {
         return -1;
     }
 
+    public String findLine(String key, int lineLength) {
+        index(0);
+        String s = new String(read(lineLength));
+        while (s != null) {
+            if (s.contains(key)) {
+                return s;
+            }
+            s = new String(read(lineLength));
+        }
+        return "";
+    }
+
     public void close() {
         try {
             raf.close();

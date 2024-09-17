@@ -8,8 +8,8 @@ public class Main {
             for (int i = 0; i < 20; i++) {
                 file1.index(i * 75);
                 String str = new String(file1.read(25));
-
-                String codice = str.substring(0, 5);
+                String codiceStringa = str.substring(0, 5);
+                String codice = String.format("%05d", (Integer.parseInt(codiceStringa)-1)*75);
                 String nome = str.substring(15, 25);
 
                 file2.write(nome + "" + codice);
@@ -20,9 +20,9 @@ public class Main {
             file1.index(0);
             file2.index(0);
 
-            long j = file2.find("LUCIA", 16);
+            long j = Integer.parseInt(file2.findLine("LUCIA", 16).substring(10, 15));
 
-            file1.index((j - 1) * 75);
+            file1.index(j);
             String datas = new String(file1.read(75));
             System.out.print(datas);
 
