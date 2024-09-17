@@ -62,7 +62,7 @@ public class RandomAccessFileManager {
         index(0);
         int index = 1;
         String s = new String(read(lineLength));
-        while (s != null) {
+        while (!s.contains("\u0000")) {
             if (s.contains(key)) {
                 return index;
             }
@@ -75,7 +75,7 @@ public class RandomAccessFileManager {
     public String findLine(String key, int lineLength) {
         index(0);
         String s = new String(read(lineLength));
-        while (s != null) {
+        while (!s.contains("\u0000")) {
             if (s.contains(key)) {
                 return s;
             }
