@@ -9,6 +9,10 @@ public class Row {
         this.values.addAll(values);
     }
 
+    public boolean isEqual(Row row){
+        return values.containsAll(row.getValues()) && values.size() == row.getValues().size();
+    }
+
     public String getValue(int index) {
         return values.get(index);
     }

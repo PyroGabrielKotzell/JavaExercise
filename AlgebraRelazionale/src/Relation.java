@@ -112,13 +112,16 @@ public class Relation {
             r.addRow(new Row(values));
         }
 
-        /*
-        control equal values
+        r.getRows().removeIf(e -> {
+            for (Row row : r.getRows()) {
+                if (e.equals(row))
+                    continue;
+                if (e.isEqual(row))
+                    return true;
+            }
+            return false;
+        });
 
-         r.getRows().removeIf(e -> {
-         return false;
-         });
-        */
         return r;
     }
 
