@@ -134,13 +134,13 @@ public class Relation {
         setRows(rows);
     }
 
-    public Relation selection(Relation relation, String key, String value) {
+    public static Relation selection(Relation relation, String key, String value) {
         Relation r = new Relation();
-        int i = keyIndex(key);
+        int i = relation.keyIndex(key);
 
         if (i == -1)
             return r;
-        r.setHeaders(header);
+        r.setHeaders(relation.getHeaders());
 
         for (Row row : relation.getRows()) {
             if (row.getValue(i).equals(value))
@@ -150,14 +150,14 @@ public class Relation {
         return r;
     }
 
-    public Relation projection(Relation relation, ArrayList<String> keys) {
+    public static Relation projection(Relation relation, ArrayList<String> keys) {
         Relation r = new Relation();
         ArrayList<Integer> indexes = new ArrayList<>();
 
         for (String key : keys) {
-            if (header.contains(key)) {
+            if (relation.getHeaders().contains(key)) {
                 r.addHeader(key);
-                indexes.add(keyIndex(key));
+                indexes.add(relation.keyIndex(key));
             }
         }
 
@@ -174,7 +174,7 @@ public class Relation {
         return r;
     }
 
-    public Relation union(Relation relation1, Relation relation2) {
+    public static Relation union(Relation relation1, Relation relation2) {
         Relation r = new Relation();
         if (relation1.headersLen() != relation2.headersLen())
             return r;
@@ -195,7 +195,7 @@ public class Relation {
         return r;
     }
 
-    public Relation difference(Relation relation1, Relation relation2) {
+    public static Relation difference(Relation relation1, Relation relation2) {
         Relation r = new Relation();
         if (relation1.headersLen() != relation2.headersLen())
             return r;
