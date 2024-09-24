@@ -14,6 +14,10 @@ public class Relation {
         rows = new ArrayList<>();
     }
 
+    /**
+     * Makes a Relation using the given CSV file, cuts all values outside of the headers length
+     * @param csvfile
+     */
     Relation(String csvfile) {
         this();
         try {
@@ -21,7 +25,7 @@ public class Relation {
             if (br.ready())
                 header.addAll(Arrays.asList(br.readLine().split(",")));
             while (br.ready()) {
-                rows.add(new Row(Arrays.asList(br.readLine().split(","))));
+                rows.add(new Row(Arrays.asList(br.readLine().split(",")).subList(0, headersLen())));
             }
             br.close();
         } catch (IOException e) {
@@ -29,16 +33,49 @@ public class Relation {
         }
     }
 
+    /**
+     * Adds a row and removes duplicates if any
+     * @param row
+     */
     public void addRow(Row row) {
         rows.add(row);
+        removeDuplicates();
     }
 
+    /**
+     * Unused
+     * @param key
+     */
     public void addHeader(String key) {
         header.add(key);
     }
 
+    /**
+     * Unused
+     * @param key
+     */
+    public void removeHeader(int key) {
+        header.remove(key);
+    }
+
+    /**
+     * Unused
+     * @param key
+     */
+    public void removeHeader(String key) {
+        header.remove(key);
+    }
+
     public Row getRow(int row) {
         return rows.get(row);
+    }
+
+    public void removeRow(int row) {
+        rows.remove(row);
+    }
+
+    public void removeRow(Row row) {
+        rows.remove(row);
     }
 
     public String getValue(int row, String key) {
@@ -46,26 +83,26 @@ public class Relation {
     }
 
     public void setValue(int row, String key, String value) {
-        rows.get(row).setValue(keyIndex(key), value);
+        getRow(row).setValue(keyIndex(key), value);
     }
 
     public int keyIndex(String key) {
         return header.indexOf(key);
     }
 
-    public int headers() {
+    public int headersLen() {
         return header.size();
     }
 
-    public int length() {
+    public int rowsLen() {
         return rows.size();
     }
 
-    public ArrayList<String> getHeader() {
+    public ArrayList<String> getHeaders() {
         return header;
     }
 
-    public void setHeader(ArrayList<String> header) {
+    public void setHeaders(ArrayList<String> header) {
         this.header = header;
     }
 
@@ -73,8 +110,28 @@ public class Relation {
         return rows;
     }
 
+    /**
+     * Unused
+     * @param rows
+     */
     public void setRows(ArrayList<Row> rows) {
         this.rows = rows;
+    }
+
+    public void removeDuplicates() {
+        ArrayList<Row> rows = new ArrayList<>();
+        for (Row row : getRows()) {
+            boolean tmp = false;
+            for (Row row2 : rows) {
+                if (row.sameValues(row2)) {
+                    tmp = true;
+                    break;
+                }
+            }
+            if (!tmp)
+                rows.add(row);
+        }
+        setRows(rows);
     }
 
     public Relation selection(Relation relation, String key, String value) {
@@ -83,7 +140,7 @@ public class Relation {
 
         if (i == -1)
             return r;
-        r.setHeader(header);
+        r.setHeaders(header);
 
         for (Row row : relation.getRows()) {
             if (row.getValue(i).equals(value))
@@ -112,15 +169,47 @@ public class Relation {
             r.addRow(new Row(values));
         }
 
-        r.getRows().removeIf(e -> {
-            for (Row row : r.getRows()) {
-                if (e.equals(row))
-                    continue;
-                if (e.isEqual(row))
-                    return true;
+        r.removeDuplicates();
+
+        return r;
+    }
+
+    public Relation union(Relation relation1, Relation relation2) {
+        Relation r = new Relation();
+        if (relation1.headersLen() != relation2.headersLen())
+            return r;
+        if (!relation1.getHeaders().containsAll(relation2.getHeaders()))
+            return r;
+
+        r.setHeaders(relation1.getHeaders());
+
+        for (Row row : relation1.getRows()) {
+            r.addRow(row);
+        }
+        for (Row row : relation2.getRows()) {
+            r.addRow(row);
+        }
+
+        r.removeDuplicates();
+
+        return r;
+    }
+
+    public Relation difference(Relation relation1, Relation relation2) {
+        Relation r = new Relation();
+        if (relation1.headersLen() != relation2.headersLen())
+            return r;
+        if (!relation1.getHeaders().containsAll(relation2.getHeaders()))
+            return r;
+
+        r.setHeaders(relation1.getHeaders());
+
+        for (Row row1 : relation1.getRows()) {
+            for (Row row2 : relation2.getRows()) {
+                if (row1.sameValues(row2)) break;
+                r.addRow(row1);
             }
-            return false;
-        });
+        }
 
         return r;
     }

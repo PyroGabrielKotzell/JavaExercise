@@ -9,7 +9,7 @@ public class Row {
         this.values.addAll(values);
     }
 
-    public boolean isEqual(Row row){
+    public boolean sameValues(Row row){
         return values.containsAll(row.getValues()) && values.size() == row.getValues().size();
     }
 
