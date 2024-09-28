@@ -27,5 +27,7 @@ public class Main {
         System.out.println("\nJoin between ordini and prodotti");
         ArrayList<String> junctionField = new ArrayList<>(Arrays.asList(new String[] { "id_prodotto" }));
         System.out.println(Relation.junction(ordini, prodotti, junctionField));
+        //System.out.println("\nCartesian product between ordini and prodotti");
+        //System.out.println(Relation.cartesianProduct(ordini, prodotti));
     }
 }
