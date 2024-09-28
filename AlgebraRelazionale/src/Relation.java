@@ -15,7 +15,9 @@ public class Relation {
     }
 
     /**
-     * Makes a Relation using the given CSV file, cuts all values outside of the headers length
+     * Makes a Relation using the given CSV file, cuts all values outside of the
+     * headers length
+     * 
      * @param csvfile
      */
     Relation(String csvfile) {
@@ -35,6 +37,7 @@ public class Relation {
 
     /**
      * Adds a row and removes duplicates if any
+     * 
      * @param row
      */
     public void addRow(Row row) {
@@ -44,6 +47,7 @@ public class Relation {
 
     /**
      * Unused
+     * 
      * @param key
      */
     public void addHeader(String key) {
@@ -52,6 +56,7 @@ public class Relation {
 
     /**
      * Unused
+     * 
      * @param key
      */
     public void removeHeader(int key) {
@@ -60,6 +65,7 @@ public class Relation {
 
     /**
      * Unused
+     * 
      * @param key
      */
     public void removeHeader(String key) {
@@ -112,6 +118,7 @@ public class Relation {
 
     /**
      * Unused
+     * 
      * @param rows
      */
     public void setRows(ArrayList<Row> rows) {
@@ -140,7 +147,7 @@ public class Relation {
 
         if (i == -1)
             return r;
-        r.setHeaders(relation.getHeaders());
+        r.getHeaders().addAll(relation.getHeaders());
 
         for (Row row : relation.getRows()) {
             if (row.getValue(i).equals(value))
@@ -181,7 +188,7 @@ public class Relation {
         if (!relation1.getHeaders().containsAll(relation2.getHeaders()))
             return r;
 
-        r.setHeaders(relation1.getHeaders());
+        r.getHeaders().addAll(relation1.getHeaders());
 
         for (Row row : relation1.getRows()) {
             r.addRow(row);
@@ -202,12 +209,72 @@ public class Relation {
         if (!relation1.getHeaders().containsAll(relation2.getHeaders()))
             return r;
 
-        r.setHeaders(relation1.getHeaders());
+        r.getHeaders().addAll(relation1.getHeaders());
 
         for (Row row1 : relation1.getRows()) {
             for (Row row2 : relation2.getRows()) {
-                if (row1.sameValues(row2)) break;
+                if (row1.sameValues(row2))
+                    break;
+
                 r.addRow(row1);
+            }
+        }
+
+        return r;
+    }
+
+    public static Relation cartesianProduct(Relation relation1, Relation relation2) {
+        Relation r = new Relation();
+
+        r.getHeaders().addAll(relation1.getHeaders());
+        r.getHeaders().addAll(relation2.getHeaders());
+
+        for (Row row1 : relation1.getRows()) {
+            for (Row row2 : relation2.getRows()) {
+                ArrayList<String> values = new ArrayList<>();
+                values.addAll(row1.getValues());
+                values.addAll(row2.getValues());
+                Row row = new Row(values);
+
+                r.addRow(row);
+            }
+        }
+
+        return r;
+    }
+
+    public static Relation junction(Relation relation1, Relation relation2, ArrayList<String> junctionField) {
+        Relation r = new Relation();
+        for (String string : junctionField) {
+            if (!relation1.getHeaders().contains(string))
+                return r;
+            if (!relation2.getHeaders().contains(string))
+                return r;
+        }
+
+        r.getHeaders().addAll(relation1.getHeaders());
+
+        ArrayList<String> tmp = new ArrayList<>();
+        tmp.addAll(relation2.getHeaders());
+        tmp.removeAll(junctionField);
+        
+        r.getHeaders().addAll(tmp);
+
+        for (String string : junctionField) {
+            int index1 = relation1.keyIndex(string);
+            int index2 = relation2.keyIndex(string);
+
+            for (Row row1 : relation1.getRows()) {
+                for (Row row2 : relation2.getRows()) {
+                    if (!row2.getValue(index2).equals(row1.getValue(index1))) continue;
+                    ArrayList<String> values = new ArrayList<>();
+                    values.addAll(row1.getValues());
+                    values.addAll(row2.getValues());
+                    values.remove(row1.getValues().size() + index2);
+                    Row row = new Row(values);
+
+                    r.addRow(row);
+                }
             }
         }
 
