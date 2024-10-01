@@ -257,7 +257,7 @@ public class Relation {
         ArrayList<String> tmp = new ArrayList<>();
         tmp.addAll(relation2.getHeaders());
         tmp.removeAll(junctionField);
-        
+
         r.getHeaders().addAll(tmp);
 
         for (String string : junctionField) {
@@ -266,7 +266,8 @@ public class Relation {
 
             for (Row row1 : relation1.getRows()) {
                 for (Row row2 : relation2.getRows()) {
-                    if (!row2.getValue(index2).equals(row1.getValue(index1))) continue;
+                    if (!row2.getValue(index2).equals(row1.getValue(index1)))
+                        continue;
                     ArrayList<String> values = new ArrayList<>();
                     values.addAll(row1.getValues());
                     values.addAll(row2.getValues());
