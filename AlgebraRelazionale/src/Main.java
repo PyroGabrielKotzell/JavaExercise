@@ -15,11 +15,15 @@ public class Main {
         // D -> difference
         // CP -> cartesianProduct
         // J -> junction/join
+
+        //es1();
+        //es2();
+        es3();
+    }
+
+    private static void es1() {
         Relation persone = new Relation("persone.csv");
         Relation persone2 = new Relation("persone2.csv");
-        Relation ordini = new Relation("ordini.csv");
-        Relation prodotti = new Relation("prodotti.csv");
-
         System.out.println("persone1\n" + persone);
 
         System.out.println("\npersone2\n" + persone2);
@@ -32,6 +36,12 @@ public class Main {
         System.out.println("\nUnion between persone1 and persone2\n" + Relation.union(persone, persone2));
 
         System.out.println("\nDifference between persone1 and persone2\n" + Relation.difference(persone, persone2));
+    }
+
+    private static void es2() {
+        Relation persone = new Relation("persone.csv");
+        Relation ordini = new Relation("ordini.csv");
+        Relation prodotti = new Relation("prodotti.csv");
 
         System.out.println(
                 "\nCartesian product between ordini and prodotti\n" + Relation.cartesianProduct(ordini, prodotti));
@@ -42,12 +52,12 @@ public class Main {
 
         doPriceQueries(J_OPr);
 
-        Pkeys = new ArrayList<>(Arrays.asList(new String[] { "id_utente", "prezzo_unitario" }));
+        ArrayList<String> Pkeys = new ArrayList<>(Arrays.asList(new String[] { "id_utente", "prezzo_unitario" }));
         Relation Pj_OPr = Relation.projection(J_OPr, Pkeys);
 
         junctionField = new ArrayList<>(Arrays.asList(new String[] { "id_utente" }));
         Relation J_OPrP1 = Relation.junction(Pj_OPr, persone, junctionField);
-        
+
         int keyPrice = J_OPrP1.keyIndex("prezzo_unitario");
 
         ArrayList<Integer> prices = new ArrayList<>();
@@ -80,5 +90,15 @@ public class Main {
         }
 
         System.out.println("\nPrezzo totale di tutti gli ordini\n" + prezzoTotale);
+    }
+
+    private static void es3() {
+        Relation city = new Relation("city.csv");
+        Relation country = new Relation("country.csv");
+        Relation countryLang = new Relation("countrylanguage.csv");
+        System.out.println("\nCountries in europe\n" + Relation.selection(country, "\"Continent\"", "\"Europe\""));
+        ArrayList<String> keys = new ArrayList<>(Arrays.asList(new String[] { "\"ID\"", "\"Name\"" }));
+        Relation Pj_CiCo = Relation.projection(Relation.selection(city, "\"Continent\"", "\"Europe\""), keys);
+        System.out.println("\nAll French cities\n" + Relation.selection(city, "\"CountryCode\"", "\"FRA\""));
     }
 }

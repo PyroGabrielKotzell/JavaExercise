@@ -263,6 +263,7 @@ public class Relation {
         for (String string : junctionField) {
             int index1 = relation1.keyIndex(string);
             int index2 = relation2.keyIndex(string);
+            int removeI = relation1.headersLen() + index2;
 
             for (Row row1 : relation1.getRows()) {
                 for (Row row2 : relation2.getRows()) {
@@ -271,7 +272,7 @@ public class Relation {
                     ArrayList<String> values = new ArrayList<>();
                     values.addAll(row1.getValues());
                     values.addAll(row2.getValues());
-                    values.remove(row1.getValues().size() + index2);
+                    values.remove(removeI);
                     Row row = new Row(values);
 
                     r.addRow(row);
