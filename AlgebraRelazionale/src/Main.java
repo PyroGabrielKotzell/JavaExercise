@@ -4,6 +4,17 @@ import java.util.Collections;
 
 public class Main {
     public static void main(String[] args) throws Exception {
+        // P1 -> persone
+        // P2 -> persone2
+        // O -> ordini
+        // Pr -> prodotti
+        //
+        // S -> slection
+        // Pj -> projection
+        // U -> union
+        // D -> difference
+        // CP -> cartesianProduct
+        // J -> junction/join
         Relation persone = new Relation("persone.csv");
         Relation persone2 = new Relation("persone2.csv");
         Relation ordini = new Relation("ordini.csv");
@@ -26,29 +37,29 @@ public class Main {
                 "\nCartesian product between ordini and prodotti\n" + Relation.cartesianProduct(ordini, prodotti));
 
         ArrayList<String> junctionField = new ArrayList<>(Arrays.asList(new String[] { "id_prodotto" }));
-        Relation JordiniProdottiID_Prodotto = Relation.junction(ordini, prodotti, junctionField);
-        System.out.println("\nJoin between ordini and prodotti\n" + JordiniProdottiID_Prodotto);
+        Relation J_OPr = Relation.junction(ordini, prodotti, junctionField);
+        System.out.println("\nJoin between ordini and prodotti\n" + J_OPr);
 
-        doPriceQueries(JordiniProdottiID_Prodotto);
+        doPriceQueries(J_OPr);
 
         Pkeys = new ArrayList<>(Arrays.asList(new String[] { "id_utente", "prezzo_unitario" }));
-        Relation PprodottiID_Utente = Relation.projection(JordiniProdottiID_Prodotto, Pkeys);
+        Relation Pj_OPr = Relation.projection(J_OPr, Pkeys);
 
         junctionField = new ArrayList<>(Arrays.asList(new String[] { "id_utente" }));
-        Relation JordiniProdottiID_Utente = Relation.junction(PprodottiID_Utente, persone, junctionField);
+        Relation J_OPrP1 = Relation.junction(Pj_OPr, persone, junctionField);
         
-        int keyPrice = JordiniProdottiID_Utente.keyIndex("prezzo_unitario");
+        int keyPrice = J_OPrP1.keyIndex("prezzo_unitario");
 
         ArrayList<Integer> prices = new ArrayList<>();
 
-        for (Row row : JordiniProdottiID_Utente.getRows()) {
+        for (Row row : J_OPrP1.getRows()) {
             prices.add(Integer.parseInt(row.getValue(keyPrice)));
         }
 
         int maxPrice = Collections.max(prices);
 
-        Relation SordiniProdottiID_UtentePrezzo_Unitario = Relation.selection(JordiniProdottiID_Utente, "prezzo_unitario", maxPrice + "");
-        System.out.println("\nUsers who bought the highest priced product\n" + SordiniProdottiID_UtentePrezzo_Unitario);
+        Relation S_OPrP1 = Relation.selection(J_OPrP1, "prezzo_unitario", maxPrice + "");
+        System.out.println("\nUsers who bought the highest priced product\n" + S_OPrP1);
     }
 
     private static void doPriceQueries(Relation relation) {
