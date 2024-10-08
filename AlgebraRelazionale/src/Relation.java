@@ -112,6 +112,10 @@ public class Relation {
         this.header = header;
     }
 
+    public void setHeader(String key, String newKey) {
+        header.set(keyIndex(key), newKey);
+    }
+
     public ArrayList<Row> getRows() {
         return rows;
     }
@@ -151,6 +155,44 @@ public class Relation {
 
         for (Row row : relation.getRows()) {
             if (row.getValue(i).equals(value))
+                r.addRow(row);
+        }
+
+        return r;
+    }
+
+    public static Relation selectionLessThan(Relation relation, String key, long value) {
+        Relation r = new Relation();
+        int i = relation.keyIndex(key);
+
+        if (i == -1)
+            return r;
+        r.getHeaders().addAll(relation.getHeaders());
+
+        for (Row row : relation.getRows()) {
+            String v = row.getValue(i).replaceAll("[^0-9]", "");
+            if (v.isEmpty())
+                continue;
+            if (Integer.parseInt(v) < value)
+                r.addRow(row);
+        }
+
+        return r;
+    }
+
+    public static Relation selectionMoreThan(Relation relation, String key, long value) {
+        Relation r = new Relation();
+        int i = relation.keyIndex(key);
+
+        if (i == -1)
+            return r;
+        r.getHeaders().addAll(relation.getHeaders());
+
+        for (Row row : relation.getRows()) {
+            String v = row.getValue(i).replaceAll("[^0-9]", "");
+            if (v.isEmpty())
+                continue;
+            if (Integer.parseInt(v) > value)
                 r.addRow(row);
         }
 
@@ -231,11 +273,8 @@ public class Relation {
 
         for (Row row1 : relation1.getRows()) {
             for (Row row2 : relation2.getRows()) {
-                ArrayList<String> values = new ArrayList<>();
-                values.addAll(row1.getValues());
-                values.addAll(row2.getValues());
-                Row row = new Row(values);
-
+                Row row = new Row(row1.getValues());
+                row.addValues(row2.getValues());
                 r.addRow(row);
             }
         }
@@ -243,43 +282,51 @@ public class Relation {
         return r;
     }
 
-    public static Relation junction(Relation relation1, Relation relation2, ArrayList<String> junctionField) {
+    public static Relation junction(Relation relation1, Relation relation2, ArrayList<String> keyRel1,
+            ArrayList<String> keyRel2) {
         Relation r = new Relation();
-        for (String string : junctionField) {
-            if (!relation1.getHeaders().contains(string))
-                return r;
-            if (!relation2.getHeaders().contains(string))
-                return r;
-        }
+        if (!relation1.getHeaders().containsAll(keyRel1))
+            return r;
+        if (!relation2.getHeaders().containsAll(keyRel2))
+            return r;
+        if (keyRel1.size() != keyRel2.size())
+            return r;
 
         r.getHeaders().addAll(relation1.getHeaders());
 
         ArrayList<String> tmp = new ArrayList<>();
         tmp.addAll(relation2.getHeaders());
-        tmp.removeAll(junctionField);
+        tmp.removeAll(keyRel2);
 
         r.getHeaders().addAll(tmp);
 
-        for (String string : junctionField) {
-            int index1 = relation1.keyIndex(string);
-            int index2 = relation2.keyIndex(string);
+        for (int i = 0; i < keyRel1.size(); i++) {
+            int index1 = relation1.keyIndex(keyRel1.get(i));
+            int index2 = relation2.keyIndex(keyRel2.get(i));
             int removeI = relation1.headersLen() + index2;
 
             for (Row row1 : relation1.getRows()) {
                 for (Row row2 : relation2.getRows()) {
                     if (!row2.getValue(index2).equals(row1.getValue(index1)))
                         continue;
-                    ArrayList<String> values = new ArrayList<>();
-                    values.addAll(row1.getValues());
-                    values.addAll(row2.getValues());
-                    values.remove(removeI);
-                    Row row = new Row(values);
-
+                    Row row = new Row(row1.getValues());
+                    row.addValues(row2.getValues());
+                    row.removeValue(removeI);
                     r.addRow(row);
                 }
             }
         }
 
+        return r;
+    }
+
+    public Relation clone() {
+        Relation r = new Relation();
+        r.getHeaders().addAll(getHeaders());
+        for (Row row : getRows()) {
+            Row newRow = new Row(row.getValues());
+            r.addRow(newRow);
+        }
         return r;
     }
 

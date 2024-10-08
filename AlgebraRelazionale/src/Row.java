@@ -1,8 +1,13 @@
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class Row {
     private ArrayList<String> values;
+
+    public Row() {
+        this.values = new ArrayList<>();
+    }
 
     public Row(List<String> values) {
         this.values = new ArrayList<>();
@@ -10,7 +15,7 @@ public class Row {
     }
 
     public boolean sameValues(Row row) {
-        return values.containsAll(row.getValues()) && values.size() == row.getValues().size();
+        return values.containsAll(row.getValues()) && values.size() == row.getLen();
     }
 
     public String getValue(int index) {
@@ -21,12 +26,32 @@ public class Row {
         values.set(index, value);
     }
 
+    public void addValue(String value) {
+        values.add(value);
+    }
+
+    public void addValues(Collection<? extends String> value) {
+        values.addAll(value);
+    }
+
+    public void removeValue(int index) {
+        values.remove(index);
+    }
+
+    public void removeValue(Object o) {
+        values.remove(o);
+    }
+
     public ArrayList<String> getValues() {
         return values;
     }
 
     public void setValues(ArrayList<String> values) {
         this.values = values;
+    }
+
+    public int getLen() {
+        return values.size();
     }
 
     @Override

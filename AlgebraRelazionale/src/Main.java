@@ -47,7 +47,7 @@ public class Main {
                 "\nCartesian product between ordini and prodotti\n" + Relation.cartesianProduct(ordini, prodotti));
 
         ArrayList<String> junctionField = new ArrayList<>(Arrays.asList(new String[] { "id_prodotto" }));
-        Relation J_OPr = Relation.junction(ordini, prodotti, junctionField);
+        Relation J_OPr = Relation.junction(ordini, prodotti, junctionField, junctionField);
         System.out.println("\nJoin between ordini and prodotti\n" + J_OPr);
 
         doPriceQueries(J_OPr);
@@ -56,7 +56,7 @@ public class Main {
         Relation Pj_OPr = Relation.projection(J_OPr, Pkeys);
 
         junctionField = new ArrayList<>(Arrays.asList(new String[] { "id_utente" }));
-        Relation J_OPrP1 = Relation.junction(Pj_OPr, persone, junctionField);
+        Relation J_OPrP1 = Relation.junction(Pj_OPr, persone, junctionField, junctionField);
 
         int keyPrice = J_OPrP1.keyIndex("prezzo_unitario");
 
@@ -96,9 +96,43 @@ public class Main {
         Relation city = new Relation("city.csv");
         Relation country = new Relation("country.csv");
         Relation countryLang = new Relation("countrylanguage.csv");
+
         System.out.println("\nCountries in europe\n" + Relation.selection(country, "\"Continent\"", "\"Europe\""));
-        ArrayList<String> keys = new ArrayList<>(Arrays.asList(new String[] { "\"ID\"", "\"Name\"" }));
-        Relation Pj_CiCo = Relation.projection(Relation.selection(city, "\"Continent\"", "\"Europe\""), keys);
+
         System.out.println("\nAll French cities\n" + Relation.selection(city, "\"CountryCode\"", "\"FRA\""));
+
+        Relation filteredCountries = Relation.selectionLessThan(Relation.selectionMoreThan(country, "\"Population\"", 100000000), "\"Population\"", 200000000);
+        System.out.println("\nCountries with more than 100M and less than 200M of population\n" + filteredCountries);
+
+        Relation southAmericanCountries = Relation.selection(country, "\"Continent\"", "\"South America\"");
+        southAmericanCountries.setHeader("\"Name\"", "\"CountryName\"");
+        southAmericanCountries.setHeader("\"Population\"", "\"CountryPopulation\"");
+        ArrayList<String> JF1 = new ArrayList<>(Arrays.asList(new String[] { "\"Capital\"" }));
+        ArrayList<String> JF2 = new ArrayList<>(Arrays.asList(new String[] { "\"ID\"" }));
+        Relation J_SACCity = Relation.junction(southAmericanCountries, city, JF1, JF2);
+        ArrayList<String> keys = new ArrayList<>(Arrays.asList(new String[] { "\"CountryName\"", "\"Name\"", "\"CountryPopulation\"" }));
+        Relation Pj_SACCity = Relation.projection(J_SACCity, keys);
+        System.out.println("\nCountry Name, Country Population, and City Name of South American Countries\n" + Pj_SACCity);
+        
+        Relation asianCountries = Relation.selection(country, "\"Continent\"", "\"Asia\"");
+        Relation japan = Relation.selection(country, "\"Name\"", "\"Japan\"");
+        long population = Integer.parseInt(japan.getValue(0, "\"Population\"").replaceAll("[^0-9]", ""));
+        System.out.println("\nAsian countries with population bigger than Japan\n" + Relation.selectionMoreThan(asianCountries, "\"Population\"", population));
+
+        keys = new ArrayList<>(Arrays.asList(new String[] { "\"CountryCode\"", "\"Name\"" }));
+        Relation italianCities = Relation.selection(city, "\"CountryCode\"", "\"ITA\"");
+        int populKey = italianCities.keyIndex("\"Population\"");
+        ArrayList<Integer> populations = new ArrayList<>();
+        for (Row row : italianCities.getRows()) {
+            populations.add(Integer.parseInt(row.getValue(populKey).replaceAll("[^0-9]", "")));
+        }
+        int maxPopul = Collections.max(populations);
+        int minPopul = Collections.min(populations);
+        System.out.println("\nMax Population Italian cities: " + maxPopul + "\nMin Population Italian cities: " + minPopul);
+
+        JF1 = new ArrayList<>(Arrays.asList(new String[] { "\"CountryCode\"" }));
+        Relation interestedLang = Relation.selection(countryLang, "\"Language\"", "\"English\"");
+        //"French"
+        //Relation countryWithLang
     }
 }
