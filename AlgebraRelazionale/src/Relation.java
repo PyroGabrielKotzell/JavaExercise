@@ -25,9 +25,9 @@ public class Relation {
         try {
             BufferedReader br = new BufferedReader(new FileReader(new File(csvfile)));
             if (br.ready())
-                header.addAll(Arrays.asList(br.readLine().split(",")));
+                header.addAll(Arrays.asList(br.readLine().split(",(?! )")));
             while (br.ready()) {
-                rows.add(new Row(Arrays.asList(br.readLine().split(",")).subList(0, headersLen())));
+                rows.add(new Row(Arrays.asList(br.readLine().split(",(?! )")).subList(0, headersLen())));
             }
             br.close();
         } catch (IOException e) {
@@ -131,16 +131,16 @@ public class Relation {
 
     public void removeDuplicates() {
         ArrayList<Row> rows = new ArrayList<>();
-        for (Row row : getRows()) {
+        for (Row row1 : getRows()) {
             boolean tmp = false;
             for (Row row2 : rows) {
-                if (row.sameValues(row2)) {
+                if (row1.sameValues(row2)) {
                     tmp = true;
                     break;
                 }
             }
             if (!tmp)
-                rows.add(row);
+                rows.add(new Row(row1.getValues()));
         }
         setRows(rows);
     }
@@ -155,7 +155,7 @@ public class Relation {
 
         for (Row row : relation.getRows()) {
             if (row.getValue(i).equals(value))
-                r.addRow(row);
+                r.addRow(new Row(row.getValues()));
         }
 
         return r;
@@ -174,7 +174,7 @@ public class Relation {
             if (v.isEmpty())
                 continue;
             if (Integer.parseInt(v) < value)
-                r.addRow(row);
+                r.addRow(new Row(row.getValues()));
         }
 
         return r;
@@ -193,7 +193,7 @@ public class Relation {
             if (v.isEmpty())
                 continue;
             if (Integer.parseInt(v) > value)
-                r.addRow(row);
+                r.addRow(new Row(row.getValues()));
         }
 
         return r;
@@ -233,10 +233,10 @@ public class Relation {
         r.getHeaders().addAll(relation1.getHeaders());
 
         for (Row row : relation1.getRows()) {
-            r.addRow(row);
+            r.addRow(new Row(row.getValues()));
         }
         for (Row row : relation2.getRows()) {
-            r.addRow(row);
+            r.addRow(new Row(row.getValues()));
         }
 
         r.removeDuplicates();
@@ -254,12 +254,14 @@ public class Relation {
         r.getHeaders().addAll(relation1.getHeaders());
 
         for (Row row1 : relation1.getRows()) {
+            boolean notPresent = true;
             for (Row row2 : relation2.getRows()) {
-                if (row1.sameValues(row2))
+                if (row1.sameValues(row2)) {
+                    notPresent = false;
                     break;
-
-                r.addRow(row1);
+                }
             }
+            if (notPresent) r.addRow(new Row(row1.getValues()));
         }
 
         return r;
@@ -324,8 +326,7 @@ public class Relation {
         Relation r = new Relation();
         r.getHeaders().addAll(getHeaders());
         for (Row row : getRows()) {
-            Row newRow = new Row(row.getValues());
-            r.addRow(newRow);
+            r.addRow(new Row(row.getValues()));
         }
         return r;
     }

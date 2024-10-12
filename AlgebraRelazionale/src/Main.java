@@ -131,8 +131,13 @@ public class Main {
         System.out.println("\nMax Population Italian cities: " + maxPopul + "\nMin Population Italian cities: " + minPopul);
 
         JF1 = new ArrayList<>(Arrays.asList(new String[] { "\"CountryCode\"" }));
-        Relation interestedLang = Relation.selection(countryLang, "\"Language\"", "\"English\"");
-        //"French"
-        //Relation countryWithLang
+        Relation frenchLang = Relation.selection(countryLang, "\"Language\"", "\"French\"");
+        Relation engLang = Relation.selection(countryLang, "\"Language\"", "\"English\"");
+        Relation engFreLangs = Relation.union(frenchLang, engLang);
+        Relation J_LangCountry = Relation.junction(country, engFreLangs, JF1, JF1);
+        keys = new ArrayList<>(Arrays.asList(new String[] { "\"Name\"" }));
+        Relation frenchCountries = Relation.projection(Relation.selection(J_LangCountry, "\"Language\"", "\"French\""), keys);
+        Relation onlyEngCountries = Relation.difference(J_LangCountry, Relation.junction(J_LangCountry, frenchCountries, keys, keys));
+        System.out.println("\nCountries using English and not French\n" + onlyEngCountries);
     }
 }
