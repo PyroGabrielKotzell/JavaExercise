@@ -112,7 +112,11 @@ public class SQLTalker {
             Connection con = DriverManager
                     .getConnection("jdbc:mariadb://localhost:3306/" + database + "?user=root&password=");
             Statement st = con.createStatement();
-            String query = "insert into " + table + values + " values (" + args + ");";
+            String formattedSet = "";
+            for (Integer integer : autoIncKeys) {
+                
+            }
+            String query = "update " + table + " set " + values + " values " + args + ";";
             return st.execute(query);
         } catch (Exception e) {
             //System.out.println("Wrong argument: " + e.getLocalizedMessage());

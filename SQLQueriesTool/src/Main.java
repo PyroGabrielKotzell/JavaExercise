@@ -93,6 +93,10 @@ public class Main {
     }
 
     private static Object getInputType(String input) {
+        if (input.contains(",")) {
+            System.out.println("Please do not use ','");
+            return null;
+        }
         String inputCopy = input + "";
         if (inputCopy.replaceAll("[a-zA-Z]", "A").contains("A")) {
             return "'" + input + "'";
