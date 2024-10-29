@@ -10,6 +10,7 @@ public class SQLTalker {
     private String table;
     private String values;
     private ArrayList<Integer> autoIncKeys;
+    private ArrayList<Integer> keys;
 
     public SQLTalker() {
     }
@@ -21,7 +22,8 @@ public class SQLTalker {
     public SQLTalker(String database, String table) {
         this.database = database;
         this.table = table;
-        this.autoIncKeys = new ArrayList<>();
+        autoIncKeys = new ArrayList<>();
+        keys = new ArrayList<>();
         gatherValues();
     }
 
@@ -31,7 +33,8 @@ public class SQLTalker {
 
     public void setTable(String table) {
         this.table = table;
-        this.autoIncKeys = new ArrayList<>();
+        autoIncKeys = new ArrayList<>();
+        keys = new ArrayList<>();
         gatherValues();
     }
 
@@ -50,6 +53,12 @@ public class SQLTalker {
             autoIncKeys.add(i);
         }
         gatherValues();
+    }
+    
+    public void addKey(int... keyslots) {
+        for (int i : keyslots) {
+            keys.add(i);
+        }
     }
 
     private void gatherValues() {
@@ -89,7 +98,7 @@ public class SQLTalker {
             }
             return rs;
         } catch (Exception e) {
-            //System.out.println("Wrong argument: " + e.getLocalizedMessage());
+            System.out.println("Returning to menu");
             return null;
         }
     }
@@ -102,24 +111,33 @@ public class SQLTalker {
             String query = "insert into " + table + values + " values (" + args + ");";
             return st.execute(query);
         } catch (Exception e) {
-            //System.out.println("Wrong argument: " + e.getLocalizedMessage());
+            System.out.println("Returning to menu");
             return false;
         }
     }
 
-    public boolean update(int row, String args) {
+    public boolean update(String whereClause, String args) {
         try {
             Connection con = DriverManager
                     .getConnection("jdbc:mariadb://localhost:3306/" + database + "?user=root&password=");
             Statement st = con.createStatement();
-            String formattedSet = "";
-            for (Integer integer : autoIncKeys) {
-                
-            }
-            String query = "update " + table + " set " + values + " values " + args + ";";
+            String query = "update " + table + " set " + args + " where " + whereClause + ";";
             return st.execute(query);
         } catch (Exception e) {
-            //System.out.println("Wrong argument: " + e.getLocalizedMessage());
+            System.out.println("Returning to menu");
+            return false;
+        }
+    }
+
+    public boolean delete(String whereClause) {
+        try {
+            Connection con = DriverManager
+                    .getConnection("jdbc:mariadb://localhost:3306/" + database + "?user=root&password=");
+            Statement st = con.createStatement();
+            String query = "delete from " + table + " where " + whereClause + ";";
+            return st.execute(query);
+        } catch (Exception e) {
+            System.out.println("Returning to menu");
             return false;
         }
     }
