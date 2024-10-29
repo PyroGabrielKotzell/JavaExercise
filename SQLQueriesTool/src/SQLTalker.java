@@ -54,7 +54,7 @@ public class SQLTalker {
         }
         gatherValues();
     }
-    
+
     public void addKey(int... keyslots) {
         for (int i : keyslots) {
             keys.add(i);
@@ -83,14 +83,14 @@ public class SQLTalker {
         }
     }
 
-    public ResultSet select(String fields, String values) {
+    public ResultSet select(String fields, String values, boolean sout) {
         try {
             Connection con = DriverManager
                     .getConnection("jdbc:mariadb://localhost:3306/" + database + "?user=root&password=");
             Statement st = con.createStatement();
             String query = "select " + fields + " from " + table + " where " + values + ";";
             ResultSet rs = st.executeQuery(query);
-            while (rs.next()) {
+            if (sout) while (rs.next()) {
                 for (int i = 1; i < rs.getMetaData().getColumnCount() + 1; i++) {
                     System.out.print(rs.getObject(i) + "  ");
                 }

@@ -54,7 +54,7 @@ public class Main {
                     doDelete();
                 }
                 case "4" -> {
-                    sql.select("*", "1");
+                    sql.select("*", "1", true);
                 }
                 case "5" -> {
                     doSelect();
@@ -161,7 +161,7 @@ public class Main {
         if (whereClause == null)
             return;
 
-        sql.select(fields, whereClause);
+        sql.select(fields, whereClause, true);
     }
 
     private static void gatherFromFile() {
@@ -187,7 +187,7 @@ public class Main {
     private static void doEs5() {
 
     }
-    
+
     /**
      * Gets the values for all the possible fields.
      * 
