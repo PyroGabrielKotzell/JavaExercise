@@ -83,7 +83,7 @@ public class SQLTalker {
         }
     }
 
-    public ResultSet select(String fields, String values, boolean sout) {
+    public ResultSet select(String fields, String whereClause, boolean sout) {
         try {
             Connection con = DriverManager
                     .getConnection("jdbc:mariadb://localhost:3306/" + database + "?user=root&password=");
@@ -135,6 +135,37 @@ public class SQLTalker {
                     .getConnection("jdbc:mariadb://localhost:3306/" + database + "?user=root&password=");
             Statement st = con.createStatement();
             String query = "delete from " + table + " where " + whereClause + ";";
+            return st.execute(query);
+        } catch (Exception e) {
+            System.out.println("Returning to menu");
+            return false;
+        }
+    }
+
+    public ResultSet executeQuery(String query) {
+        try {
+            Connection con = DriverManager
+                    .getConnection("jdbc:mariadb://localhost:3306/" + database + "?user=root&password=");
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next()) {
+                for (int i = 1; i < rs.getMetaData().getColumnCount() + 1; i++) {
+                    System.out.print(rs.getObject(i) + "  ");
+                }
+                System.out.println();
+            }
+            return rs;
+        } catch (Exception e) {
+            System.out.println("Returning to menu");
+            return null;
+        }
+    }
+
+    public boolean execute(String query) {
+        try {
+            Connection con = DriverManager
+                    .getConnection("jdbc:mariadb://localhost:3306/" + database + "?user=root&password=");
+            Statement st = con.createStatement();
             return st.execute(query);
         } catch (Exception e) {
             System.out.println("Returning to menu");

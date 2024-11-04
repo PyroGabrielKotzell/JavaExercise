@@ -33,11 +33,12 @@ public class Main {
                         6 - prendi da file
                         ###############################
                         7 - stesso cognome
-                        8 - nome che inizia per
+                        8 - nome che inizia per una lettera
                         9 - età media
                         10 - età minore
                         11 - età maggiore
-                        99- esci dal programma
+                        98 - query manuale
+                        99 - esci dal programma
                     """);
             System.out.println("Table values: " + Arrays.toString(values));
             String command = System.console().readLine(liner);
@@ -76,6 +77,9 @@ public class Main {
                 }
                 case "11" -> {
                     doEs5();
+                }
+                case "98" -> {
+                    manualQuery();
                 }
                 case "99" -> {
                     leave = true;
@@ -165,27 +169,62 @@ public class Main {
     }
 
     private static void gatherFromFile() {
-
+        String input = System.console().readLine("File path (with name and extension): ");
+        if (input == null || input.isEmpty()) {
+            System.out.println("File not found");
+            return;
+        }
+        FileHandler.grabFile(input);
+        FileHandler.checkFileFields(values);
+        while (FileHandler.hasNext()) {
+            String rowVals = FileHandler.getNextValues();
+            if (rowVals != null)
+                sql.insert(rowVals);
+        }
     }
 
     private static void doEs1() {
-
+        String input = System.console().readLine("Scrivi il cognome: ");
+        if (input == null || input.isEmpty()) {
+            System.out.println("Input invalido");
+            return;
+        }
+        sql.select("*", "cognome = '" + input + "'", true);
     }
 
     private static void doEs2() {
-
+        String input = System.console().readLine("Scrivi la prima lettera del nome: ");
+        if (input == null || input.isEmpty()) {
+            System.out.println("Input invalido");
+            return;
+        }
+        String letter = "'" + input.charAt(0) + "%'";
+        sql.select("*", "nome like " + letter, true);
     }
 
     private static void doEs3() {
-
+        sql.select("AVG(età)", "1", true);
     }
 
     private static void doEs4() {
+        sql.select("MIN(età)", "1", true);
 
     }
 
     private static void doEs5() {
+        sql.select("MAX(età)", "1", true);
+    }
 
+    private static void manualQuery() {
+        String input = "";
+        while (input == null || input.isEmpty() || !input.endsWith(";")) {
+            input += System.console().readLine("-> ").trim() + " ";
+        }
+        input = input.trim();
+        if (input.toLowerCase().startsWith("select"))
+            sql.executeQuery(input);
+        else
+            sql.execute(input);
     }
 
     /**
