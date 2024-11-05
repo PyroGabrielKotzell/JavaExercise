@@ -88,7 +88,7 @@ public class SQLTalker {
             Connection con = DriverManager
                     .getConnection("jdbc:mariadb://localhost:3306/" + database + "?user=root&password=");
             Statement st = con.createStatement();
-            String query = "select " + fields + " from " + table + " where " + values + ";";
+            String query = "select " + fields + " from " + table + " where " + whereClause + ";";
             ResultSet rs = st.executeQuery(query);
             if (sout) while (rs.next()) {
                 for (int i = 1; i < rs.getMetaData().getColumnCount() + 1; i++) {

@@ -9,8 +9,9 @@ public abstract class FileHandler {
 
     public static void grabFile(String filepath) {
         f = new File(filepath);
-        if (!f.exists() || !f.isDirectory()) {
+        if (!f.exists() || f.isDirectory()) {
             System.out.println("File not found");
+            f = null;
             return;
         }
     }

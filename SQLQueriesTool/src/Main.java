@@ -170,21 +170,40 @@ public class Main {
 
     private static void gatherFromFile() {
         String input = System.console().readLine("File path (with name and extension): ");
+        input = input.trim();
+        System.out.println(input);
         if (input == null || input.isEmpty()) {
             System.out.println("File not found");
             return;
         }
         FileHandler.grabFile(input);
-        FileHandler.checkFileFields(values);
+        if (!FileHandler.checkFileFields(values))
+            return;
         while (FileHandler.hasNext()) {
             String rowVals = FileHandler.getNextValues();
-            if (rowVals != null)
+            if (rowVals != null) {
+                boolean con = false;
+                String[] tmp = rowVals.split(",");
+                rowVals = "";
+                for (String string : tmp) {
+                    Object n = getInputType(string);
+                    if (n != null)
+                        rowVals += n + ",";
+                    else{
+                        con = true;
+                        break;
+                    }
+                }
+                if (con) continue;
+                rowVals = rowVals.substring(0, rowVals.length() - 1);
                 sql.insert(rowVals);
+            }
         }
     }
 
     private static void doEs1() {
         String input = System.console().readLine("Scrivi il cognome: ");
+        System.out.println(input);
         if (input == null || input.isEmpty()) {
             System.out.println("Input invalido");
             return;
