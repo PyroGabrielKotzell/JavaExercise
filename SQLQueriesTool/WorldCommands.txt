@@ -1,0 +1,20 @@
+1. SELECT SUM(Population)-SUM(Population)%1000000 AS AsianPopulation FROM `country` WHERE Continent = 'Asia';
+
+2. SELECT DISTINCT cl.Language AS 'Language' FROM `country` co JOIN `countrylanguage` cl ON co.Continent = 'Europe' AND co.Code = cl.CountryCode;
+
+3. SELECT SUM(SurfaceArea) AS SurfaceArea FROM `country`;
+
+4. SELECT DISTINCT ci.District AS District FROM `country` c JOIN city ci ON c.Capital = ci.ID;
+
+5. SELECT cl.Language as 'Language' FROM `city` ci JOIN countrylanguage cl ON ci.Name = 'New York' AND ci.CountryCode = cl.CountryCode;
+
+6. SELECT SUM(ci.Population) AS TotalPopulation FROM `country` co JOIN city ci ON co.Name = 'France' AND co.Code = ci.CountryCode;
+
+7. SELECT DISTINCT ci.District AS ItalianDistricts FROM `country` co JOIN city ci ON co.Name = 'Italy' AND co.Code = ci.CountryCode;
+
+8. SELECT DISTINCT ci.District AS ItalianDistricts FROM `country` co JOIN city ci ON co.Population > 4000000 AND co.Code = ci.CountryCode;
+
+9. SELECT DISTINCT cl.Language AS CityLanguages FROM `city` ci JOIN country co ON ci.Population > 500000 AND co.Continent = 'Europe' AND ci.CountryCode = co.Code JOIN countrylanguage cl ON ci.CountryCode = cl.CountryCode;
+
+//
+10. SELECT co.Population/cl.Percentage FROM `country` co JOIN countrylanguage cl ON co.Continent = 'Africa' AND cl.IsOfficial AND co.Code = cl.CountryCode
