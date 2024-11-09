@@ -16,5 +16,4 @@
 
 9. SELECT DISTINCT cl.Language AS CityLanguages FROM `city` ci JOIN country co ON ci.Population > 500000 AND co.Continent = 'Europe' AND ci.CountryCode = co.Code JOIN countrylanguage cl ON ci.CountryCode = cl.CountryCode;
 
-//
-10. SELECT co.Population/cl.Percentage FROM `country` co JOIN countrylanguage cl ON co.Continent = 'Africa' AND cl.IsOfficial AND co.Code = cl.CountryCode
+10. SELECT DISTINCT co.Name AS CountryName, cl.Language AS Language, co.Population*(cl.Percentage/100) AS SpeakingPopulation FROM `country` co JOIN countrylanguage cl ON co.Continent = 'Africa' AND cl.IsOfficial = 'T' AND co.Code = cl.CountryCode;
