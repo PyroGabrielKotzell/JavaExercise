@@ -11,9 +11,4 @@ with jc(fID, title, cName) as (
 SELECT
     jc.title AS Title
 FROM jc
-WHERE jc.cName IN (
-    SELECT jc.cName
-    FROM jc
-    GROUP BY jc.cName
-    HAVING COUNT(distinct jc.fID) > 1
-)
+WHERE COUNT(distinct jc.fID) > 1
