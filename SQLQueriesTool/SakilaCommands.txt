@@ -11,4 +11,5 @@ with jc(fID, title, cName) as (
 SELECT
     jc.title AS Title
 FROM jc
-WHERE COUNT(distinct jc.fID) > 1
+GROUP BY jc.fID
+HAVING COUNT(distinct jc.fID) > 1
