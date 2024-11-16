@@ -1,15 +1,22 @@
 1. SELECT * FROM `film` WHERE length > 100;
 
-2. SELECT DISTINCT f.title AS Title FROM `film` f JOIN film_category fc JOIN category c ON c.name = 'Drama' OR c.name = 'Sci-Fi' AND f.film_id = fc.film_id AND fc.category_id = c.category_id;
+2. SELECT DISTINCT f.title AS Title FROM `film` f JOIN film_category fc JOIN category c ON f.film_id = fc.film_id AND fc.category_id = c.category_id WHERE c.name = 'Drama' OR c.name = 'Sci-Fi';
 
 3.
-with jc(fID, title, cName) as (
-  select f.film_id AS fID, f.title AS title, c.name AS cName
-  from `film` f
-  JOIN film_category fc JOIN category c ON c.name = 'Drama' OR c.name = 'Sci-Fi' AND f.film_id = fc.film_id AND fc.category_id = c.category_id
-)
-SELECT
-    jc.title AS Title
-FROM jc
-GROUP BY jc.fID
-HAVING COUNT(distinct jc.fID) > 1
+SELECT *
+FROM `film` f JOIN film_category fc JOIN category c ON f.film_id = fc.film_id AND fc.category_id = c.category_id
+WHERE c.name = 'Drama' OR c.name = 'Sci-Fi'
+GROUP BY f.film_id
+HAVING COUNT(distinct f.film_id) > 1;
+
+4. SELECT * FROM `film` f JOIN language l ON f.language_id = l.language_id WHERE l.name = 'French' OR l.name = 'Italian';
+
+5. SELECT f.title as Title FROM `film` f JOIN film_category fc JOIN category c JOIN language l ON f.film_id = fc.film_id AND fc.category_id = c.category_id AND f.language_id = l.language_id WHERE l.name = 'French' AND c.name = 'Drama';
+
+6. SELECT * FROM `customer` c JOIN address a JOIN city ci JOIN country co ON c.address_id = a.address_id AND a.city_id = ci.city_id AND ci.country_id = co.country_id WHERE co.country = 'Iran';
+
+7. SELECT * FROM `actor` a JOIN film_actor fa JOIN film f ON a.actor_id = fa.actor_id AND fa.film_id = f.film_id WHERE f.length > 90;
+
+8. SELECT * FROM `actor` a JOIN film_actor fa JOIN film f JOIN film_category fc JOIN category c JOIN language l ON a.actor_id = fa.actor_id AND fa.film_id = f.film_id AND f.film_id = fc.film_id AND fc.category_id = c.category_id AND f.language_id = l.language_id WHERE l.name = 'English' AND (c.name = 'Comedy' OR c.name = 'Documentary');
+
+9. SELECT * FROM `film` f JOIN inventory i JOIN store s JOIN address a ON f.film_id = i.film_id AND i.store_id = s.store_id AND s.address_id = a.address_id WHERE a.address = '47 MySakila Drive';
