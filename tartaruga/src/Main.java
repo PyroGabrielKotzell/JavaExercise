@@ -17,8 +17,24 @@ public class Main {
         Tartaruga t = new Tartaruga(0.5 - grand / 2, 0.5 - grand / 2, 0, NERO);
         while (!exit) {
             System.out.print("""
-                    1-set N 2-set grand 3-reset grand 4-clear screen 5-quadrato iterativo 6-quadrato ricorsivo 7-triangolo iterativo 8-triangolo ricorsivo 9-spirale iterativo 10-spirale ricorsivo
-                    11-spirale cerchi 12-spirale cerchi pieni 13-curva di Von Koch 14-fiocco di Koch 15-triangolo Sierpinski  16-ramificazioni 17-ramificazioni colorate q-exit
+                    1-set N
+                    2-set grand
+                    3-reset grand
+                    4-clear screen
+                    5-quadrato iterativo
+                    6-quadrato ricorsivo
+                    7-triangolo iterativo
+                    8-triangolo ricorsivo
+                    9-spirale iterativo
+                    10-spirale ricorsivo
+                    11-spirale cerchi
+                    12-spirale cerchi pieni
+                    13-curva di Von Koch
+                    14-fiocco di Koch
+                    15-triangolo Sierpinski
+                    16-ramificazioni
+                    17-ramificazioni colorate
+                    q-exit
                     >""");
             String s = sc.nextLine();
             sc = new Scanner(System.in);
